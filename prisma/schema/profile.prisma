@@ -1,9 +1,9 @@
 model Profile {
-    id           Int      @id @default(autoincrement())
+    id           String      @id @default(uuid())
     profileImage String?
     address      String?
     phone        String?
-    userId       Int      @unique
+    userId       String      @unique
     user         User     @relation(fields: [userId], references: [id])
     // areaId Int
     createdAt    DateTime @default(now())
