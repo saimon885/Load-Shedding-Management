@@ -13,6 +13,7 @@ const RegisterUser = catchAsync(async (req: Request, res: Response) => {
     data: null,
   });
 });
+
 const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   const body = req.body;
 
@@ -39,6 +40,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     data: { user, accessToken, refreshToken },
   });
 });
+
 const LoginUser = catchAsync(async (req: Request, res: Response) => {
   const body = req.body;
   await authService.loginUser(body);
@@ -49,8 +51,59 @@ const LoginUser = catchAsync(async (req: Request, res: Response) => {
     data: null,
   });
 });
-const ForgotPassword = catchAsync(async (req: Request, res: Response) => {});
-const ResetPassword = catchAsync(async (req: Request, res: Response) => {});
+
+const ForgotPassword = catchAsync(async (req: Request, res: Response) => {
+  await authService.forgotPassword(req.body);
+
+  sendResponse(res, {
+    statusCode: httpstatus.OK,
+    success: true,
+    message: "Password reset link sent to your email",
+    data: null,
+  });
+});
+
+const ResetPassword = catchAsync(async (req: Request, res: Response) => {
+  await authService.resetPassword(req.body);
+
+  sendResponse(res, {
+    statusCode: httpstatus.OK,
+    success: true,
+    message: "Password reset successfully.",
+    data: null,
+  });
+});
+
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  if (!req.cookies.refreshToken) {
+    throw new Error("Refresh token is missing");
+  }
+  const result = await authService.refreshToken(req.cookies.refreshToken);
+  const { accessToken, refreshToken: newRefreshToken } = result;
+
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
+  });
+  res.cookie("refreshToken", newRefreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+  });
+
+  sendResponse(res, {
+    statusCode: httpstatus.OK,
+    success: true,
+    message: "New tokens generated successfully",
+    data: {
+      accessToken,
+      refreshToken: newRefreshToken,
+    },
+  });
+});
 
 export const authController = {
   RegisterUser,
@@ -58,4 +111,5 @@ export const authController = {
   LoginUser,
   ForgotPassword,
   ResetPassword,
+  refreshToken,
 };

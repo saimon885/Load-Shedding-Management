@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieparser());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("Welcome to load-shedding management system!🔃🪫");
 });
 
 app.use("/api/v1/auth", authRoutes);

@@ -19,8 +19,8 @@ router.post(
   validatonRequest(authValidation.zodPaitentVerifySchema),
   authController.verifyEmail,
 );
-// router.post("/forgot-password");
-// router.post("/reset-password");
-// router.post("/refresh-token");
+router.post("/forgot-password", authController.ForgotPassword);
+router.post("/reset-password", authController.ResetPassword);
+router.post("/refresh-token", authController.refreshToken);
 
 export const authRoutes = router;

@@ -12,6 +12,7 @@ import {
   RegisterPayload,
   verifyEmailPayload,
 } from "./auth.interface";
+import { JwtPayload, SignOptions } from "jsonwebtoken";
 
 const RegisterUser = async (payload: RegisterPayload) => {
   const userExists = await prisma.user.findUnique({
@@ -230,11 +231,158 @@ const verifyEmail = async (payload: verifyEmailPayload) => {
   return { accessToken, refreshToken, user: result };
 };
 
-const forgotPassword = () => {};
+const forgotPassword = async (payload: any) => {
+  const { email } = payload;
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!isUserExist) {
+    throw new Error("User does not exist");
+  }
+  if (isUserExist.status === "BLOCKED") {
+    throw new Error("User is blocked");
+  }
+  if (isUserExist.status === "DELETED") {
+    throw new Error("User is deleted");
+  }
+  const OTP = crypto.randomInt(100000, 1000000).toString();
+  const key = `forgot-password-otp:${isUserExist.email}`;
+  await redisClient.set(key, OTP, {
+    expiration: {
+      type: "EX",
+      value: 5 * 60,
+    },
+  });
+  const tampletPath = path.join(
+    process.cwd(),
+    "/src/templates/forgot.password.ejs",
+  );
+  const html = await ejs.renderFile(tampletPath, {
+    name: isUserExist.name,
+    OTP,
+    expiryMinutes: 5,
+    year: new Date().getFullYear(),
+  });
+
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: isUserExist.email,
+    html,
+    subject: "Password Reset Request",
+  });
+};
+
+const resetPassword = async (payload: any) => {
+  const { email, newPassword, otp } = payload;
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!isUserExist) {
+    throw new Error("User does not exist");
+  }
+
+  if (isUserExist.status === "BLOCKED") {
+    throw new Error("User is blocked");
+  }
+  if (isUserExist.status === "DELETED") {
+    throw new Error("User is deleted");
+  }
+
+  const key = `forgot-password-otp:${isUserExist.email}`;
+  const redisOtp = await redisClient.get(key);
+  if (!redisOtp) {
+    throw new Error("OTP not found");
+  }
+  if (redisOtp !== otp) {
+    throw new Error("OTP does not matched!");
+  }
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    Number(config.bcrypt_salt_rounds as string),
+  );
+  await prisma.user.update({
+    where: {
+      email: isUserExist.email,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+  await redisClient.del([key]);
+  const templatePath = path.join(
+    process.cwd(),
+    "/src/templates/password.reset.success.ejs",
+  );
+  const html = await ejs.renderFile(templatePath, {
+    name: isUserExist.name,
+    year: new Date().getFullYear(),
+  });
+
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: isUserExist.email,
+    html,
+    subject: "Password Reset Successful - Load Shedding Management",
+  });
+};
+const refreshToken = async (token: string) => {
+  const verifiedRefreshToken = jwtUtils.verifyToken(
+    token,
+    config.jwt_refresh_secret,
+  );
+
+  if (!verifiedRefreshToken.success || !verifiedRefreshToken.data) {
+    throw new Error(
+      config.node_env === "development"
+        ? verifiedRefreshToken.error
+        : "Invalid refresh token",
+    );
+  }
+
+  const data = verifiedRefreshToken.data as JwtPayload;
+
+  const user = await prisma.user.findUnique({
+    where: { id: data.userId },
+  });
+
+  if (!user) {
+    throw new Error("Usernot found");
+  }
+
+  const jwtPayload = {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expire_in,
+  );
+
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expire_in,
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
 
 export const authService = {
   RegisterUser,
   loginUser,
   verifyEmail,
   forgotPassword,
+  resetPassword,
+  refreshToken,
 };
