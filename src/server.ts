@@ -3,24 +3,38 @@ import config from "./config";
 import { transporter } from "./lib/nodemailer";
 import { prisma } from "./lib/prisma";
 import { redisClient } from "./lib/redis";
+import {
+  seedAdmin,
+  seedOperator,
+  seedTechnician,
+  seedZoneManager,
+} from "./utility/seed";
 
 const main = async () => {
-	try {
-		await prisma.$connect();
-		console.log("Connected to the database");
-		await redisClient.connect();
-		console.log("connected to redis ");
+  try {
+    await prisma.$connect();
+    console.log("Connected to the database");
+    await redisClient.connect();
+    console.log("connected to redis ");
+    await seedAdmin();
+    console.log("connected to admin ");
 
-		await transporter.verify();
-		console.log("nodemailer connected successfully");
+    await seedOperator();
+    console.log("connected to operator ");
+    await seedTechnician();
+    console.log("connected to technician ");
+    await seedZoneManager();
+    console.log("connected to zoneManager ");
+    await transporter.verify();
+    console.log("nodemailer connected successfully");
 
-		app.listen(config.port, () => {
-			console.log(`Example app listening on port 
+    app.listen(config.port, () => {
+      console.log(`Example app listening on port 
         ${config.port}`);
-		});
-	} catch (error) {
-		console.log("Disconnected from the database");
-		console.error("Error starting the server:", error);
-	}
+    });
+  } catch (error) {
+    console.log("Disconnected from the database");
+    console.error("Error starting the server:", error);
+  }
 };
 main();
