@@ -215,6 +215,7 @@ export type SubstationWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Substation"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Substation"> | Date | string | null
   zone?: Prisma.XOR<Prisma.ZoneScalarRelationFilter, Prisma.ZoneWhereInput>
+  feeder?: Prisma.FeederListRelationFilter
 }
 
 export type SubstationOrderByWithRelationInput = {
@@ -228,6 +229,7 @@ export type SubstationOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   zone?: Prisma.ZoneOrderByWithRelationInput
+  feeder?: Prisma.FeederOrderByRelationAggregateInput
 }
 
 export type SubstationWhereUniqueInput = Prisma.AtLeast<{
@@ -244,6 +246,7 @@ export type SubstationWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Substation"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Substation"> | Date | string | null
   zone?: Prisma.XOR<Prisma.ZoneScalarRelationFilter, Prisma.ZoneWhereInput>
+  feeder?: Prisma.FeederListRelationFilter
 }, "id" | "code">
 
 export type SubstationOrderByWithAggregationInput = {
@@ -286,6 +289,7 @@ export type SubstationCreateInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   zone: Prisma.ZoneCreateNestedOneWithoutSubstationInput
+  feeder?: Prisma.FeederCreateNestedManyWithoutSubstationInput
 }
 
 export type SubstationUncheckedCreateInput = {
@@ -298,6 +302,7 @@ export type SubstationUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  feeder?: Prisma.FeederUncheckedCreateNestedManyWithoutSubstationInput
 }
 
 export type SubstationUpdateInput = {
@@ -310,6 +315,7 @@ export type SubstationUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   zone?: Prisma.ZoneUpdateOneRequiredWithoutSubstationNestedInput
+  feeder?: Prisma.FeederUpdateManyWithoutSubstationNestedInput
 }
 
 export type SubstationUncheckedUpdateInput = {
@@ -322,6 +328,7 @@ export type SubstationUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeder?: Prisma.FeederUncheckedUpdateManyWithoutSubstationNestedInput
 }
 
 export type SubstationCreateManyInput = {
@@ -357,6 +364,11 @@ export type SubstationUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type SubstationScalarRelationFilter = {
+  is?: Prisma.SubstationWhereInput
+  isNot?: Prisma.SubstationWhereInput
 }
 
 export type SubstationCountOrderByAggregateInput = {
@@ -405,12 +417,22 @@ export type SubstationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type EnumsubstationStatusFieldUpdateOperationsInput = {
-  set?: $Enums.substationStatus
+export type SubstationCreateNestedOneWithoutFeederInput = {
+  create?: Prisma.XOR<Prisma.SubstationCreateWithoutFeederInput, Prisma.SubstationUncheckedCreateWithoutFeederInput>
+  connectOrCreate?: Prisma.SubstationCreateOrConnectWithoutFeederInput
+  connect?: Prisma.SubstationWhereUniqueInput
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type SubstationUpdateOneRequiredWithoutFeederNestedInput = {
+  create?: Prisma.XOR<Prisma.SubstationCreateWithoutFeederInput, Prisma.SubstationUncheckedCreateWithoutFeederInput>
+  connectOrCreate?: Prisma.SubstationCreateOrConnectWithoutFeederInput
+  upsert?: Prisma.SubstationUpsertWithoutFeederInput
+  connect?: Prisma.SubstationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubstationUpdateToOneWithWhereWithoutFeederInput, Prisma.SubstationUpdateWithoutFeederInput>, Prisma.SubstationUncheckedUpdateWithoutFeederInput>
+}
+
+export type EnumsubstationStatusFieldUpdateOperationsInput = {
+  set?: $Enums.substationStatus
 }
 
 export type SubstationCreateNestedManyWithoutZoneInput = {
@@ -455,6 +477,70 @@ export type SubstationUncheckedUpdateManyWithoutZoneNestedInput = {
   deleteMany?: Prisma.SubstationScalarWhereInput | Prisma.SubstationScalarWhereInput[]
 }
 
+export type SubstationCreateWithoutFeederInput = {
+  id?: string
+  name: string
+  code: string
+  location?: string | null
+  status?: $Enums.substationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  zone: Prisma.ZoneCreateNestedOneWithoutSubstationInput
+}
+
+export type SubstationUncheckedCreateWithoutFeederInput = {
+  id?: string
+  name: string
+  code: string
+  location?: string | null
+  zoneId: string
+  status?: $Enums.substationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type SubstationCreateOrConnectWithoutFeederInput = {
+  where: Prisma.SubstationWhereUniqueInput
+  create: Prisma.XOR<Prisma.SubstationCreateWithoutFeederInput, Prisma.SubstationUncheckedCreateWithoutFeederInput>
+}
+
+export type SubstationUpsertWithoutFeederInput = {
+  update: Prisma.XOR<Prisma.SubstationUpdateWithoutFeederInput, Prisma.SubstationUncheckedUpdateWithoutFeederInput>
+  create: Prisma.XOR<Prisma.SubstationCreateWithoutFeederInput, Prisma.SubstationUncheckedCreateWithoutFeederInput>
+  where?: Prisma.SubstationWhereInput
+}
+
+export type SubstationUpdateToOneWithWhereWithoutFeederInput = {
+  where?: Prisma.SubstationWhereInput
+  data: Prisma.XOR<Prisma.SubstationUpdateWithoutFeederInput, Prisma.SubstationUncheckedUpdateWithoutFeederInput>
+}
+
+export type SubstationUpdateWithoutFeederInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumsubstationStatusFieldUpdateOperationsInput | $Enums.substationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  zone?: Prisma.ZoneUpdateOneRequiredWithoutSubstationNestedInput
+}
+
+export type SubstationUncheckedUpdateWithoutFeederInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zoneId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumsubstationStatusFieldUpdateOperationsInput | $Enums.substationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type SubstationCreateWithoutZoneInput = {
   id?: string
   name: string
@@ -464,6 +550,7 @@ export type SubstationCreateWithoutZoneInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  feeder?: Prisma.FeederCreateNestedManyWithoutSubstationInput
 }
 
 export type SubstationUncheckedCreateWithoutZoneInput = {
@@ -475,6 +562,7 @@ export type SubstationUncheckedCreateWithoutZoneInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  feeder?: Prisma.FeederUncheckedCreateNestedManyWithoutSubstationInput
 }
 
 export type SubstationCreateOrConnectWithoutZoneInput = {
@@ -538,6 +626,7 @@ export type SubstationUpdateWithoutZoneInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeder?: Prisma.FeederUpdateManyWithoutSubstationNestedInput
 }
 
 export type SubstationUncheckedUpdateWithoutZoneInput = {
@@ -549,6 +638,7 @@ export type SubstationUncheckedUpdateWithoutZoneInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeder?: Prisma.FeederUncheckedUpdateManyWithoutSubstationNestedInput
 }
 
 export type SubstationUncheckedUpdateManyWithoutZoneInput = {
@@ -563,6 +653,35 @@ export type SubstationUncheckedUpdateManyWithoutZoneInput = {
 }
 
 
+/**
+ * Count Type SubstationCountOutputType
+ */
+
+export type SubstationCountOutputType = {
+  feeder: number
+}
+
+export type SubstationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  feeder?: boolean | SubstationCountOutputTypeCountFeederArgs
+}
+
+/**
+ * SubstationCountOutputType without action
+ */
+export type SubstationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubstationCountOutputType
+   */
+  select?: Prisma.SubstationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SubstationCountOutputType without action
+ */
+export type SubstationCountOutputTypeCountFeederArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeederWhereInput
+}
+
 
 export type SubstationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -575,6 +694,8 @@ export type SubstationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   deletedAt?: boolean
   zone?: boolean | Prisma.ZoneDefaultArgs<ExtArgs>
+  feeder?: boolean | Prisma.Substation$feederArgs<ExtArgs>
+  _count?: boolean | Prisma.SubstationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["substation"]>
 
 export type SubstationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -618,6 +739,8 @@ export type SubstationSelectScalar = {
 export type SubstationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "location" | "zoneId" | "status" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["substation"]>
 export type SubstationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   zone?: boolean | Prisma.ZoneDefaultArgs<ExtArgs>
+  feeder?: boolean | Prisma.Substation$feederArgs<ExtArgs>
+  _count?: boolean | Prisma.SubstationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubstationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   zone?: boolean | Prisma.ZoneDefaultArgs<ExtArgs>
@@ -630,6 +753,7 @@ export type $SubstationPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Substation"
   objects: {
     zone: Prisma.$ZonePayload<ExtArgs>
+    feeder: Prisma.$FeederPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1036,6 +1160,7 @@ readonly fields: SubstationFieldRefs;
 export interface Prisma__SubstationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   zone<T extends Prisma.ZoneDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ZoneDefaultArgs<ExtArgs>>): Prisma.Prisma__ZoneClient<runtime.Types.Result.GetResult<Prisma.$ZonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  feeder<T extends Prisma.Substation$feederArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Substation$feederArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeederPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1472,6 +1597,30 @@ export type SubstationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Substations to delete.
    */
   limit?: number
+}
+
+/**
+ * Substation.feeder
+ */
+export type Substation$feederArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Feeder
+   */
+  select?: Prisma.FeederSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Feeder
+   */
+  omit?: Prisma.FeederOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeederInclude<ExtArgs> | null
+  where?: Prisma.FeederWhereInput
+  orderBy?: Prisma.FeederOrderByWithRelationInput | Prisma.FeederOrderByWithRelationInput[]
+  cursor?: Prisma.FeederWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeederScalarFieldEnum | Prisma.FeederScalarFieldEnum[]
 }
 
 /**

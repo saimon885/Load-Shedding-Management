@@ -18,6 +18,16 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Feeder
+ * 
+ */
+export type Feeder = Prisma.FeederModel
+/**
+ * Model Area
+ * 
+ */
+export type Area = Prisma.AreaModel
+/**
  * Model AuditLog
  * 
  */

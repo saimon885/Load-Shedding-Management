@@ -6,10 +6,10 @@ model Substation {
     zoneId   String
     zone     Zone    @relation(fields: [zoneId], references: [id])
 
-    status substationStatus @default(ACTIVE)
-
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    status    substationStatus @default(ACTIVE)
+    feeder    Feeder[]
+    createdAt DateTime         @default(now())
+    updatedAt DateTime         @updatedAt
     deletedAt DateTime?
 
     @@index([zoneId])

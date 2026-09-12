@@ -8,7 +8,7 @@ import { zoneValidation } from "./zone.validation";
 const router = Router();
 router.post(
   "/create",
-  auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
+  auth(UserRole.ADMIN),
   validatonRequest(zoneValidation.zodCrateZoneSchema),
   zoneController.createZone,
 );

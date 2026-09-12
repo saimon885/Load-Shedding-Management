@@ -45,6 +45,7 @@ const zoneWiseSubstation = async (zoneId: string) => {
   }
   return result;
 };
+
 export const substationService = {
   createSubstation,
   getAllSubstation,

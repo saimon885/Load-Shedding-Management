@@ -43,3 +43,19 @@ export const substationStatus = {
 } as const
 
 export type substationStatus = (typeof substationStatus)[keyof typeof substationStatus]
+
+
+export const AreaStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+} as const
+
+export type AreaStatus = (typeof AreaStatus)[keyof typeof AreaStatus]
+
+
+export const FeederStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+} as const
+
+export type FeederStatus = (typeof FeederStatus)[keyof typeof FeederStatus]

@@ -29,8 +29,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more AuditLogs
- * const auditLogs = await prisma.auditLog.findMany()
+ * // Fetch zero or more Feeders
+ * const feeders = await prisma.feeder.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,16 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Feeder
+ * 
+ */
+export type Feeder = Prisma.FeederModel
+/**
+ * Model Area
+ * 
+ */
+export type Area = Prisma.AreaModel
 /**
  * Model AuditLog
  * 

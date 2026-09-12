@@ -20,3 +20,11 @@ enum substationStatus {
     ACTIVE
     INACTIVE
 }
+enum AreaStatus {
+    ACTIVE
+    INACTIVE
+}
+enum FeederStatus {
+    ACTIVE
+    INACTIVE
+}

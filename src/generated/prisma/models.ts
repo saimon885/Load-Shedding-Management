@@ -8,6 +8,8 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Feeder'
+export type * from './models/Area'
 export type * from './models/AuditLog'
 export type * from './models/Profile'
 export type * from './models/Substation'
