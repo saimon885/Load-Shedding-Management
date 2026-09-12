@@ -5,3 +5,9 @@ enum UserRole {
     ZONE_MANAGER
     ADMIN
 }
+
+enum userStatus {
+    ACTIVE
+    BLOCKED
+    DELETED
+}

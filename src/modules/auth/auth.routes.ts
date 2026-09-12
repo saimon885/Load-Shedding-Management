@@ -9,9 +9,18 @@ router.post(
   validatonRequest(authValidation.zodPaitentRegisterSchema),
   authController.RegisterUser,
 );
-router.post("/login");
-router.post("/forgot-password");
-router.post("/reset-password");
-router.post("/refresh-token");
+router.post(
+  "/login",
+  validatonRequest(authValidation.zodPaitentLoginSchema),
+  authController.LoginUser,
+);
+router.post(
+  "/verify-email",
+  validatonRequest(authValidation.zodPaitentVerifySchema),
+  authController.verifyEmail,
+);
+// router.post("/forgot-password");
+// router.post("/reset-password");
+// router.post("/refresh-token");
 
 export const authRoutes = router;

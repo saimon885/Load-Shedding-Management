@@ -707,6 +707,20 @@ export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'userStatus'
+ */
+export type EnumuserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'userStatus[]'
+ */
+export type ListEnumuserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'userStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>

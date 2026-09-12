@@ -1,10 +1,11 @@
-import { createClient } from 'redis';
+import { createClient } from "redis";
+import config from "../config";
 
 export const redisClient = createClient({
-    username: 'default',
-    password: 'snC4ip5TaGuoYL7Chs0S7JBc6Xx5A0Wb',
-    socket: {
-        host: 'scarecrow-man-tray-38212.db.redis.io',
-        port: 16972
-    }
+  username: config.redis_username,
+  password: config.redis_password,
+  socket: {
+    host: config.redis_host,
+    port: Number(config.redis_port),
+  },
 });

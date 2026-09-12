@@ -1,10 +1,10 @@
 model Profile {
-    id           String      @id @default(uuid())
+    id           String   @id @default(uuid())
     profileImage String?
     address      String?
     phone        String?
-    userId       String      @unique
-    user         User     @relation(fields: [userId], references: [id])
+    userId       String   @unique
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     // areaId Int
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
