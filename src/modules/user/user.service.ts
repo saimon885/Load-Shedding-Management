@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma";
+import { UpdateProfiePayload } from "./user.interface";
 
 const getMyprofile = async (userId: string) => {
   const user = await prisma.user.findUnique({
@@ -17,7 +18,10 @@ const getMyprofile = async (userId: string) => {
   }
   return user;
 };
-const updateMyProfile = async (payload: any, userId: string) => {
+const updateMyProfile = async (
+  payload: UpdateProfiePayload,
+  userId: string,
+) => {
   const userExist = await prisma.user.findUnique({
     where: {
       id: userId,

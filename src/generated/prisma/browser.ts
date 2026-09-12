@@ -28,6 +28,11 @@ export type AuditLog = Prisma.AuditLogModel
  */
 export type Profile = Prisma.ProfileModel
 /**
+ * Model Substation
+ * 
+ */
+export type Substation = Prisma.SubstationModel
+/**
  * Model User
  * 
  */

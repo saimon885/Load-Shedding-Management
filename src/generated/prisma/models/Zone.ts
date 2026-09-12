@@ -206,6 +206,7 @@ export type ZoneWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Zone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Zone"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Zone"> | Date | string | null
+  substation?: Prisma.SubstationListRelationFilter
 }
 
 export type ZoneOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type ZoneOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  substation?: Prisma.SubstationOrderByRelationAggregateInput
 }
 
 export type ZoneWhereUniqueInput = Prisma.AtLeast<{
@@ -231,6 +233,7 @@ export type ZoneWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Zone"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Zone"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Zone"> | Date | string | null
+  substation?: Prisma.SubstationListRelationFilter
 }, "id">
 
 export type ZoneOrderByWithAggregationInput = {
@@ -270,6 +273,7 @@ export type ZoneCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  substation?: Prisma.SubstationCreateNestedManyWithoutZoneInput
 }
 
 export type ZoneUncheckedCreateInput = {
@@ -281,6 +285,7 @@ export type ZoneUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  substation?: Prisma.SubstationUncheckedCreateNestedManyWithoutZoneInput
 }
 
 export type ZoneUpdateInput = {
@@ -292,6 +297,7 @@ export type ZoneUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  substation?: Prisma.SubstationUpdateManyWithoutZoneNestedInput
 }
 
 export type ZoneUncheckedUpdateInput = {
@@ -303,6 +309,7 @@ export type ZoneUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  substation?: Prisma.SubstationUncheckedUpdateManyWithoutZoneNestedInput
 }
 
 export type ZoneCreateManyInput = {
@@ -338,6 +345,11 @@ export type ZoneUncheckedUpdateManyInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type ZoneScalarRelationFilter = {
+  is?: Prisma.ZoneWhereInput
+  isNot?: Prisma.ZoneWhereInput
+}
+
 export type ZoneCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -371,10 +383,113 @@ export type ZoneMinOrderByAggregateInput = {
   deletedAt?: Prisma.SortOrder
 }
 
+export type ZoneCreateNestedOneWithoutSubstationInput = {
+  create?: Prisma.XOR<Prisma.ZoneCreateWithoutSubstationInput, Prisma.ZoneUncheckedCreateWithoutSubstationInput>
+  connectOrCreate?: Prisma.ZoneCreateOrConnectWithoutSubstationInput
+  connect?: Prisma.ZoneWhereUniqueInput
+}
+
+export type ZoneUpdateOneRequiredWithoutSubstationNestedInput = {
+  create?: Prisma.XOR<Prisma.ZoneCreateWithoutSubstationInput, Prisma.ZoneUncheckedCreateWithoutSubstationInput>
+  connectOrCreate?: Prisma.ZoneCreateOrConnectWithoutSubstationInput
+  upsert?: Prisma.ZoneUpsertWithoutSubstationInput
+  connect?: Prisma.ZoneWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ZoneUpdateToOneWithWhereWithoutSubstationInput, Prisma.ZoneUpdateWithoutSubstationInput>, Prisma.ZoneUncheckedUpdateWithoutSubstationInput>
+}
+
 export type EnumzoneStatusFieldUpdateOperationsInput = {
   set?: $Enums.zoneStatus
 }
 
+export type ZoneCreateWithoutSubstationInput = {
+  id?: string
+  name: string
+  code: string
+  description: string
+  status?: $Enums.zoneStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type ZoneUncheckedCreateWithoutSubstationInput = {
+  id?: string
+  name: string
+  code: string
+  description: string
+  status?: $Enums.zoneStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type ZoneCreateOrConnectWithoutSubstationInput = {
+  where: Prisma.ZoneWhereUniqueInput
+  create: Prisma.XOR<Prisma.ZoneCreateWithoutSubstationInput, Prisma.ZoneUncheckedCreateWithoutSubstationInput>
+}
+
+export type ZoneUpsertWithoutSubstationInput = {
+  update: Prisma.XOR<Prisma.ZoneUpdateWithoutSubstationInput, Prisma.ZoneUncheckedUpdateWithoutSubstationInput>
+  create: Prisma.XOR<Prisma.ZoneCreateWithoutSubstationInput, Prisma.ZoneUncheckedCreateWithoutSubstationInput>
+  where?: Prisma.ZoneWhereInput
+}
+
+export type ZoneUpdateToOneWithWhereWithoutSubstationInput = {
+  where?: Prisma.ZoneWhereInput
+  data: Prisma.XOR<Prisma.ZoneUpdateWithoutSubstationInput, Prisma.ZoneUncheckedUpdateWithoutSubstationInput>
+}
+
+export type ZoneUpdateWithoutSubstationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumzoneStatusFieldUpdateOperationsInput | $Enums.zoneStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ZoneUncheckedUpdateWithoutSubstationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumzoneStatusFieldUpdateOperationsInput | $Enums.zoneStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type ZoneCountOutputType
+ */
+
+export type ZoneCountOutputType = {
+  substation: number
+}
+
+export type ZoneCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  substation?: boolean | ZoneCountOutputTypeCountSubstationArgs
+}
+
+/**
+ * ZoneCountOutputType without action
+ */
+export type ZoneCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ZoneCountOutputType
+   */
+  select?: Prisma.ZoneCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ZoneCountOutputType without action
+ */
+export type ZoneCountOutputTypeCountSubstationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubstationWhereInput
+}
 
 
 export type ZoneSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -386,6 +501,8 @@ export type ZoneSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  substation?: boolean | Prisma.Zone$substationArgs<ExtArgs>
+  _count?: boolean | Prisma.ZoneCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["zone"]>
 
 export type ZoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -422,10 +539,18 @@ export type ZoneSelectScalar = {
 }
 
 export type ZoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "description" | "status" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["zone"]>
+export type ZoneInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  substation?: boolean | Prisma.Zone$substationArgs<ExtArgs>
+  _count?: boolean | Prisma.ZoneCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ZoneIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ZoneIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ZonePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Zone"
-  objects: {}
+  objects: {
+    substation: Prisma.$SubstationPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -829,6 +954,7 @@ readonly fields: ZoneFieldRefs;
  */
 export interface Prisma__ZoneClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  substation<T extends Prisma.Zone$substationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zone$substationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubstationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -883,6 +1009,10 @@ export type ZoneFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * Filter, which Zone to fetch.
    */
   where: Prisma.ZoneWhereUniqueInput
@@ -901,6 +1031,10 @@ export type ZoneFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * Filter, which Zone to fetch.
    */
   where: Prisma.ZoneWhereUniqueInput
@@ -918,6 +1052,10 @@ export type ZoneFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Zone
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
   /**
    * Filter, which Zone to fetch.
    */
@@ -967,6 +1105,10 @@ export type ZoneFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * Filter, which Zone to fetch.
    */
   where?: Prisma.ZoneWhereInput
@@ -1014,6 +1156,10 @@ export type ZoneFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Zone
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
   /**
    * Filter, which Zones to fetch.
    */
@@ -1063,6 +1209,10 @@ export type ZoneCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * The data needed to create a Zone.
    */
   data: Prisma.XOR<Prisma.ZoneCreateInput, Prisma.ZoneUncheckedCreateInput>
@@ -1110,6 +1260,10 @@ export type ZoneUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Zone
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
   /**
    * The data needed to update a Zone.
    */
@@ -1177,6 +1331,10 @@ export type ZoneUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * The filter to search for the Zone to update in case it exists.
    */
   where: Prisma.ZoneWhereUniqueInput
@@ -1203,6 +1361,10 @@ export type ZoneDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
+  /**
    * Filter which Zone to delete.
    */
   where: Prisma.ZoneWhereUniqueInput
@@ -1223,6 +1385,30 @@ export type ZoneDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Zone.substation
+ */
+export type Zone$substationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Substation
+   */
+  select?: Prisma.SubstationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Substation
+   */
+  omit?: Prisma.SubstationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubstationInclude<ExtArgs> | null
+  where?: Prisma.SubstationWhereInput
+  orderBy?: Prisma.SubstationOrderByWithRelationInput | Prisma.SubstationOrderByWithRelationInput[]
+  cursor?: Prisma.SubstationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubstationScalarFieldEnum | Prisma.SubstationScalarFieldEnum[]
+}
+
+/**
  * Zone without action
  */
 export type ZoneDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1234,4 +1420,8 @@ export type ZoneDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Zone
    */
   omit?: Prisma.ZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ZoneInclude<ExtArgs> | null
 }

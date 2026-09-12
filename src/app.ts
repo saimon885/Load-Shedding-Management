@@ -6,6 +6,7 @@ import { globalErrorHandler } from "./middleware/globalErrorHandller";
 import { notFound } from "./middleware/not-found";
 import { userRoutes } from "./modules/user/user.routes";
 import { zoneRoutes } from "./modules/zone/zone.routes";
+import { substationRoutes } from "./modules/substation/substation.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -19,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/zones", zoneRoutes);
+app.use("/api/v1/substations", substationRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

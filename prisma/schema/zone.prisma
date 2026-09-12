@@ -1,10 +1,11 @@
 model Zone {
-    id          String     @id @default(uuid())
+    id          String       @id @default(uuid())
     name        String
     code        String
     description String
-    status      zoneStatus @default(ACTIVE)
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
+    status      zoneStatus   @default(ACTIVE)
+    substation  Substation[]
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
     deletedAt   DateTime?
 }

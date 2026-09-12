@@ -1,16 +1,13 @@
 import { Router } from "express";
 import { auth } from "../../middleware/checkAuth";
 import { UserRole } from "../../generated/prisma/enums";
-import { zoneController } from "./zone.controller";
-import { validatonRequest } from "../../middleware/validationRequest";
-import { zoneValidation } from "./zone.validation";
+import { substationController } from "./substation.controller";
 
 const router = Router();
 router.post(
   "/create",
   auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
-  validatonRequest(zoneValidation.zodCrateZoneSchema),
-  zoneController.createZone,
+  substationController.createSubstation,
 );
 router.get(
   "/",
@@ -21,16 +18,10 @@ router.get(
     UserRole.POWER_OPERATOR,
     UserRole.TECHNICIAN,
   ),
-  zoneController.getAllZone,
+  substationController.getAllSubstation,
 );
-router.patch(
-  "/update",
-  auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
-  zoneController.updateZone,
-);
-
 router.get(
-  "/:id",
+  "/zoneId",
   auth(
     UserRole.ADMIN,
     UserRole.ZONE_MANAGER,
@@ -38,7 +29,7 @@ router.get(
     UserRole.POWER_OPERATOR,
     UserRole.TECHNICIAN,
   ),
-  zoneController.getSingleZone,
+  substationController.zoneWiseSubstation,
 );
 
-export const zoneRoutes = router;
+export const substationRoutes = router;

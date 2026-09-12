@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   AuditLog: 'AuditLog',
   Profile: 'Profile',
+  Substation: 'Substation',
   User: 'User',
   Zone: 'Zone'
 } as const
@@ -98,6 +99,21 @@ export const ProfileScalarFieldEnum = {
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const SubstationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  location: 'location',
+  zoneId: 'zoneId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type SubstationScalarFieldEnum = (typeof SubstationScalarFieldEnum)[keyof typeof SubstationScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

@@ -1,9 +1,5 @@
 import { prisma } from "../../lib/prisma";
-interface createZonePayload {
-  name: string;
-  code: string;
-  description: string;
-}
+import { createZonePayload } from "./zone.interface";
 
 const createZone = async (payload: createZonePayload, userId: string) => {
   const existingZone = await prisma.zone.findFirst({
@@ -46,6 +42,9 @@ const getSingleZone = async (Zoneid: string) => {
   const result = await prisma.zone.findUnique({
     where: {
       id: Zoneid,
+    },
+    include: {
+      substation: true,
     },
   });
   if (!result) {

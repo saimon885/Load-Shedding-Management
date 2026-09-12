@@ -399,6 +399,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   AuditLog: 'AuditLog',
   Profile: 'Profile',
+  Substation: 'Substation',
   User: 'User',
   Zone: 'Zone'
 } as const
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "auditLog" | "profile" | "user" | "zone"
+    modelProps: "auditLog" | "profile" | "substation" | "user" | "zone"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -565,6 +566,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProfileCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    Substation: {
+      payload: Prisma.$SubstationPayload<ExtArgs>
+      fields: Prisma.SubstationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SubstationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SubstationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        findFirst: {
+          args: Prisma.SubstationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SubstationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        findMany: {
+          args: Prisma.SubstationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>[]
+        }
+        create: {
+          args: Prisma.SubstationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        createMany: {
+          args: Prisma.SubstationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SubstationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>[]
+        }
+        delete: {
+          args: Prisma.SubstationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        update: {
+          args: Prisma.SubstationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        deleteMany: {
+          args: Prisma.SubstationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SubstationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SubstationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>[]
+        }
+        upsert: {
+          args: Prisma.SubstationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubstationPayload>
+        }
+        aggregate: {
+          args: Prisma.SubstationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSubstation>
+        }
+        groupBy: {
+          args: Prisma.SubstationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubstationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SubstationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubstationCountAggregateOutputType> | number
         }
       }
     }
@@ -782,6 +857,21 @@ export const ProfileScalarFieldEnum = {
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
+export const SubstationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  location: 'location',
+  zoneId: 'zoneId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type SubstationScalarFieldEnum = (typeof SubstationScalarFieldEnum)[keyof typeof SubstationScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -897,6 +987,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'substationStatus'
+ */
+export type EnumsubstationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'substationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'substationStatus[]'
+ */
+export type ListEnumsubstationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'substationStatus[]'>
     
 
 
@@ -1108,6 +1212,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   auditLog?: Prisma.AuditLogOmit
   profile?: Prisma.ProfileOmit
+  substation?: Prisma.SubstationOmit
   user?: Prisma.UserOmit
   zone?: Prisma.ZoneOmit
 }

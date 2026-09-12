@@ -455,10 +455,6 @@ export type EnumuserStatusFieldUpdateOperationsInput = {
   set?: $Enums.userStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type UserCreateWithoutAuditLogInput = {
   id?: string
   name?: string | null
