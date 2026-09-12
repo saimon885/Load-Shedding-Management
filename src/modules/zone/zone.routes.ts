@@ -26,6 +26,7 @@ router.get(
 router.patch(
   "/update",
   auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
+  validatonRequest(zoneValidation.zodUpdateZoneSchema),
   zoneController.updateZone,
 );
 

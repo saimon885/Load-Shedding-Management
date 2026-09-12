@@ -27,11 +27,12 @@ const getAllZone = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateZone = catchAsync(async (req: Request, res: Response) => {
+  const result = await zoneService.updateZone(req.body);
   sendResponse(res, {
     success: true,
     statusCode: httpstatus.OK,
-    message: "user Update successfull!",
-    data: null,
+    message: "Zone Update successfull!",
+    data: result,
   });
 });
 

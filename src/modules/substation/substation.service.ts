@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
+import { createSubstation } from "./substation.interface";
 
-const createSubstation = async (payload: any) => {
+const createSubstation = async (payload: createSubstation) => {
   const existingZone = await prisma.zone.findUnique({
     where: {
       id: payload.zoneId,

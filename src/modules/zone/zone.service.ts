@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { createZonePayload } from "./zone.interface";
+import { createZonePayload, updateZonePayload } from "./zone.interface";
 
 const createZone = async (payload: createZonePayload, userId: string) => {
   const existingZone = await prisma.zone.findFirst({
@@ -36,7 +36,27 @@ const getAllZone = async () => {
   }
   return result;
 };
-const updateZone = async () => {};
+const updateZone = async (payload: updateZonePayload) => {
+  const zone = await prisma.zone.findUnique({
+    where: {
+      id: payload.zoneId,
+    },
+  });
+  if (!zone) {
+    throw new Error("Zone not found!");
+  }
+  const updateZone = await prisma.zone.update({
+    where: {
+      id: payload.zoneId,
+    },
+    data: {
+      code: payload.code,
+      name: payload.name,
+      description: payload.description,
+    },
+  });
+  return updateZone;
+};
 
 const getSingleZone = async (Zoneid: string) => {
   const result = await prisma.zone.findUnique({
