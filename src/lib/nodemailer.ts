@@ -3,9 +3,9 @@ import config from "../config";
 
 // Create a transporter using SMTP
 export const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: config.smtp_username,
-    pass: config.smtp_password,
-  },
+	service: "gmail",
+	auth: {
+		user: config.smtp_username,
+		pass: config.smtp_password,
+	},
 });

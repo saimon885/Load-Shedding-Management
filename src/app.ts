@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import cookieparser from "cookie-parser";
 
 import { authRoutes } from "./modules/auth/auth.routes";
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieparser());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to load-shedding management system!🔃🪫");
+	res.send("Welcome to load-shedding management system!🔃🪫");
 });
 
 app.use("/api/v1/auth", authRoutes);

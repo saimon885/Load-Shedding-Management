@@ -1,6 +1,6 @@
-export interface createSubstation {
-  name: string;
-  code: string;
-  location: string;
-  zoneId: string;
+export interface createSubstations {
+	name: string;
+	code: string;
+	location: string;
+	zoneId: string;
 }

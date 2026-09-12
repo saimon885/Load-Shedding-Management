@@ -7,20 +7,20 @@ import { areaValidation } from "./area.validation";
 
 const router = Router();
 router.post(
-  "/create",
-  auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
-  validatonRequest(areaValidation.areaCreateSchema),
-  AreaController.createArea,
+	"/create",
+	auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
+	validatonRequest(areaValidation.areaCreateSchema),
+	AreaController.createArea,
 );
 router.get(
-  "/",
-  auth(
-    UserRole.ADMIN,
-    UserRole.ZONE_MANAGER,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-  ),
-  AreaController.getArea,
+	"/",
+	auth(
+		UserRole.ADMIN,
+		UserRole.ZONE_MANAGER,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.TECHNICIAN,
+	),
+	AreaController.getArea,
 );
 export const areaRoutes = router;

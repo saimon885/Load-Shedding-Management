@@ -7,21 +7,21 @@ import { feederValidation } from "./feeders.validation";
 
 const router = Router();
 router.post(
-  "/create",
-  auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
-  validatonRequest(feederValidation.FeedersCreateSchema),
-  feedersController.createFeeders,
+	"/create",
+	auth(UserRole.ADMIN, UserRole.ZONE_MANAGER),
+	validatonRequest(feederValidation.FeedersCreateSchema),
+	feedersController.createFeeders,
 );
 router.get(
-  "/",
-  auth(
-    UserRole.ADMIN,
-    UserRole.ZONE_MANAGER,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-  ),
-  feedersController.getAllFeeders,
+	"/",
+	auth(
+		UserRole.ADMIN,
+		UserRole.ZONE_MANAGER,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.TECHNICIAN,
+	),
+	feedersController.getAllFeeders,
 );
 
 export const feederRoutes = router;

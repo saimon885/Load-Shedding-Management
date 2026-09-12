@@ -1,6 +1,6 @@
 export interface UpdateProfiePayload {
-  name: string;
-  address: string;
-  phone: string;
-  profileImage: string;
+	name: string;
+	address: string;
+	phone: string;
+	profileImage: string;
 }

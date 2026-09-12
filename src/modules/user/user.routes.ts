@@ -7,27 +7,27 @@ import { userValidation } from "./user.validaion";
 
 const router = Router();
 router.get(
-  "/me",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-    UserRole.ZONE_MANAGER,
-  ),
-  userController.getMyProfile,
+	"/me",
+	auth(
+		UserRole.ADMIN,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.TECHNICIAN,
+		UserRole.ZONE_MANAGER,
+	),
+	userController.getMyProfile,
 );
 router.patch(
-  "/update/me",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-    UserRole.ZONE_MANAGER,
-  ),
-  validatonRequest(userValidation.zodUserUpdateSchema),
-  userController.updateMyProfile,
+	"/update/me",
+	auth(
+		UserRole.ADMIN,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.TECHNICIAN,
+		UserRole.ZONE_MANAGER,
+	),
+	validatonRequest(userValidation.zodUserUpdateSchema),
+	userController.updateMyProfile,
 );
 
 export const userRoutes = router;
