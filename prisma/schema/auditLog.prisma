@@ -1,0 +1,11 @@
+model AuditLog {
+    id        String   @id @default(uuid())
+    userId    String?
+    user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    action    String
+    entity    String
+    entityId  String
+    oldValue  Json?
+    newValue  Json?
+    createdAt DateTime @default(now())
+}

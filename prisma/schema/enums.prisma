@@ -11,3 +11,8 @@ enum userStatus {
     BLOCKED
     DELETED
 }
+
+enum zoneStatus {
+    ACTIVE
+    INACTIVE
+}

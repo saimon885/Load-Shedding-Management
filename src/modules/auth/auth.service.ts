@@ -10,6 +10,7 @@ import path from "path";
 import {
   LoginPayload,
   RegisterPayload,
+  resetPassPayload,
   verifyEmailPayload,
 } from "./auth.interface";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
@@ -231,7 +232,7 @@ const verifyEmail = async (payload: verifyEmailPayload) => {
   return { accessToken, refreshToken, user: result };
 };
 
-const forgotPassword = async (payload: any) => {
+const forgotPassword = async (payload: { email: string }) => {
   const { email } = payload;
   const isUserExist = await prisma.user.findUnique({
     where: {
@@ -274,7 +275,7 @@ const forgotPassword = async (payload: any) => {
   });
 };
 
-const resetPassword = async (payload: any) => {
+const resetPassword = async (payload: resetPassPayload) => {
   const { email, newPassword, otp } = payload;
   const isUserExist = await prisma.user.findUnique({
     where: {
@@ -329,6 +330,7 @@ const resetPassword = async (payload: any) => {
     subject: "Password Reset Successful - Load Shedding Management",
   });
 };
+
 const refreshToken = async (token: string) => {
   const verifiedRefreshToken = jwtUtils.verifyToken(
     token,

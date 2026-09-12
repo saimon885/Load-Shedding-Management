@@ -1,6 +1,6 @@
 import z from "zod";
 
-const zodPaitentRegisterSchema = z.object({
+const zodRegisterSchema = z.object({
   name: z.string("Name is required"),
   email: z.email("Email is required"),
   password: z
@@ -17,7 +17,7 @@ const zodPaitentRegisterSchema = z.object({
   address: z.string().optional(),
   profileImage: z.string().optional(),
 });
-const zodPaitentLoginSchema = z.object({
+const zodLoginSchema = z.object({
   email: z.email("Email is required"),
   password: z
     .string()
@@ -30,14 +30,24 @@ const zodPaitentLoginSchema = z.object({
       "Password must contain at least one special character",
     ),
 });
-const zodPaitentVerifySchema = z.object({
+const zodtVerifySchema = z.object({
   email: z.email("Email is required"),
   otp: z.string("OTP is required").min(6),
   type: z.string("Type is required"),
 });
+const zodresetPasswordSchema = z.object({
+  email: z.email("Email is required"),
+  otp: z.string("OTP is required").min(6),
+  newPassword: z.string("Type is required"),
+});
+const zodForgotSchema = z.object({
+  email: z.email("Email is required"),
+});
 
 export const authValidation = {
-  zodPaitentRegisterSchema,
-  zodPaitentLoginSchema,
-  zodPaitentVerifySchema,
+  zodRegisterSchema,
+  zodLoginSchema,
+  zodresetPasswordSchema,
+  zodtVerifySchema,
+  zodForgotSchema,
 };
