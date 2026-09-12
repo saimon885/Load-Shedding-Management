@@ -41,4 +41,8 @@ export default {
   zoneManager_name: process.env.ZONEMANAGER_NAME!,
   zoneManager_email: process.env.ZONEMANAGER_EMAIL!,
   zoneManager_password: process.env.ZONEMANAGER_PASSWORD!,
+
+  cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  cloudinary_api_key: process.env.CLOUDINARY_API_KEY!,
+  cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET!,
 };

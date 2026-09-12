@@ -1,13 +1,14 @@
 model Profile {
-    id           String   @id @default(uuid())
-    profileImage String?
-    address      String?
-    phone        String?
-    userId       String   @unique
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id               String   @id @default(uuid())
+    profileImage     String   @default("")
+    imagePublishedID String   @default("")
+    address          String?
+    phone            String?
+    userId           String   @unique
+    user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     // areaId Int
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
 
     @@map("profiles")
 }
