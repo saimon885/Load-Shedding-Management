@@ -30,7 +30,45 @@ const createZone = async (payload: createZonePayload, userId: string) => {
   return result;
 };
 const getAllZone = async () => {
-  const result = await prisma.zone.findMany();
+  const result = await prisma.zone.findMany({
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      description: true,
+      status: true,
+      substation: {
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          location: true,
+          zoneId: true,
+          status: true,
+          feeder: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+              capacity: true,
+              status: true,
+              substationId: true,
+              areas: {
+                select: {
+                  id: true,
+                  name: true,
+                  code: true,
+                  description: true,
+                  status: true,
+                  feederId: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
   if (!result) {
     throw new Error("Zone not found!");
   }
@@ -57,14 +95,27 @@ const updateZone = async (payload: updateZonePayload) => {
   });
   return updateZone;
 };
-
 const getSingleZone = async (Zoneid: string) => {
   const result = await prisma.zone.findUnique({
     where: {
       id: Zoneid,
     },
-    include: {
-      substation: true,
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      description: true,
+      status: true,
+      substation: {
+        select: {
+          id: true,
+          name: true,
+          code: true,
+          location: true,
+          zoneId: true,
+          status: true,
+        },
+      },
     },
   });
   if (!result) {
@@ -72,6 +123,7 @@ const getSingleZone = async (Zoneid: string) => {
   }
   return result;
 };
+
 
 export const zoneService = {
   createZone,
