@@ -9,6 +9,7 @@ import { zoneRoutes } from "./modules/zone/zone.routes";
 import { substationRoutes } from "./modules/substation/substation.routes";
 import { feederRoutes } from "./modules/Feeders/feeders.routes";
 import { areaRoutes } from "./modules/area/area.routes";
+import { outageRoutes } from "./modules/outage/outage.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -25,6 +26,7 @@ app.use("/api/v1/zones", zoneRoutes);
 app.use("/api/v1/substations", substationRoutes);
 app.use("/api/v1/feeders", feederRoutes);
 app.use("/api/v1/areas", areaRoutes);
+app.use("/api/v1/outages", outageRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

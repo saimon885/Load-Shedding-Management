@@ -33,6 +33,11 @@ export type Area = Prisma.AreaModel
  */
 export type AuditLog = Prisma.AuditLogModel
 /**
+ * Model Outage
+ * 
+ */
+export type Outage = Prisma.OutageModel
+/**
  * Model Profile
  * 
  */
@@ -42,6 +47,11 @@ export type Profile = Prisma.ProfileModel
  * 
  */
 export type Substation = Prisma.SubstationModel
+/**
+ * Model TechnicianAssign
+ * 
+ */
+export type TechnicianAssign = Prisma.TechnicianAssignModel
 /**
  * Model User
  * 

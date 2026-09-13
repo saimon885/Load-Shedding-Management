@@ -1,16 +1,17 @@
 model Area {
-  id          String       @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
-  code        String       @unique
+  code        String     @unique
   description String
-  status      AreaStatus   @default(ACTIVE)
+  status      AreaStatus @default(ACTIVE)
 
-  feederId    String
-  feeder      Feeder       @relation(fields: [feederId], references: [id])
+  feederId String
+  feeder   Feeder   @relation(fields: [feederId], references: [id])
+  outage   Outage[]
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@index([feederId])
   @@index([status])

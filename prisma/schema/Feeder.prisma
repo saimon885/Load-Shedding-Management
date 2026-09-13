@@ -9,6 +9,7 @@ model Feeder {
   substation   Substation   @relation(fields: [substationId], references: [id])
 
   areas        Area[]
+  outage Outage[]
 
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt

@@ -54,8 +54,10 @@ export const ModelName = {
   Feeder: 'Feeder',
   Area: 'Area',
   AuditLog: 'AuditLog',
+  Outage: 'Outage',
   Profile: 'Profile',
   Substation: 'Substation',
+  TechnicianAssign: 'TechnicianAssign',
   User: 'User',
   Zone: 'Zone'
 } as const
@@ -120,6 +122,25 @@ export const AuditLogScalarFieldEnum = {
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
+export const OutageScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  status: 'status',
+  reason: 'reason',
+  feederId: 'feederId',
+  areaId: 'areaId',
+  startTime: 'startTime',
+  estimatedRestorationTime: 'estimatedRestorationTime',
+  actualRestorationTime: 'actualRestorationTime',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type OutageScalarFieldEnum = (typeof OutageScalarFieldEnum)[keyof typeof OutageScalarFieldEnum]
+
+
 export const ProfileScalarFieldEnum = {
   id: 'id',
   profileImage: 'profileImage',
@@ -147,6 +168,18 @@ export const SubstationScalarFieldEnum = {
 } as const
 
 export type SubstationScalarFieldEnum = (typeof SubstationScalarFieldEnum)[keyof typeof SubstationScalarFieldEnum]
+
+
+export const TechnicianAssignScalarFieldEnum = {
+  id: 'id',
+  outageId: 'outageId',
+  technicianId: 'technicianId',
+  status: 'status',
+  assignedAt: 'assignedAt',
+  resolvedAt: 'resolvedAt'
+} as const
+
+export type TechnicianAssignScalarFieldEnum = (typeof TechnicianAssignScalarFieldEnum)[keyof typeof TechnicianAssignScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

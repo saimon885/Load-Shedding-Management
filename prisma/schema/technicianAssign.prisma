@@ -1,0 +1,11 @@
+model TechnicianAssign {
+    id           String           @id @default(uuid())
+    outageId     String
+    outage       Outage           @relation(fields: [outageId], references: [id])
+    technicianId String
+    status       AssignmentStatus @default(PENDING)
+    assignedAt   DateTime         @default(now())
+    resolvedAt   DateTime?
+
+    @@map("technicianAssigns")
+}

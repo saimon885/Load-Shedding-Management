@@ -59,3 +59,31 @@ export const FeederStatus = {
 } as const
 
 export type FeederStatus = (typeof FeederStatus)[keyof typeof FeederStatus]
+
+
+export const OutageType = {
+  SCHEDULED: 'SCHEDULED',
+  UNEXPECTED: 'UNEXPECTED'
+} as const
+
+export type OutageType = (typeof OutageType)[keyof typeof OutageType]
+
+
+export const OutageStatus = {
+  SCHEDULED: 'SCHEDULED',
+  ONGOING: 'ONGOING',
+  RESTORED: 'RESTORED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type OutageStatus = (typeof OutageStatus)[keyof typeof OutageStatus]
+
+
+export const AssignmentStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type AssignmentStatus = (typeof AssignmentStatus)[keyof typeof AssignmentStatus]

@@ -1,0 +1,20 @@
+model Outage {
+    id                       String             @id @default(uuid())
+    type                     OutageType
+    status                   OutageStatus
+    reason                   String
+    feederId                 String
+    feeder                   Feeder             @relation(fields: [feederId], references: [id])
+    areaId                   String?
+    area                     Area?              @relation(fields: [areaId], references: [id])
+    startTime                DateTime
+    estimatedRestorationTime DateTime?
+    actualRestorationTime    DateTime?
+    createdBy                String
+    assignments              TechnicianAssign[]
+    createdAt                DateTime           @default(now())
+    updatedAt                DateTime           @updatedAt
+    deletedAt                DateTime?
+
+    @@map("outages")
+}

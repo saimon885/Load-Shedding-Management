@@ -28,3 +28,23 @@ enum FeederStatus {
     ACTIVE
     INACTIVE
 }
+
+
+enum OutageType {
+  SCHEDULED
+  UNEXPECTED
+}
+
+enum OutageStatus {
+  SCHEDULED
+  ONGOING
+  RESTORED
+  CANCELLED
+}
+
+enum AssignmentStatus {
+  PENDING
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+}
