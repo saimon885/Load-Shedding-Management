@@ -11,6 +11,7 @@ import { feederRoutes } from "./modules/Feeders/feeders.routes";
 import { areaRoutes } from "./modules/area/area.routes";
 import { outageRoutes } from "./modules/outage/outage.routes";
 import { outageReportRoutes } from "./modules/outageReport/outageReport.routes";
+import { AssignmentRoutes } from "./modules/technician_Assignment/assignment.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(cookieparser());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to load-shedding management system!🔃🪫");
+	res.send("Welcome to load-shedding management system!🔃🪫");
 });
 
 app.use("/api/v1/auth", authRoutes);
@@ -29,6 +30,7 @@ app.use("/api/v1/feeders", feederRoutes);
 app.use("/api/v1/areas", areaRoutes);
 app.use("/api/v1/outages", outageRoutes);
 app.use("/api/v1/outage-reports", outageReportRoutes);
+app.use("/api/v1/assignments", AssignmentRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);
