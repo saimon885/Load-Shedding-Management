@@ -216,6 +216,7 @@ export type AreaWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"Area"> | Date | string | null
   feeder?: Prisma.XOR<Prisma.FeederScalarRelationFilter, Prisma.FeederWhereInput>
   outage?: Prisma.OutageListRelationFilter
+  outageReport?: Prisma.OutageReportListRelationFilter
 }
 
 export type AreaOrderByWithRelationInput = {
@@ -230,6 +231,7 @@ export type AreaOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   feeder?: Prisma.FeederOrderByWithRelationInput
   outage?: Prisma.OutageOrderByRelationAggregateInput
+  outageReport?: Prisma.OutageReportOrderByRelationAggregateInput
 }
 
 export type AreaWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +249,7 @@ export type AreaWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"Area"> | Date | string | null
   feeder?: Prisma.XOR<Prisma.FeederScalarRelationFilter, Prisma.FeederWhereInput>
   outage?: Prisma.OutageListRelationFilter
+  outageReport?: Prisma.OutageReportListRelationFilter
 }, "id" | "code">
 
 export type AreaOrderByWithAggregationInput = {
@@ -290,6 +293,7 @@ export type AreaCreateInput = {
   deletedAt?: Date | string | null
   feeder: Prisma.FeederCreateNestedOneWithoutAreasInput
   outage?: Prisma.OutageCreateNestedManyWithoutAreaInput
+  outageReport?: Prisma.OutageReportCreateNestedManyWithoutAreaInput
 }
 
 export type AreaUncheckedCreateInput = {
@@ -303,6 +307,7 @@ export type AreaUncheckedCreateInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   outage?: Prisma.OutageUncheckedCreateNestedManyWithoutAreaInput
+  outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutAreaInput
 }
 
 export type AreaUpdateInput = {
@@ -316,6 +321,7 @@ export type AreaUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   feeder?: Prisma.FeederUpdateOneRequiredWithoutAreasNestedInput
   outage?: Prisma.OutageUpdateManyWithoutAreaNestedInput
+  outageReport?: Prisma.OutageReportUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaUncheckedUpdateInput = {
@@ -329,6 +335,7 @@ export type AreaUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   outage?: Prisma.OutageUncheckedUpdateManyWithoutAreaNestedInput
+  outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaCreateManyInput = {
@@ -417,6 +424,11 @@ export type AreaNullableScalarRelationFilter = {
   isNot?: Prisma.AreaWhereInput | null
 }
 
+export type AreaScalarRelationFilter = {
+  is?: Prisma.AreaWhereInput
+  isNot?: Prisma.AreaWhereInput
+}
+
 export type AreaCreateNestedManyWithoutFeederInput = {
   create?: Prisma.XOR<Prisma.AreaCreateWithoutFeederInput, Prisma.AreaUncheckedCreateWithoutFeederInput> | Prisma.AreaCreateWithoutFeederInput[] | Prisma.AreaUncheckedCreateWithoutFeederInput[]
   connectOrCreate?: Prisma.AreaCreateOrConnectWithoutFeederInput | Prisma.AreaCreateOrConnectWithoutFeederInput[]
@@ -479,6 +491,20 @@ export type AreaUpdateOneWithoutOutageNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AreaUpdateToOneWithWhereWithoutOutageInput, Prisma.AreaUpdateWithoutOutageInput>, Prisma.AreaUncheckedUpdateWithoutOutageInput>
 }
 
+export type AreaCreateNestedOneWithoutOutageReportInput = {
+  create?: Prisma.XOR<Prisma.AreaCreateWithoutOutageReportInput, Prisma.AreaUncheckedCreateWithoutOutageReportInput>
+  connectOrCreate?: Prisma.AreaCreateOrConnectWithoutOutageReportInput
+  connect?: Prisma.AreaWhereUniqueInput
+}
+
+export type AreaUpdateOneRequiredWithoutOutageReportNestedInput = {
+  create?: Prisma.XOR<Prisma.AreaCreateWithoutOutageReportInput, Prisma.AreaUncheckedCreateWithoutOutageReportInput>
+  connectOrCreate?: Prisma.AreaCreateOrConnectWithoutOutageReportInput
+  upsert?: Prisma.AreaUpsertWithoutOutageReportInput
+  connect?: Prisma.AreaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AreaUpdateToOneWithWhereWithoutOutageReportInput, Prisma.AreaUpdateWithoutOutageReportInput>, Prisma.AreaUncheckedUpdateWithoutOutageReportInput>
+}
+
 export type AreaCreateWithoutFeederInput = {
   id?: string
   name: string
@@ -489,6 +515,7 @@ export type AreaCreateWithoutFeederInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   outage?: Prisma.OutageCreateNestedManyWithoutAreaInput
+  outageReport?: Prisma.OutageReportCreateNestedManyWithoutAreaInput
 }
 
 export type AreaUncheckedCreateWithoutFeederInput = {
@@ -501,6 +528,7 @@ export type AreaUncheckedCreateWithoutFeederInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   outage?: Prisma.OutageUncheckedCreateNestedManyWithoutAreaInput
+  outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutAreaInput
 }
 
 export type AreaCreateOrConnectWithoutFeederInput = {
@@ -554,6 +582,7 @@ export type AreaCreateWithoutOutageInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   feeder: Prisma.FeederCreateNestedOneWithoutAreasInput
+  outageReport?: Prisma.OutageReportCreateNestedManyWithoutAreaInput
 }
 
 export type AreaUncheckedCreateWithoutOutageInput = {
@@ -566,6 +595,7 @@ export type AreaUncheckedCreateWithoutOutageInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutAreaInput
 }
 
 export type AreaCreateOrConnectWithoutOutageInput = {
@@ -594,6 +624,7 @@ export type AreaUpdateWithoutOutageInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   feeder?: Prisma.FeederUpdateOneRequiredWithoutAreasNestedInput
+  outageReport?: Prisma.OutageReportUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaUncheckedUpdateWithoutOutageInput = {
@@ -606,6 +637,75 @@ export type AreaUncheckedUpdateWithoutOutageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutAreaNestedInput
+}
+
+export type AreaCreateWithoutOutageReportInput = {
+  id?: string
+  name: string
+  code: string
+  description: string
+  status?: $Enums.AreaStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  feeder: Prisma.FeederCreateNestedOneWithoutAreasInput
+  outage?: Prisma.OutageCreateNestedManyWithoutAreaInput
+}
+
+export type AreaUncheckedCreateWithoutOutageReportInput = {
+  id?: string
+  name: string
+  code: string
+  description: string
+  status?: $Enums.AreaStatus
+  feederId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  outage?: Prisma.OutageUncheckedCreateNestedManyWithoutAreaInput
+}
+
+export type AreaCreateOrConnectWithoutOutageReportInput = {
+  where: Prisma.AreaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AreaCreateWithoutOutageReportInput, Prisma.AreaUncheckedCreateWithoutOutageReportInput>
+}
+
+export type AreaUpsertWithoutOutageReportInput = {
+  update: Prisma.XOR<Prisma.AreaUpdateWithoutOutageReportInput, Prisma.AreaUncheckedUpdateWithoutOutageReportInput>
+  create: Prisma.XOR<Prisma.AreaCreateWithoutOutageReportInput, Prisma.AreaUncheckedCreateWithoutOutageReportInput>
+  where?: Prisma.AreaWhereInput
+}
+
+export type AreaUpdateToOneWithWhereWithoutOutageReportInput = {
+  where?: Prisma.AreaWhereInput
+  data: Prisma.XOR<Prisma.AreaUpdateWithoutOutageReportInput, Prisma.AreaUncheckedUpdateWithoutOutageReportInput>
+}
+
+export type AreaUpdateWithoutOutageReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAreaStatusFieldUpdateOperationsInput | $Enums.AreaStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeder?: Prisma.FeederUpdateOneRequiredWithoutAreasNestedInput
+  outage?: Prisma.OutageUpdateManyWithoutAreaNestedInput
+}
+
+export type AreaUncheckedUpdateWithoutOutageReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAreaStatusFieldUpdateOperationsInput | $Enums.AreaStatus
+  feederId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outage?: Prisma.OutageUncheckedUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaCreateManyFeederInput = {
@@ -629,6 +729,7 @@ export type AreaUpdateWithoutFeederInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   outage?: Prisma.OutageUpdateManyWithoutAreaNestedInput
+  outageReport?: Prisma.OutageReportUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaUncheckedUpdateWithoutFeederInput = {
@@ -641,6 +742,7 @@ export type AreaUncheckedUpdateWithoutFeederInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   outage?: Prisma.OutageUncheckedUpdateManyWithoutAreaNestedInput
+  outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutAreaNestedInput
 }
 
 export type AreaUncheckedUpdateManyWithoutFeederInput = {
@@ -661,10 +763,12 @@ export type AreaUncheckedUpdateManyWithoutFeederInput = {
 
 export type AreaCountOutputType = {
   outage: number
+  outageReport: number
 }
 
 export type AreaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   outage?: boolean | AreaCountOutputTypeCountOutageArgs
+  outageReport?: boolean | AreaCountOutputTypeCountOutageReportArgs
 }
 
 /**
@@ -684,6 +788,13 @@ export type AreaCountOutputTypeCountOutageArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.OutageWhereInput
 }
 
+/**
+ * AreaCountOutputType without action
+ */
+export type AreaCountOutputTypeCountOutageReportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OutageReportWhereInput
+}
+
 
 export type AreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -697,6 +808,7 @@ export type AreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deletedAt?: boolean
   feeder?: boolean | Prisma.FeederDefaultArgs<ExtArgs>
   outage?: boolean | Prisma.Area$outageArgs<ExtArgs>
+  outageReport?: boolean | Prisma.Area$outageReportArgs<ExtArgs>
   _count?: boolean | Prisma.AreaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["area"]>
 
@@ -742,6 +854,7 @@ export type AreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type AreaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   feeder?: boolean | Prisma.FeederDefaultArgs<ExtArgs>
   outage?: boolean | Prisma.Area$outageArgs<ExtArgs>
+  outageReport?: boolean | Prisma.Area$outageReportArgs<ExtArgs>
   _count?: boolean | Prisma.AreaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AreaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -756,6 +869,7 @@ export type $AreaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     feeder: Prisma.$FeederPayload<ExtArgs>
     outage: Prisma.$OutagePayload<ExtArgs>[]
+    outageReport: Prisma.$OutageReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1163,6 +1277,7 @@ export interface Prisma__AreaClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   feeder<T extends Prisma.FeederDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeederDefaultArgs<ExtArgs>>): Prisma.Prisma__FeederClient<runtime.Types.Result.GetResult<Prisma.$FeederPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   outage<T extends Prisma.Area$outageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Area$outageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  outageReport<T extends Prisma.Area$outageReportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Area$outageReportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutageReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1623,6 +1738,30 @@ export type Area$outageArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.OutageScalarFieldEnum | Prisma.OutageScalarFieldEnum[]
+}
+
+/**
+ * Area.outageReport
+ */
+export type Area$outageReportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OutageReport
+   */
+  select?: Prisma.OutageReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OutageReport
+   */
+  omit?: Prisma.OutageReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OutageReportInclude<ExtArgs> | null
+  where?: Prisma.OutageReportWhereInput
+  orderBy?: Prisma.OutageReportOrderByWithRelationInput | Prisma.OutageReportOrderByWithRelationInput[]
+  cursor?: Prisma.OutageReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OutageReportScalarFieldEnum | Prisma.OutageReportScalarFieldEnum[]
 }
 
 /**

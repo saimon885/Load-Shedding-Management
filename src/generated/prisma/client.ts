@@ -60,6 +60,11 @@ export type AuditLog = Prisma.AuditLogModel
  */
 export type Outage = Prisma.OutageModel
 /**
+ * Model OutageReport
+ * 
+ */
+export type OutageReport = Prisma.OutageReportModel
+/**
  * Model Profile
  * 
  */

@@ -401,6 +401,7 @@ export const ModelName = {
   Area: 'Area',
   AuditLog: 'AuditLog',
   Outage: 'Outage',
+  OutageReport: 'OutageReport',
   Profile: 'Profile',
   Substation: 'Substation',
   TechnicianAssign: 'TechnicianAssign',
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "feeder" | "area" | "auditLog" | "outage" | "profile" | "substation" | "technicianAssign" | "user" | "zone"
+    modelProps: "feeder" | "area" | "auditLog" | "outage" | "outageReport" | "profile" | "substation" | "technicianAssign" | "user" | "zone"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -718,6 +719,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OutageCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OutageCountAggregateOutputType> | number
+        }
+      }
+    }
+    OutageReport: {
+      payload: Prisma.$OutageReportPayload<ExtArgs>
+      fields: Prisma.OutageReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OutageReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OutageReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        findFirst: {
+          args: Prisma.OutageReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OutageReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        findMany: {
+          args: Prisma.OutageReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>[]
+        }
+        create: {
+          args: Prisma.OutageReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        createMany: {
+          args: Prisma.OutageReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OutageReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>[]
+        }
+        delete: {
+          args: Prisma.OutageReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        update: {
+          args: Prisma.OutageReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.OutageReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OutageReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OutageReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.OutageReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageReportPayload>
+        }
+        aggregate: {
+          args: Prisma.OutageReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOutageReport>
+        }
+        groupBy: {
+          args: Prisma.OutageReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OutageReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OutageReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OutageReportCountAggregateOutputType> | number
         }
       }
     }
@@ -1193,6 +1268,20 @@ export const OutageScalarFieldEnum = {
 export type OutageScalarFieldEnum = (typeof OutageScalarFieldEnum)[keyof typeof OutageScalarFieldEnum]
 
 
+export const OutageReportScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  areaId: 'areaId',
+  description: 'description',
+  status: 'status',
+  outageId: 'outageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OutageReportScalarFieldEnum = (typeof OutageReportScalarFieldEnum)[keyof typeof OutageReportScalarFieldEnum]
+
+
 export const ProfileScalarFieldEnum = {
   id: 'id',
   profileImage: 'profileImage',
@@ -1419,6 +1508,20 @@ export type EnumOutageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'OutageStatus[]'
  */
 export type ListEnumOutageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OutageStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportStatus'
+ */
+export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportStatus[]'
+ */
+export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
     
 
 
@@ -1660,6 +1763,7 @@ export type GlobalOmitConfig = {
   area?: Prisma.AreaOmit
   auditLog?: Prisma.AuditLogOmit
   outage?: Prisma.OutageOmit
+  outageReport?: Prisma.OutageReportOmit
   profile?: Prisma.ProfileOmit
   substation?: Prisma.SubstationOmit
   technicianAssign?: Prisma.TechnicianAssignOmit

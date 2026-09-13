@@ -191,6 +191,7 @@ export type TechnicianAssignWhereInput = {
   assignedAt?: Prisma.DateTimeFilter<"TechnicianAssign"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableFilter<"TechnicianAssign"> | Date | string | null
   outage?: Prisma.XOR<Prisma.OutageScalarRelationFilter, Prisma.OutageWhereInput>
+  technician?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TechnicianAssignOrderByWithRelationInput = {
@@ -201,6 +202,7 @@ export type TechnicianAssignOrderByWithRelationInput = {
   assignedAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   outage?: Prisma.OutageOrderByWithRelationInput
+  technician?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TechnicianAssignWhereUniqueInput = Prisma.AtLeast<{
@@ -214,6 +216,7 @@ export type TechnicianAssignWhereUniqueInput = Prisma.AtLeast<{
   assignedAt?: Prisma.DateTimeFilter<"TechnicianAssign"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableFilter<"TechnicianAssign"> | Date | string | null
   outage?: Prisma.XOR<Prisma.OutageScalarRelationFilter, Prisma.OutageWhereInput>
+  technician?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type TechnicianAssignOrderByWithAggregationInput = {
@@ -242,11 +245,11 @@ export type TechnicianAssignScalarWhereWithAggregatesInput = {
 
 export type TechnicianAssignCreateInput = {
   id?: string
-  technicianId: string
   status?: $Enums.AssignmentStatus
   assignedAt?: Date | string
   resolvedAt?: Date | string | null
   outage: Prisma.OutageCreateNestedOneWithoutAssignmentsInput
+  technician: Prisma.UserCreateNestedOneWithoutAssignmentsInput
 }
 
 export type TechnicianAssignUncheckedCreateInput = {
@@ -260,11 +263,11 @@ export type TechnicianAssignUncheckedCreateInput = {
 
 export type TechnicianAssignUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  technicianId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   outage?: Prisma.OutageUpdateOneRequiredWithoutAssignmentsNestedInput
+  technician?: Prisma.UserUpdateOneRequiredWithoutAssignmentsNestedInput
 }
 
 export type TechnicianAssignUncheckedUpdateInput = {
@@ -287,7 +290,6 @@ export type TechnicianAssignCreateManyInput = {
 
 export type TechnicianAssignUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  technicianId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -385,12 +387,54 @@ export type EnumAssignmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.AssignmentStatus
 }
 
+export type TechnicianAssignCreateNestedManyWithoutTechnicianInput = {
+  create?: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput> | Prisma.TechnicianAssignCreateWithoutTechnicianInput[] | Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput[]
+  connectOrCreate?: Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput | Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput[]
+  createMany?: Prisma.TechnicianAssignCreateManyTechnicianInputEnvelope
+  connect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+}
+
+export type TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput = {
+  create?: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput> | Prisma.TechnicianAssignCreateWithoutTechnicianInput[] | Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput[]
+  connectOrCreate?: Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput | Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput[]
+  createMany?: Prisma.TechnicianAssignCreateManyTechnicianInputEnvelope
+  connect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+}
+
+export type TechnicianAssignUpdateManyWithoutTechnicianNestedInput = {
+  create?: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput> | Prisma.TechnicianAssignCreateWithoutTechnicianInput[] | Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput[]
+  connectOrCreate?: Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput | Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput[]
+  upsert?: Prisma.TechnicianAssignUpsertWithWhereUniqueWithoutTechnicianInput | Prisma.TechnicianAssignUpsertWithWhereUniqueWithoutTechnicianInput[]
+  createMany?: Prisma.TechnicianAssignCreateManyTechnicianInputEnvelope
+  set?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  disconnect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  delete?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  connect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  update?: Prisma.TechnicianAssignUpdateWithWhereUniqueWithoutTechnicianInput | Prisma.TechnicianAssignUpdateWithWhereUniqueWithoutTechnicianInput[]
+  updateMany?: Prisma.TechnicianAssignUpdateManyWithWhereWithoutTechnicianInput | Prisma.TechnicianAssignUpdateManyWithWhereWithoutTechnicianInput[]
+  deleteMany?: Prisma.TechnicianAssignScalarWhereInput | Prisma.TechnicianAssignScalarWhereInput[]
+}
+
+export type TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput = {
+  create?: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput> | Prisma.TechnicianAssignCreateWithoutTechnicianInput[] | Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput[]
+  connectOrCreate?: Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput | Prisma.TechnicianAssignCreateOrConnectWithoutTechnicianInput[]
+  upsert?: Prisma.TechnicianAssignUpsertWithWhereUniqueWithoutTechnicianInput | Prisma.TechnicianAssignUpsertWithWhereUniqueWithoutTechnicianInput[]
+  createMany?: Prisma.TechnicianAssignCreateManyTechnicianInputEnvelope
+  set?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  disconnect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  delete?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  connect?: Prisma.TechnicianAssignWhereUniqueInput | Prisma.TechnicianAssignWhereUniqueInput[]
+  update?: Prisma.TechnicianAssignUpdateWithWhereUniqueWithoutTechnicianInput | Prisma.TechnicianAssignUpdateWithWhereUniqueWithoutTechnicianInput[]
+  updateMany?: Prisma.TechnicianAssignUpdateManyWithWhereWithoutTechnicianInput | Prisma.TechnicianAssignUpdateManyWithWhereWithoutTechnicianInput[]
+  deleteMany?: Prisma.TechnicianAssignScalarWhereInput | Prisma.TechnicianAssignScalarWhereInput[]
+}
+
 export type TechnicianAssignCreateWithoutOutageInput = {
   id?: string
-  technicianId: string
   status?: $Enums.AssignmentStatus
   assignedAt?: Date | string
   resolvedAt?: Date | string | null
+  technician: Prisma.UserCreateNestedOneWithoutAssignmentsInput
 }
 
 export type TechnicianAssignUncheckedCreateWithoutOutageInput = {
@@ -439,6 +483,48 @@ export type TechnicianAssignScalarWhereInput = {
   resolvedAt?: Prisma.DateTimeNullableFilter<"TechnicianAssign"> | Date | string | null
 }
 
+export type TechnicianAssignCreateWithoutTechnicianInput = {
+  id?: string
+  status?: $Enums.AssignmentStatus
+  assignedAt?: Date | string
+  resolvedAt?: Date | string | null
+  outage: Prisma.OutageCreateNestedOneWithoutAssignmentsInput
+}
+
+export type TechnicianAssignUncheckedCreateWithoutTechnicianInput = {
+  id?: string
+  outageId: string
+  status?: $Enums.AssignmentStatus
+  assignedAt?: Date | string
+  resolvedAt?: Date | string | null
+}
+
+export type TechnicianAssignCreateOrConnectWithoutTechnicianInput = {
+  where: Prisma.TechnicianAssignWhereUniqueInput
+  create: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput>
+}
+
+export type TechnicianAssignCreateManyTechnicianInputEnvelope = {
+  data: Prisma.TechnicianAssignCreateManyTechnicianInput | Prisma.TechnicianAssignCreateManyTechnicianInput[]
+  skipDuplicates?: boolean
+}
+
+export type TechnicianAssignUpsertWithWhereUniqueWithoutTechnicianInput = {
+  where: Prisma.TechnicianAssignWhereUniqueInput
+  update: Prisma.XOR<Prisma.TechnicianAssignUpdateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedUpdateWithoutTechnicianInput>
+  create: Prisma.XOR<Prisma.TechnicianAssignCreateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedCreateWithoutTechnicianInput>
+}
+
+export type TechnicianAssignUpdateWithWhereUniqueWithoutTechnicianInput = {
+  where: Prisma.TechnicianAssignWhereUniqueInput
+  data: Prisma.XOR<Prisma.TechnicianAssignUpdateWithoutTechnicianInput, Prisma.TechnicianAssignUncheckedUpdateWithoutTechnicianInput>
+}
+
+export type TechnicianAssignUpdateManyWithWhereWithoutTechnicianInput = {
+  where: Prisma.TechnicianAssignScalarWhereInput
+  data: Prisma.XOR<Prisma.TechnicianAssignUpdateManyMutationInput, Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianInput>
+}
+
 export type TechnicianAssignCreateManyOutageInput = {
   id?: string
   technicianId: string
@@ -449,10 +535,10 @@ export type TechnicianAssignCreateManyOutageInput = {
 
 export type TechnicianAssignUpdateWithoutOutageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  technicianId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  technician?: Prisma.UserUpdateOneRequiredWithoutAssignmentsNestedInput
 }
 
 export type TechnicianAssignUncheckedUpdateWithoutOutageInput = {
@@ -471,6 +557,38 @@ export type TechnicianAssignUncheckedUpdateManyWithoutOutageInput = {
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type TechnicianAssignCreateManyTechnicianInput = {
+  id?: string
+  outageId: string
+  status?: $Enums.AssignmentStatus
+  assignedAt?: Date | string
+  resolvedAt?: Date | string | null
+}
+
+export type TechnicianAssignUpdateWithoutTechnicianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+  assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  outage?: Prisma.OutageUpdateOneRequiredWithoutAssignmentsNestedInput
+}
+
+export type TechnicianAssignUncheckedUpdateWithoutTechnicianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  outageId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+  assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TechnicianAssignUncheckedUpdateManyWithoutTechnicianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  outageId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
+  assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 
 
 export type TechnicianAssignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -481,6 +599,7 @@ export type TechnicianAssignSelect<ExtArgs extends runtime.Types.Extensions.Inte
   assignedAt?: boolean
   resolvedAt?: boolean
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianAssign"]>
 
 export type TechnicianAssignSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -491,6 +610,7 @@ export type TechnicianAssignSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   assignedAt?: boolean
   resolvedAt?: boolean
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianAssign"]>
 
 export type TechnicianAssignSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -501,6 +621,7 @@ export type TechnicianAssignSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   assignedAt?: boolean
   resolvedAt?: boolean
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianAssign"]>
 
 export type TechnicianAssignSelectScalar = {
@@ -515,18 +636,22 @@ export type TechnicianAssignSelectScalar = {
 export type TechnicianAssignOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "outageId" | "technicianId" | "status" | "assignedAt" | "resolvedAt", ExtArgs["result"]["technicianAssign"]>
 export type TechnicianAssignInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TechnicianAssignIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TechnicianAssignIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   outage?: boolean | Prisma.OutageDefaultArgs<ExtArgs>
+  technician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $TechnicianAssignPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TechnicianAssign"
   objects: {
     outage: Prisma.$OutagePayload<ExtArgs>
+    technician: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -930,6 +1055,7 @@ readonly fields: TechnicianAssignFieldRefs;
 export interface Prisma__TechnicianAssignClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   outage<T extends Prisma.OutageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OutageDefaultArgs<ExtArgs>>): Prisma.Prisma__OutageClient<runtime.Types.Result.GetResult<Prisma.$OutagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  technician<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

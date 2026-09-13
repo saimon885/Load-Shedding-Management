@@ -87,3 +87,14 @@ export const AssignmentStatus = {
 } as const
 
 export type AssignmentStatus = (typeof AssignmentStatus)[keyof typeof AssignmentStatus]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  INVESTIGATING: 'INVESTIGATING',
+  VERIFIED: 'VERIFIED',
+  RESOLVED: 'RESOLVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

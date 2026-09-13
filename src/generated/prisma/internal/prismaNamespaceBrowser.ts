@@ -55,6 +55,7 @@ export const ModelName = {
   Area: 'Area',
   AuditLog: 'AuditLog',
   Outage: 'Outage',
+  OutageReport: 'OutageReport',
   Profile: 'Profile',
   Substation: 'Substation',
   TechnicianAssign: 'TechnicianAssign',
@@ -139,6 +140,20 @@ export const OutageScalarFieldEnum = {
 } as const
 
 export type OutageScalarFieldEnum = (typeof OutageScalarFieldEnum)[keyof typeof OutageScalarFieldEnum]
+
+
+export const OutageReportScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  areaId: 'areaId',
+  description: 'description',
+  status: 'status',
+  outageId: 'outageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OutageReportScalarFieldEnum = (typeof OutageReportScalarFieldEnum)[keyof typeof OutageReportScalarFieldEnum]
 
 
 export const ProfileScalarFieldEnum = {
