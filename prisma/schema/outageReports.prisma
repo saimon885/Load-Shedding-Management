@@ -1,0 +1,19 @@
+model OutageReport {
+    id String @id @default(uuid())
+
+    customerId String
+    customer   User   @relation(fields: [customerId], references: [id])
+
+    areaId      String
+    area        Area         @relation(fields: [areaId], references: [id])
+    description String
+    status      ReportStatus @default(PENDING)
+
+    outageId String?
+    outage   Outage? @relation(fields: [outageId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("outageReport")
+}

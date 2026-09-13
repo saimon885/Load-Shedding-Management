@@ -48,3 +48,11 @@ enum AssignmentStatus {
   IN_PROGRESS
   COMPLETED
 }
+
+enum ReportStatus {
+    PENDING
+    INVESTIGATING
+    VERIFIED
+    RESOLVED
+    REJECTED
+}

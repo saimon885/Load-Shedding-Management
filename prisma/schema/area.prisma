@@ -5,13 +5,13 @@ model Area {
   description String
   status      AreaStatus @default(ACTIVE)
 
-  feederId String
-  feeder   Feeder   @relation(fields: [feederId], references: [id])
-  outage   Outage[]
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  feederId     String
+  feeder       Feeder         @relation(fields: [feederId], references: [id])
+  outage       Outage[]
+  outageReport OutageReport[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
 
   @@index([feederId])
   @@index([status])

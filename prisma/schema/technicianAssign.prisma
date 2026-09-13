@@ -3,6 +3,7 @@ model TechnicianAssign {
     outageId     String
     outage       Outage           @relation(fields: [outageId], references: [id])
     technicianId String
+    technician   User             @relation(fields: [technicianId], references: [id])
     status       AssignmentStatus @default(PENDING)
     assignedAt   DateTime         @default(now())
     resolvedAt   DateTime?

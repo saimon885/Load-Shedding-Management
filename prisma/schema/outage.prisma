@@ -7,6 +7,7 @@ model Outage {
     feeder                   Feeder             @relation(fields: [feederId], references: [id])
     areaId                   String?
     area                     Area?              @relation(fields: [areaId], references: [id])
+    outageReport             OutageReport[]
     startTime                DateTime
     estimatedRestorationTime DateTime?
     actualRestorationTime    DateTime?

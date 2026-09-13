@@ -36,7 +36,7 @@ router.get(
 );
 
 router.patch(
-  "/:id/status",
+  "/status/:id",
   auth(
     UserRole.ADMIN,
     UserRole.ZONE_MANAGER,
