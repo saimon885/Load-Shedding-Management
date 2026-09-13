@@ -4,36 +4,37 @@ import { sendResponse } from "../../utility/sendResponse";
 import httpstatus from "http-status";
 import { substationService } from "./substation.service";
 const createSubstation = catchAsync(async (req: Request, res: Response) => {
-	const result = await substationService.createSubstation(req.body);
-	sendResponse(res, {
-		success: true,
-		statusCode: httpstatus.CREATED,
-		message: "Substation Created successfull!",
-		data: result,
-	});
+  const result = await substationService.createSubstation(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpstatus.CREATED,
+    message: "Substation Created successfull!",
+    data: result,
+  });
 });
 const getAllSubstation = catchAsync(async (req: Request, res: Response) => {
-	const result = await substationService.getAllSubstation();
-	sendResponse(res, {
-		success: true,
-		statusCode: httpstatus.OK,
-		message: "substation retrive successfull!",
-		data: result,
-	});
+  const { data, meta } = await substationService.getAllSubstation(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpstatus.OK,
+    message: "substation retrive successfull!",
+    data,
+    meta,
+  });
 });
 const zoneWiseSubstation = catchAsync(async (req: Request, res: Response) => {
-	const query = req.query.zoneId;
-	const result = await substationService.zoneWiseSubstation(query as string);
-	sendResponse(res, {
-		success: true,
-		statusCode: httpstatus.OK,
-		message: "substation retrive successfull!",
-		data: result,
-	});
+  const query = req.query.zoneId;
+  const result = await substationService.zoneWiseSubstation(query as string);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpstatus.OK,
+    message: "substation retrive successfull!",
+    data: result,
+  });
 });
 
 export const substationController = {
-	createSubstation,
-	getAllSubstation,
-	zoneWiseSubstation,
+  createSubstation,
+  getAllSubstation,
+  zoneWiseSubstation,
 };
