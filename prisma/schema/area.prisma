@@ -1,18 +1,20 @@
 model Area {
   id          String     @id @default(uuid())
   name        String
+  priority    Priority   @default(LOW)
   code        String     @unique
   description String
   status      AreaStatus @default(ACTIVE)
 
-  feederId     String
-  feeder       Feeder         @relation(fields: [feederId], references: [id])
-  outage       Outage[]
-  outageReport OutageReport[]
-  user         User?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  deletedAt    DateTime?
+  feederId       String
+  feeder         Feeder           @relation(fields: [feederId], references: [id])
+  outage         Outage[]
+  outageReport   OutageReport[]
+  outageSchedule OutageSchedule[]
+  user           User?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  deletedAt      DateTime?
 
   @@index([feederId])
   @@index([status])

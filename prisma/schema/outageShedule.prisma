@@ -1,0 +1,19 @@
+model OutageSchedule {
+    id       String @id @default(uuid())
+    
+    feederId String
+    feeder   Feeder @relation(fields: [feederId], references: [id])
+    areaId   String
+    area     Area   @relation(fields: [areaId], references: [id])
+
+    dayOfWeek DayOfWeek
+    startTime String
+    endTime   String
+    isActive  Boolean   @default(true)
+    reason    String?   @default("Routine Load Shedding")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("outage_schedules")
+}

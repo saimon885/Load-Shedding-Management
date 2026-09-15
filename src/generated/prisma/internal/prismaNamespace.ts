@@ -403,6 +403,7 @@ export const ModelName = {
   Notification: 'Notification',
   Outage: 'Outage',
   OutageReport: 'OutageReport',
+  OutageSchedule: 'OutageSchedule',
   Profile: 'Profile',
   Substation: 'Substation',
   TechnicianAssign: 'TechnicianAssign',
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "feeder" | "area" | "auditLog" | "notification" | "outage" | "outageReport" | "profile" | "substation" | "technicianAssign" | "user" | "zone"
+    modelProps: "feeder" | "area" | "auditLog" | "notification" | "outage" | "outageReport" | "outageSchedule" | "profile" | "substation" | "technicianAssign" | "user" | "zone"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -871,6 +872,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OutageSchedule: {
+      payload: Prisma.$OutageSchedulePayload<ExtArgs>
+      fields: Prisma.OutageScheduleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OutageScheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OutageScheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        findFirst: {
+          args: Prisma.OutageScheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OutageScheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        findMany: {
+          args: Prisma.OutageScheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>[]
+        }
+        create: {
+          args: Prisma.OutageScheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        createMany: {
+          args: Prisma.OutageScheduleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OutageScheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>[]
+        }
+        delete: {
+          args: Prisma.OutageScheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        update: {
+          args: Prisma.OutageScheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        deleteMany: {
+          args: Prisma.OutageScheduleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OutageScheduleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OutageScheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>[]
+        }
+        upsert: {
+          args: Prisma.OutageScheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutageSchedulePayload>
+        }
+        aggregate: {
+          args: Prisma.OutageScheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOutageSchedule>
+        }
+        groupBy: {
+          args: Prisma.OutageScheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OutageScheduleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OutageScheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OutageScheduleCountAggregateOutputType> | number
+        }
+      }
+    }
     Profile: {
       payload: Prisma.$ProfilePayload<ExtArgs>
       fields: Prisma.ProfileFieldRefs
@@ -1298,6 +1373,7 @@ export type FeederScalarFieldEnum = (typeof FeederScalarFieldEnum)[keyof typeof 
 export const AreaScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  priority: 'priority',
   code: 'code',
   description: 'description',
   status: 'status',
@@ -1368,6 +1444,22 @@ export const OutageReportScalarFieldEnum = {
 } as const
 
 export type OutageReportScalarFieldEnum = (typeof OutageReportScalarFieldEnum)[keyof typeof OutageReportScalarFieldEnum]
+
+
+export const OutageScheduleScalarFieldEnum = {
+  id: 'id',
+  feederId: 'feederId',
+  areaId: 'areaId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isActive: 'isActive',
+  reason: 'reason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OutageScheduleScalarFieldEnum = (typeof OutageScheduleScalarFieldEnum)[keyof typeof OutageScheduleScalarFieldEnum]
 
 
 export const ProfileScalarFieldEnum = {
@@ -1545,6 +1637,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Priority'
+ */
+export type EnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority'>
+    
+
+
+/**
+ * Reference to a field of type 'Priority[]'
+ */
+export type ListEnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority[]'>
+    
+
+
+/**
  * Reference to a field of type 'AreaStatus'
  */
 export type EnumAreaStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AreaStatus'>
@@ -1632,6 +1738,20 @@ export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'ReportStatus[]'
  */
 export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek'
+ */
+export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek[]'
+ */
+export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
     
 
 
@@ -1875,6 +1995,7 @@ export type GlobalOmitConfig = {
   notification?: Prisma.NotificationOmit
   outage?: Prisma.OutageOmit
   outageReport?: Prisma.OutageReportOmit
+  outageSchedule?: Prisma.OutageScheduleOmit
   profile?: Prisma.ProfileOmit
   substation?: Prisma.SubstationOmit
   technicianAssign?: Prisma.TechnicianAssignOmit

@@ -8,7 +8,11 @@ import {
 } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utility/AppError";
-import type { OutageCreatePayload, outageQuery } from "./outage.interface";
+import type {
+  EmergencyPayload,
+  OutageCreatePayload,
+  outageQuery,
+} from "./outage.interface";
 import { createBulkNotifications } from "../notification/notificaton.helper";
 import path from "path";
 import { sendOutageAlertEmail } from "../../utility/sendEmailOutage";
@@ -174,6 +178,174 @@ const getOutage = async (query: outageQuery) => {
   };
 };
 
+const getOutageStates = async () => {
+  const transactionResult = await prisma.$transaction(async (tx) => {
+    const [
+      totalOutages,
+      scheduledOutages,
+      unexpectedOutages,
+      ongoingOutages,
+      restoredOutages,
+      restoredList,
+    ] = await Promise.all([
+      tx.outage.count(),
+      tx.outage.count({ where: { type: "SCHEDULED" } }),
+      tx.outage.count({ where: { type: "UNEXPECTED" } }),
+      tx.outage.count({ where: { status: "ONGOING" } }),
+      tx.outage.count({ where: { status: "RESTORED" } }),
+
+      tx.outage.findMany({
+        where: {
+          status: "RESTORED",
+          actualRestorationTime: { not: null },
+        },
+        select: {
+          startTime: true,
+          actualRestorationTime: true,
+        },
+      }),
+    ]);
+
+    let averageRestorationTime = 0;
+
+    if (restoredList.length > 0) {
+      const totalMinutes = restoredList.reduce((acc, item) => {
+        const start = new Date(item.startTime).getTime();
+        const end = new Date(item.actualRestorationTime!).getTime();
+
+        const diffMs = Math.abs(end - start);
+        return acc + diffMs / (1000 * 60);
+      }, 0);
+
+      averageRestorationTime = Math.round(totalMinutes / restoredList.length);
+    }
+
+    return {
+      totalOutages,
+      scheduledOutages,
+      unexpectedOutages,
+      ongoingOutages,
+      restoredOutages,
+      averageRestorationTime,
+    };
+  });
+
+  return transactionResult;
+};
+
+const createEmergencyOutageService = async (
+  payload: EmergencyPayload,
+  userId: string,
+) => {
+  const { feederId, durationInMinutes, reason } = payload;
+
+  const priorityOrder = {
+    LOW: 1,
+    MEDIUM: 2,
+    HIGH: 3,
+  };
+
+  const feederWithAreas = await prisma.feeder.findUnique({
+    where: { id: feederId },
+    include: {
+      areas: true,
+    },
+  });
+
+  if (!feederWithAreas || feederWithAreas.areas.length === 0) {
+    throw new AppError(httpStatus.NOT_FOUND, "No areas found for this feeder!");
+  }
+
+  const sortedAreas = feederWithAreas.areas.sort(
+    (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority],
+  );
+
+  const startTime = new Date();
+  const estimatedRestorationTime = new Date(
+    startTime.getTime() + Number(durationInMinutes) * 60 * 1000,
+  );
+
+  let selectedArea = null;
+
+  for (const area of sortedAreas) {
+    const activeOutage = await prisma.outage.findFirst({
+      where: {
+        areaId: area.id,
+        status: {
+          in: [OutageStatus.ONGOING, OutageStatus.SCHEDULED],
+        },
+      },
+    });
+
+    if (!activeOutage) {
+      selectedArea = area;
+      break;
+    }
+  }
+
+  if (!selectedArea) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "All areas under this feeder are already experiencing power outages!",
+    );
+  }
+
+  const emergencyOutage = await prisma.outage.create({
+    data: {
+      areaId: selectedArea.id,
+      feederId: feederId,
+      type: "UNEXPECTED",
+      status: "ONGOING",
+      reason:
+        reason ||
+        `Emergency Load Shedding triggered (Priority: ${selectedArea.priority})`,
+      startTime,
+      estimatedRestorationTime,
+      createdBy: userId,
+    },
+    include: {
+      area: true,
+    },
+  });
+
+  if (selectedArea.id) {
+    const areaCustomers = await prisma.user.findMany({
+      where: {
+        areaId: selectedArea.id,
+        // role: UserRole.CUSTOMER,
+      },
+      select: { id: true, email: true },
+    });
+
+    const customerIds = areaCustomers.map((user) => user.id);
+    const customerEmails = areaCustomers
+      .map((user) => user.email)
+      .filter((email): email is string => Boolean(email));
+
+    if (customerIds.length > 0) {
+      await createBulkNotifications(
+        customerIds,
+        `Emergency power outage detected in your area due to: ${emergencyOutage.reason}.`,
+        NotificationType.OUTAGE_ALERT,
+      );
+    }
+
+    if (customerEmails.length > 0) {
+      await sendOutageAlertEmail({
+        emails: customerEmails,
+        areaName: selectedArea.name,
+        type: emergencyOutage.type,
+        reason: emergencyOutage.reason,
+        startTime: emergencyOutage.startTime.toString(),
+        estimatedRestorationTime:
+          emergencyOutage.estimatedRestorationTime?.toString(),
+      });
+    }
+  }
+
+  return emergencyOutage;
+};
+
 const getSingleOutage = async (outageId: string) => {
   const result = await prisma.outage.findUnique({
     where: {
@@ -243,6 +415,7 @@ const updateOutageStatus = async (
 
   return result;
 };
+
 const deleteOutage = async (outageId: string) => {
   const outage = await prisma.outage.findUnique({
     where: {
@@ -269,4 +442,6 @@ export const outageService = {
   getSingleOutage,
   updateOutageStatus,
   deleteOutage,
+  getOutageStates,
+  createEmergencyOutageService,
 };

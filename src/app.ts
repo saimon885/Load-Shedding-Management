@@ -33,6 +33,7 @@ app.use("/api/v1/outages", outageRoutes);
 app.use("/api/v1/outage-reports", outageReportRoutes);
 app.use("/api/v1/assignments", AssignmentRoutes);
 app.use("/api/v1/notifications", NotificationRoutes);
+app.use("/api/v1/schedules", NotificationRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

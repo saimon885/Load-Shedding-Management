@@ -57,6 +57,7 @@ export const ModelName = {
   Notification: 'Notification',
   Outage: 'Outage',
   OutageReport: 'OutageReport',
+  OutageSchedule: 'OutageSchedule',
   Profile: 'Profile',
   Substation: 'Substation',
   TechnicianAssign: 'TechnicianAssign',
@@ -98,6 +99,7 @@ export type FeederScalarFieldEnum = (typeof FeederScalarFieldEnum)[keyof typeof 
 export const AreaScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  priority: 'priority',
   code: 'code',
   description: 'description',
   status: 'status',
@@ -168,6 +170,22 @@ export const OutageReportScalarFieldEnum = {
 } as const
 
 export type OutageReportScalarFieldEnum = (typeof OutageReportScalarFieldEnum)[keyof typeof OutageReportScalarFieldEnum]
+
+
+export const OutageScheduleScalarFieldEnum = {
+  id: 'id',
+  feederId: 'feederId',
+  areaId: 'areaId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isActive: 'isActive',
+  reason: 'reason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OutageScheduleScalarFieldEnum = (typeof OutageScheduleScalarFieldEnum)[keyof typeof OutageScheduleScalarFieldEnum]
 
 
 export const ProfileScalarFieldEnum = {

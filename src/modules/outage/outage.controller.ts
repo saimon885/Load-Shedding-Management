@@ -15,7 +15,6 @@ const createOutage = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
 const getOutage = catchAsync(async (req: Request, res: Response) => {
   const { data, meta } = await outageService.getOutage(req.query);
   sendResponse(res, {
@@ -26,6 +25,32 @@ const getOutage = catchAsync(async (req: Request, res: Response) => {
     meta,
   });
 });
+
+const getOutageStates = catchAsync(async (req: Request, res: Response) => {
+  const result = await outageService.getOutageStates();
+  sendResponse(res, {
+    success: true,
+    message: "outage states Successfull",
+    statusCode: httpstatus.OK,
+    data: result,
+  });
+});
+const createEmergencyOutage = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.userId;
+
+    const result = await outageService.createEmergencyOutageService(
+      req.body,
+      userId as string,
+    );
+    sendResponse(res, {
+      success: true,
+      message: "EmergencyOutage Created Successfull",
+      statusCode: httpstatus.CREATED,
+      data: result,
+    });
+  },
+);
 
 const getSingleOutage = catchAsync(async (req: Request, res: Response) => {
   const result = await outageService.getSingleOutage(req.params.id as string);
@@ -66,4 +91,6 @@ export const outageController = {
   getSingleOutage,
   updateOutageStatus,
   deleteOutage,
+  getOutageStates,
+  createEmergencyOutage,
 };

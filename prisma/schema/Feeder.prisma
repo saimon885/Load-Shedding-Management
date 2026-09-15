@@ -10,6 +10,7 @@ model Feeder {
 
   areas        Area[]
   outage Outage[]
+  outageSchedule OutageSchedule[]
 
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt

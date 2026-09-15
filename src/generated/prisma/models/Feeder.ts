@@ -251,6 +251,7 @@ export type FeederWhereInput = {
   substation?: Prisma.XOR<Prisma.SubstationScalarRelationFilter, Prisma.SubstationWhereInput>
   areas?: Prisma.AreaListRelationFilter
   outage?: Prisma.OutageListRelationFilter
+  outageSchedule?: Prisma.OutageScheduleListRelationFilter
 }
 
 export type FeederOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type FeederOrderByWithRelationInput = {
   substation?: Prisma.SubstationOrderByWithRelationInput
   areas?: Prisma.AreaOrderByRelationAggregateInput
   outage?: Prisma.OutageOrderByRelationAggregateInput
+  outageSchedule?: Prisma.OutageScheduleOrderByRelationAggregateInput
 }
 
 export type FeederWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type FeederWhereUniqueInput = Prisma.AtLeast<{
   substation?: Prisma.XOR<Prisma.SubstationScalarRelationFilter, Prisma.SubstationWhereInput>
   areas?: Prisma.AreaListRelationFilter
   outage?: Prisma.OutageListRelationFilter
+  outageSchedule?: Prisma.OutageScheduleListRelationFilter
 }, "id" | "code">
 
 export type FeederOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type FeederCreateInput = {
   substation: Prisma.SubstationCreateNestedOneWithoutFeederInput
   areas?: Prisma.AreaCreateNestedManyWithoutFeederInput
   outage?: Prisma.OutageCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleCreateNestedManyWithoutFeederInput
 }
 
 export type FeederUncheckedCreateInput = {
@@ -344,6 +348,7 @@ export type FeederUncheckedCreateInput = {
   deletedAt?: Date | string | null
   areas?: Prisma.AreaUncheckedCreateNestedManyWithoutFeederInput
   outage?: Prisma.OutageUncheckedCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedCreateNestedManyWithoutFeederInput
 }
 
 export type FeederUpdateInput = {
@@ -358,6 +363,7 @@ export type FeederUpdateInput = {
   substation?: Prisma.SubstationUpdateOneRequiredWithoutFeederNestedInput
   areas?: Prisma.AreaUpdateManyWithoutFeederNestedInput
   outage?: Prisma.OutageUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederUncheckedUpdateInput = {
@@ -372,6 +378,7 @@ export type FeederUncheckedUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   areas?: Prisma.AreaUncheckedUpdateManyWithoutFeederNestedInput
   outage?: Prisma.OutageUncheckedUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederCreateManyInput = {
@@ -520,6 +527,20 @@ export type FeederUpdateOneRequiredWithoutOutageNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FeederUpdateToOneWithWhereWithoutOutageInput, Prisma.FeederUpdateWithoutOutageInput>, Prisma.FeederUncheckedUpdateWithoutOutageInput>
 }
 
+export type FeederCreateNestedOneWithoutOutageScheduleInput = {
+  create?: Prisma.XOR<Prisma.FeederCreateWithoutOutageScheduleInput, Prisma.FeederUncheckedCreateWithoutOutageScheduleInput>
+  connectOrCreate?: Prisma.FeederCreateOrConnectWithoutOutageScheduleInput
+  connect?: Prisma.FeederWhereUniqueInput
+}
+
+export type FeederUpdateOneRequiredWithoutOutageScheduleNestedInput = {
+  create?: Prisma.XOR<Prisma.FeederCreateWithoutOutageScheduleInput, Prisma.FeederUncheckedCreateWithoutOutageScheduleInput>
+  connectOrCreate?: Prisma.FeederCreateOrConnectWithoutOutageScheduleInput
+  upsert?: Prisma.FeederUpsertWithoutOutageScheduleInput
+  connect?: Prisma.FeederWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FeederUpdateToOneWithWhereWithoutOutageScheduleInput, Prisma.FeederUpdateWithoutOutageScheduleInput>, Prisma.FeederUncheckedUpdateWithoutOutageScheduleInput>
+}
+
 export type FeederCreateNestedManyWithoutSubstationInput = {
   create?: Prisma.XOR<Prisma.FeederCreateWithoutSubstationInput, Prisma.FeederUncheckedCreateWithoutSubstationInput> | Prisma.FeederCreateWithoutSubstationInput[] | Prisma.FeederUncheckedCreateWithoutSubstationInput[]
   connectOrCreate?: Prisma.FeederCreateOrConnectWithoutSubstationInput | Prisma.FeederCreateOrConnectWithoutSubstationInput[]
@@ -573,6 +594,7 @@ export type FeederCreateWithoutAreasInput = {
   deletedAt?: Date | string | null
   substation: Prisma.SubstationCreateNestedOneWithoutFeederInput
   outage?: Prisma.OutageCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleCreateNestedManyWithoutFeederInput
 }
 
 export type FeederUncheckedCreateWithoutAreasInput = {
@@ -586,6 +608,7 @@ export type FeederUncheckedCreateWithoutAreasInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   outage?: Prisma.OutageUncheckedCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedCreateNestedManyWithoutFeederInput
 }
 
 export type FeederCreateOrConnectWithoutAreasInput = {
@@ -615,6 +638,7 @@ export type FeederUpdateWithoutAreasInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   substation?: Prisma.SubstationUpdateOneRequiredWithoutFeederNestedInput
   outage?: Prisma.OutageUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederUncheckedUpdateWithoutAreasInput = {
@@ -628,6 +652,7 @@ export type FeederUncheckedUpdateWithoutAreasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   outage?: Prisma.OutageUncheckedUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederCreateWithoutOutageInput = {
@@ -641,6 +666,7 @@ export type FeederCreateWithoutOutageInput = {
   deletedAt?: Date | string | null
   substation: Prisma.SubstationCreateNestedOneWithoutFeederInput
   areas?: Prisma.AreaCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleCreateNestedManyWithoutFeederInput
 }
 
 export type FeederUncheckedCreateWithoutOutageInput = {
@@ -654,6 +680,7 @@ export type FeederUncheckedCreateWithoutOutageInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   areas?: Prisma.AreaUncheckedCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedCreateNestedManyWithoutFeederInput
 }
 
 export type FeederCreateOrConnectWithoutOutageInput = {
@@ -683,6 +710,7 @@ export type FeederUpdateWithoutOutageInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   substation?: Prisma.SubstationUpdateOneRequiredWithoutFeederNestedInput
   areas?: Prisma.AreaUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederUncheckedUpdateWithoutOutageInput = {
@@ -696,6 +724,79 @@ export type FeederUncheckedUpdateWithoutOutageInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   areas?: Prisma.AreaUncheckedUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedUpdateManyWithoutFeederNestedInput
+}
+
+export type FeederCreateWithoutOutageScheduleInput = {
+  id?: string
+  name: string
+  code: string
+  capacity?: number | null
+  status?: $Enums.FeederStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  substation: Prisma.SubstationCreateNestedOneWithoutFeederInput
+  areas?: Prisma.AreaCreateNestedManyWithoutFeederInput
+  outage?: Prisma.OutageCreateNestedManyWithoutFeederInput
+}
+
+export type FeederUncheckedCreateWithoutOutageScheduleInput = {
+  id?: string
+  name: string
+  code: string
+  capacity?: number | null
+  status?: $Enums.FeederStatus
+  substationId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  areas?: Prisma.AreaUncheckedCreateNestedManyWithoutFeederInput
+  outage?: Prisma.OutageUncheckedCreateNestedManyWithoutFeederInput
+}
+
+export type FeederCreateOrConnectWithoutOutageScheduleInput = {
+  where: Prisma.FeederWhereUniqueInput
+  create: Prisma.XOR<Prisma.FeederCreateWithoutOutageScheduleInput, Prisma.FeederUncheckedCreateWithoutOutageScheduleInput>
+}
+
+export type FeederUpsertWithoutOutageScheduleInput = {
+  update: Prisma.XOR<Prisma.FeederUpdateWithoutOutageScheduleInput, Prisma.FeederUncheckedUpdateWithoutOutageScheduleInput>
+  create: Prisma.XOR<Prisma.FeederCreateWithoutOutageScheduleInput, Prisma.FeederUncheckedCreateWithoutOutageScheduleInput>
+  where?: Prisma.FeederWhereInput
+}
+
+export type FeederUpdateToOneWithWhereWithoutOutageScheduleInput = {
+  where?: Prisma.FeederWhereInput
+  data: Prisma.XOR<Prisma.FeederUpdateWithoutOutageScheduleInput, Prisma.FeederUncheckedUpdateWithoutOutageScheduleInput>
+}
+
+export type FeederUpdateWithoutOutageScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumFeederStatusFieldUpdateOperationsInput | $Enums.FeederStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  substation?: Prisma.SubstationUpdateOneRequiredWithoutFeederNestedInput
+  areas?: Prisma.AreaUpdateManyWithoutFeederNestedInput
+  outage?: Prisma.OutageUpdateManyWithoutFeederNestedInput
+}
+
+export type FeederUncheckedUpdateWithoutOutageScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumFeederStatusFieldUpdateOperationsInput | $Enums.FeederStatus
+  substationId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  areas?: Prisma.AreaUncheckedUpdateManyWithoutFeederNestedInput
+  outage?: Prisma.OutageUncheckedUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederCreateWithoutSubstationInput = {
@@ -709,6 +810,7 @@ export type FeederCreateWithoutSubstationInput = {
   deletedAt?: Date | string | null
   areas?: Prisma.AreaCreateNestedManyWithoutFeederInput
   outage?: Prisma.OutageCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleCreateNestedManyWithoutFeederInput
 }
 
 export type FeederUncheckedCreateWithoutSubstationInput = {
@@ -722,6 +824,7 @@ export type FeederUncheckedCreateWithoutSubstationInput = {
   deletedAt?: Date | string | null
   areas?: Prisma.AreaUncheckedCreateNestedManyWithoutFeederInput
   outage?: Prisma.OutageUncheckedCreateNestedManyWithoutFeederInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedCreateNestedManyWithoutFeederInput
 }
 
 export type FeederCreateOrConnectWithoutSubstationInput = {
@@ -787,6 +890,7 @@ export type FeederUpdateWithoutSubstationInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   areas?: Prisma.AreaUpdateManyWithoutFeederNestedInput
   outage?: Prisma.OutageUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederUncheckedUpdateWithoutSubstationInput = {
@@ -800,6 +904,7 @@ export type FeederUncheckedUpdateWithoutSubstationInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   areas?: Prisma.AreaUncheckedUpdateManyWithoutFeederNestedInput
   outage?: Prisma.OutageUncheckedUpdateManyWithoutFeederNestedInput
+  outageSchedule?: Prisma.OutageScheduleUncheckedUpdateManyWithoutFeederNestedInput
 }
 
 export type FeederUncheckedUpdateManyWithoutSubstationInput = {
@@ -821,11 +926,13 @@ export type FeederUncheckedUpdateManyWithoutSubstationInput = {
 export type FeederCountOutputType = {
   areas: number
   outage: number
+  outageSchedule: number
 }
 
 export type FeederCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   areas?: boolean | FeederCountOutputTypeCountAreasArgs
   outage?: boolean | FeederCountOutputTypeCountOutageArgs
+  outageSchedule?: boolean | FeederCountOutputTypeCountOutageScheduleArgs
 }
 
 /**
@@ -852,6 +959,13 @@ export type FeederCountOutputTypeCountOutageArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.OutageWhereInput
 }
 
+/**
+ * FeederCountOutputType without action
+ */
+export type FeederCountOutputTypeCountOutageScheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OutageScheduleWhereInput
+}
+
 
 export type FeederSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -866,6 +980,7 @@ export type FeederSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   substation?: boolean | Prisma.SubstationDefaultArgs<ExtArgs>
   areas?: boolean | Prisma.Feeder$areasArgs<ExtArgs>
   outage?: boolean | Prisma.Feeder$outageArgs<ExtArgs>
+  outageSchedule?: boolean | Prisma.Feeder$outageScheduleArgs<ExtArgs>
   _count?: boolean | Prisma.FeederCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feeder"]>
 
@@ -912,6 +1027,7 @@ export type FeederInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   substation?: boolean | Prisma.SubstationDefaultArgs<ExtArgs>
   areas?: boolean | Prisma.Feeder$areasArgs<ExtArgs>
   outage?: boolean | Prisma.Feeder$outageArgs<ExtArgs>
+  outageSchedule?: boolean | Prisma.Feeder$outageScheduleArgs<ExtArgs>
   _count?: boolean | Prisma.FeederCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FeederIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -927,6 +1043,7 @@ export type $FeederPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     substation: Prisma.$SubstationPayload<ExtArgs>
     areas: Prisma.$AreaPayload<ExtArgs>[]
     outage: Prisma.$OutagePayload<ExtArgs>[]
+    outageSchedule: Prisma.$OutageSchedulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1335,6 +1452,7 @@ export interface Prisma__FeederClient<T, Null = never, ExtArgs extends runtime.T
   substation<T extends Prisma.SubstationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubstationDefaultArgs<ExtArgs>>): Prisma.Prisma__SubstationClient<runtime.Types.Result.GetResult<Prisma.$SubstationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   areas<T extends Prisma.Feeder$areasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Feeder$areasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   outage<T extends Prisma.Feeder$outageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Feeder$outageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  outageSchedule<T extends Prisma.Feeder$outageScheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Feeder$outageScheduleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutageSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1819,6 +1937,30 @@ export type Feeder$outageArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.OutageScalarFieldEnum | Prisma.OutageScalarFieldEnum[]
+}
+
+/**
+ * Feeder.outageSchedule
+ */
+export type Feeder$outageScheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OutageSchedule
+   */
+  select?: Prisma.OutageScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OutageSchedule
+   */
+  omit?: Prisma.OutageScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OutageScheduleInclude<ExtArgs> | null
+  where?: Prisma.OutageScheduleWhereInput
+  orderBy?: Prisma.OutageScheduleOrderByWithRelationInput | Prisma.OutageScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.OutageScheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OutageScheduleScalarFieldEnum | Prisma.OutageScheduleScalarFieldEnum[]
 }
 
 /**

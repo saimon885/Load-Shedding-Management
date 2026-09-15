@@ -19,3 +19,9 @@ export interface outageQuery {
   limit?: string;
   page?: string;
 }
+
+export interface EmergencyPayload {
+  feederId: string;
+  durationInMinutes: number;
+  reason?: string;
+}

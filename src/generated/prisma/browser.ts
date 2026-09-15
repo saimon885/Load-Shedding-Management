@@ -48,6 +48,11 @@ export type Outage = Prisma.OutageModel
  */
 export type OutageReport = Prisma.OutageReportModel
 /**
+ * Model OutageSchedule
+ * 
+ */
+export type OutageSchedule = Prisma.OutageScheduleModel
+/**
  * Model Profile
  * 
  */

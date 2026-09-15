@@ -65,3 +65,19 @@ enum NotificationType {
     RESTORED_ALERT
     SYSTEM_ALERT
 }
+
+enum Priority {
+    HIGH
+    MEDIUM
+    LOW
+}
+
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
