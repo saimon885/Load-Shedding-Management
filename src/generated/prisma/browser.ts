@@ -53,10 +53,20 @@ export type OutageReport = Prisma.OutageReportModel
  */
 export type OutageSchedule = Prisma.OutageScheduleModel
 /**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
  * Model Profile
  * 
  */
 export type Profile = Prisma.ProfileModel
+/**
+ * Model ServiceRequest
+ * 
+ */
+export type ServiceRequest = Prisma.ServiceRequestModel
 /**
  * Model Substation
  * 

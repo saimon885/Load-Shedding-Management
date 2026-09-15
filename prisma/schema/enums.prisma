@@ -73,11 +73,40 @@ enum Priority {
 }
 
 enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
+    SUNDAY
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+    SATURDAY
+}
+
+enum ServiceType {
+    NEW_CONNECTION
+    METER_INSTALLATION
+    METER_REPLACEMENT
+    TECHNICAL_SERVICE
+}
+
+enum ServiceStatus {
+    PENDING
+    APPROVED
+    IN_PROGRESS
+    COMPLETED
+    REJECTED
+}
+
+enum PaymentStatus {
+    UNPAID
+    PENDING
+    PAID
+    FAILED
+    CANCELLED
+    REFUNDED
+}
+
+enum PaymentGateway {
+    BKASH
+    SSLCOMMERZ
 }

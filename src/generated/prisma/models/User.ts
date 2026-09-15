@@ -227,7 +227,9 @@ export type UserWhereInput = {
   assignments?: Prisma.TechnicianAssignListRelationFilter
   outageReport?: Prisma.OutageReportListRelationFilter
   notification?: Prisma.NotificationListRelationFilter
+  payment?: Prisma.PaymentListRelationFilter
   area?: Prisma.XOR<Prisma.AreaNullableScalarRelationFilter, Prisma.AreaWhereInput> | null
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -246,7 +248,9 @@ export type UserOrderByWithRelationInput = {
   assignments?: Prisma.TechnicianAssignOrderByRelationAggregateInput
   outageReport?: Prisma.OutageReportOrderByRelationAggregateInput
   notification?: Prisma.NotificationOrderByRelationAggregateInput
+  payment?: Prisma.PaymentOrderByRelationAggregateInput
   area?: Prisma.AreaOrderByWithRelationInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -268,7 +272,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   assignments?: Prisma.TechnicianAssignListRelationFilter
   outageReport?: Prisma.OutageReportListRelationFilter
   notification?: Prisma.NotificationListRelationFilter
+  payment?: Prisma.PaymentListRelationFilter
   area?: Prisma.XOR<Prisma.AreaNullableScalarRelationFilter, Prisma.AreaWhereInput> | null
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }, "id" | "email" | "areaId">
 
 export type UserOrderByWithAggregationInput = {
@@ -318,7 +324,9 @@ export type UserCreateInput = {
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -337,6 +345,8 @@ export type UserUncheckedCreateInput = {
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -354,7 +364,9 @@ export type UserUpdateInput = {
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -373,6 +385,8 @@ export type UserUncheckedUpdateInput = {
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -538,6 +552,20 @@ export type UserUpdateOneRequiredWithoutOutageReportNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOutageReportInput, Prisma.UserUpdateWithoutOutageReportInput>, Prisma.UserUncheckedUpdateWithoutOutageReportInput>
 }
 
+export type UserCreateNestedOneWithoutPaymentInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentInput, Prisma.UserUncheckedCreateWithoutPaymentInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaymentNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentInput, Prisma.UserUncheckedCreateWithoutPaymentInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentInput
+  upsert?: Prisma.UserUpsertWithoutPaymentInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentInput, Prisma.UserUpdateWithoutPaymentInput>, Prisma.UserUncheckedUpdateWithoutPaymentInput>
+}
+
 export type UserCreateNestedOneWithoutProfileInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
@@ -550,6 +578,20 @@ export type UserUpdateOneRequiredWithoutProfileNestedInput = {
   upsert?: Prisma.UserUpsertWithoutProfileInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfileInput, Prisma.UserUpdateWithoutProfileInput>, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutServiceRequestsInput, Prisma.UserUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutServiceRequestsInput, Prisma.UserUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.UserUpsertWithoutServiceRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.UserUpdateWithoutServiceRequestsInput>, Prisma.UserUncheckedUpdateWithoutServiceRequestsInput>
 }
 
 export type UserCreateNestedOneWithoutAssignmentsInput = {
@@ -589,6 +631,8 @@ export type UserCreateWithoutAreaInput = {
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAreaInput = {
@@ -606,6 +650,8 @@ export type UserUncheckedCreateWithoutAreaInput = {
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAreaInput = {
@@ -639,6 +685,8 @@ export type UserUpdateWithoutAreaInput = {
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAreaInput = {
@@ -656,6 +704,8 @@ export type UserUncheckedUpdateWithoutAreaInput = {
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogInput = {
@@ -672,7 +722,9 @@ export type UserCreateWithoutAuditLogInput = {
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogInput = {
@@ -690,6 +742,8 @@ export type UserUncheckedCreateWithoutAuditLogInput = {
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogInput = {
@@ -722,7 +776,9 @@ export type UserUpdateWithoutAuditLogInput = {
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogInput = {
@@ -740,6 +796,8 @@ export type UserUncheckedUpdateWithoutAuditLogInput = {
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationInput = {
@@ -756,7 +814,9 @@ export type UserCreateWithoutNotificationInput = {
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationInput = {
@@ -774,6 +834,8 @@ export type UserUncheckedCreateWithoutNotificationInput = {
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationInput = {
@@ -806,7 +868,9 @@ export type UserUpdateWithoutNotificationInput = {
   auditLog?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationInput = {
@@ -824,6 +888,8 @@ export type UserUncheckedUpdateWithoutNotificationInput = {
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOutageReportInput = {
@@ -840,7 +906,9 @@ export type UserCreateWithoutOutageReportInput = {
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOutageReportInput = {
@@ -858,6 +926,8 @@ export type UserUncheckedCreateWithoutOutageReportInput = {
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOutageReportInput = {
@@ -890,7 +960,9 @@ export type UserUpdateWithoutOutageReportInput = {
   auditLog?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOutageReportInput = {
@@ -908,6 +980,100 @@ export type UserUncheckedUpdateWithoutOutageReportInput = {
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPaymentInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  status?: $Enums.userStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  auditLog?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
+  outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
+  notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPaymentInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  areaId?: string | null
+  status?: $Enums.userStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
+  outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
+  notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPaymentInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentInput, Prisma.UserUncheckedCreateWithoutPaymentInput>
+}
+
+export type UserUpsertWithoutPaymentInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentInput, Prisma.UserUncheckedUpdateWithoutPaymentInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentInput, Prisma.UserUncheckedCreateWithoutPaymentInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentInput, Prisma.UserUncheckedUpdateWithoutPaymentInput>
+}
+
+export type UserUpdateWithoutPaymentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  auditLog?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
+  outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
+  notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  areaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
+  outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
+  notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfileInput = {
@@ -924,7 +1090,9 @@ export type UserCreateWithoutProfileInput = {
   assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -942,6 +1110,8 @@ export type UserUncheckedCreateWithoutProfileInput = {
   assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -974,7 +1144,9 @@ export type UserUpdateWithoutProfileInput = {
   assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -992,6 +1164,100 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutServiceRequestsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  status?: $Enums.userStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  auditLog?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  assignments?: Prisma.TechnicianAssignCreateNestedManyWithoutTechnicianInput
+  outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
+  notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  area?: Prisma.AreaCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  areaId?: string | null
+  status?: $Enums.userStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  assignments?: Prisma.TechnicianAssignUncheckedCreateNestedManyWithoutTechnicianInput
+  outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
+  notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutServiceRequestsInput, Prisma.UserUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type UserUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutServiceRequestsInput, Prisma.UserUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutServiceRequestsInput, Prisma.UserUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutServiceRequestsInput, Prisma.UserUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type UserUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  auditLog?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  assignments?: Prisma.TechnicianAssignUpdateManyWithoutTechnicianNestedInput
+  outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
+  notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  areaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumuserStatusFieldUpdateOperationsInput | $Enums.userStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  assignments?: Prisma.TechnicianAssignUncheckedUpdateManyWithoutTechnicianNestedInput
+  outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
+  notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAssignmentsInput = {
@@ -1008,7 +1274,9 @@ export type UserCreateWithoutAssignmentsInput = {
   auditLog?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   outageReport?: Prisma.OutageReportCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutUserInput
   area?: Prisma.AreaCreateNestedOneWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAssignmentsInput = {
@@ -1026,6 +1294,8 @@ export type UserUncheckedCreateWithoutAssignmentsInput = {
   auditLog?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   outageReport?: Prisma.OutageReportUncheckedCreateNestedManyWithoutCustomerInput
   notification?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAssignmentsInput = {
@@ -1058,7 +1328,9 @@ export type UserUpdateWithoutAssignmentsInput = {
   auditLog?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   outageReport?: Prisma.OutageReportUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   area?: Prisma.AreaUpdateOneWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignmentsInput = {
@@ -1076,6 +1348,8 @@ export type UserUncheckedUpdateWithoutAssignmentsInput = {
   auditLog?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   outageReport?: Prisma.OutageReportUncheckedUpdateManyWithoutCustomerNestedInput
   notification?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1088,6 +1362,8 @@ export type UserCountOutputType = {
   assignments: number
   outageReport: number
   notification: number
+  payment: number
+  serviceRequests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1095,6 +1371,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   assignments?: boolean | UserCountOutputTypeCountAssignmentsArgs
   outageReport?: boolean | UserCountOutputTypeCountOutageReportArgs
   notification?: boolean | UserCountOutputTypeCountNotificationArgs
+  payment?: boolean | UserCountOutputTypeCountPaymentArgs
+  serviceRequests?: boolean | UserCountOutputTypeCountServiceRequestsArgs
 }
 
 /**
@@ -1135,6 +1413,20 @@ export type UserCountOutputTypeCountNotificationArgs<ExtArgs extends runtime.Typ
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1152,7 +1444,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   assignments?: boolean | Prisma.User$assignmentsArgs<ExtArgs>
   outageReport?: boolean | Prisma.User$outageReportArgs<ExtArgs>
   notification?: boolean | Prisma.User$notificationArgs<ExtArgs>
+  payment?: boolean | Prisma.User$paymentArgs<ExtArgs>
   area?: boolean | Prisma.User$areaArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.User$serviceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1204,7 +1498,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   assignments?: boolean | Prisma.User$assignmentsArgs<ExtArgs>
   outageReport?: boolean | Prisma.User$outageReportArgs<ExtArgs>
   notification?: boolean | Prisma.User$notificationArgs<ExtArgs>
+  payment?: boolean | Prisma.User$paymentArgs<ExtArgs>
   area?: boolean | Prisma.User$areaArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.User$serviceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1222,7 +1518,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     assignments: Prisma.$TechnicianAssignPayload<ExtArgs>[]
     outageReport: Prisma.$OutageReportPayload<ExtArgs>[]
     notification: Prisma.$NotificationPayload<ExtArgs>[]
+    payment: Prisma.$PaymentPayload<ExtArgs>[]
     area: Prisma.$AreaPayload<ExtArgs> | null
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1634,7 +1932,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   assignments<T extends Prisma.User$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TechnicianAssignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   outageReport<T extends Prisma.User$outageReportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$outageReportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutageReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notification<T extends Prisma.User$notificationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payment<T extends Prisma.User$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   area<T extends Prisma.User$areaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$areaArgs<ExtArgs>>): Prisma.Prisma__AreaClient<runtime.Types.Result.GetResult<Prisma.$AreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  serviceRequests<T extends Prisma.User$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2190,6 +2490,30 @@ export type User$notificationArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * User.payment
+ */
+export type User$paymentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payment
+   */
+  select?: Prisma.PaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payment
+   */
+  omit?: Prisma.PaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentInclude<ExtArgs> | null
+  where?: Prisma.PaymentWhereInput
+  orderBy?: Prisma.PaymentOrderByWithRelationInput | Prisma.PaymentOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
  * User.area
  */
 export type User$areaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2206,6 +2530,30 @@ export type User$areaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   include?: Prisma.AreaInclude<ExtArgs> | null
   where?: Prisma.AreaWhereInput
+}
+
+/**
+ * User.serviceRequests
+ */
+export type User$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
 }
 
 /**

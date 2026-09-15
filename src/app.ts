@@ -13,6 +13,7 @@ import { outageRoutes } from "./modules/outage/outage.routes";
 import { outageReportRoutes } from "./modules/outageReport/outageReport.routes";
 import { AssignmentRoutes } from "./modules/technician_Assignment/assignment.routes";
 import { NotificationRoutes } from "./modules/notification/notification.routes";
+import { ScheduleRoutes } from "./modules/schedules/schedules.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -33,7 +34,7 @@ app.use("/api/v1/outages", outageRoutes);
 app.use("/api/v1/outage-reports", outageReportRoutes);
 app.use("/api/v1/assignments", AssignmentRoutes);
 app.use("/api/v1/notifications", NotificationRoutes);
-app.use("/api/v1/schedules", NotificationRoutes);
+app.use("/api/v1/schedules", ScheduleRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

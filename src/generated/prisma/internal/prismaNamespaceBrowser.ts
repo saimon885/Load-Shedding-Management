@@ -58,7 +58,9 @@ export const ModelName = {
   Outage: 'Outage',
   OutageReport: 'OutageReport',
   OutageSchedule: 'OutageSchedule',
+  Payment: 'Payment',
   Profile: 'Profile',
+  ServiceRequest: 'ServiceRequest',
   Substation: 'Substation',
   TechnicianAssign: 'TechnicianAssign',
   User: 'User',
@@ -188,6 +190,24 @@ export const OutageScheduleScalarFieldEnum = {
 export type OutageScheduleScalarFieldEnum = (typeof OutageScheduleScalarFieldEnum)[keyof typeof OutageScheduleScalarFieldEnum]
 
 
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  serviceRequestId: 'serviceRequestId',
+  userId: 'userId',
+  amount: 'amount',
+  currency: 'currency',
+  gateway: 'gateway',
+  status: 'status',
+  paymentID: 'paymentID',
+  trxID: 'trxID',
+  merchantInvoiceNumber: 'merchantInvoiceNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
 export const ProfileScalarFieldEnum = {
   id: 'id',
   profileImage: 'profileImage',
@@ -200,6 +220,22 @@ export const ProfileScalarFieldEnum = {
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  areaId: 'areaId',
+  type: 'type',
+  description: 'description',
+  amount: 'amount',
+  status: 'status',
+  paymentStatus: 'paymentStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
 
 
 export const SubstationScalarFieldEnum = {

@@ -8,6 +8,7 @@ model Area {
 
   feederId       String
   feeder         Feeder           @relation(fields: [feederId], references: [id])
+  serviceRequest ServiceRequest[]
   outage         Outage[]
   outageReport   OutageReport[]
   outageSchedule OutageSchedule[]

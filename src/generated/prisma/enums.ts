@@ -130,3 +130,44 @@ export const DayOfWeek = {
 } as const
 
 export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
+
+
+export const ServiceType = {
+  NEW_CONNECTION: 'NEW_CONNECTION',
+  METER_INSTALLATION: 'METER_INSTALLATION',
+  METER_REPLACEMENT: 'METER_REPLACEMENT',
+  TECHNICAL_SERVICE: 'TECHNICAL_SERVICE'
+} as const
+
+export type ServiceType = (typeof ServiceType)[keyof typeof ServiceType]
+
+
+export const ServiceStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ServiceStatus = (typeof ServiceStatus)[keyof typeof ServiceStatus]
+
+
+export const PaymentStatus = {
+  UNPAID: 'UNPAID',
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentGateway = {
+  BKASH: 'BKASH',
+  SSLCOMMERZ: 'SSLCOMMERZ'
+} as const
+
+export type PaymentGateway = (typeof PaymentGateway)[keyof typeof PaymentGateway]

@@ -68,42 +68,80 @@ const RegisterUser = async (payload: RegisterPayload) => {
 
 const loginUser = async (payload: LoginPayload) => {
   const { email, password } = payload;
-  const userExist = await prisma.user.findUnique({ where: { email } });
-  if (!userExist) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
   }
-  if (userExist.status === "BLOCKED") {
+  if (user.status === "BLOCKED") {
     throw new AppError(
       httpStatus.FORBIDDEN,
       "Your account is blocked. Please contact support.",
     );
   }
-  const isMatch = await bcrypt.compare(password, userExist.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials");
   }
-  const OTP = crypto.randomInt(100000, 1000000).toString();
-  const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
-  await redisClient.set(LOGIN_OTP_KEY, OTP, {
-    expiration: { type: "EX", value: 5 * 60 },
-  });
-  const tampletPath = path.join(
+  // const OTP = crypto.randomInt(100000, 1000000).toString();
+  // const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
+  // await redisClient.set(LOGIN_OTP_KEY, OTP, {
+  //   expiration: { type: "EX", value: 5 * 60 },
+  // });
+  // const tampletPath = path.join(
+  //   process.cwd(),
+  //   "/src/templates/login.tamplete.ejs",
+  // );
+  // const html = await ejs.renderFile(tampletPath, {
+  //   name: userExist.name,
+  //   OTP,
+  //   expiryMinutes: 5,
+  //   year: new Date().getFullYear(),
+  // });
+  // await transporter.sendMail({
+  //   from: config.email_sender,
+  //   to: email,
+  //   subject: "Login verification - Load Shedding Management",
+  //   html,
+  // });
+  // return { message: "Login OTP sent to your email" };
+
+  const jwtPayload = {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+  const successTemplatePath = path.join(
     process.cwd(),
-    "/src/templates/login.tamplete.ejs",
+    "/src/templates/verification.success.tamplete.ejs",
   );
-  const html = await ejs.renderFile(tampletPath, {
-    name: userExist.name,
-    OTP,
-    expiryMinutes: 5,
+
+  const successHtml = await ejs.renderFile(successTemplatePath, {
+    name: user.name,
+    email: user.email,
     year: new Date().getFullYear(),
   });
+
   await transporter.sendMail({
     from: config.email_sender,
-    to: email,
-    subject: "Login verification - Load Shedding Management",
-    html,
+    to: user.email,
+    subject: "Welcome to Load Shedding Management",
+    html: successHtml,
   });
-  return { message: "Login OTP sent to your email" };
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expire_in || "15m",
+  );
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expire_in || "7d",
+  );
+  const { password: userPassword, ...userWithoutPassword } = user;
+  return { accessToken, refreshToken, user:userWithoutPassword };
 };
 
 const verifyEmail = async (payload: verifyEmailPayload) => {

@@ -212,7 +212,7 @@ export type OutageGroupByOutputType = {
   estimatedRestorationTime: Date | null
   actualRestorationTime: Date | null
   restorationNote: string | null
-  createdBy: string
+  createdBy: string | null
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
@@ -250,7 +250,7 @@ export type OutageWhereInput = {
   estimatedRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   actualRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   restorationNote?: Prisma.StringNullableFilter<"Outage"> | string | null
-  createdBy?: Prisma.StringFilter<"Outage"> | string
+  createdBy?: Prisma.StringNullableFilter<"Outage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
@@ -271,7 +271,7 @@ export type OutageOrderByWithRelationInput = {
   estimatedRestorationTime?: Prisma.SortOrderInput | Prisma.SortOrder
   actualRestorationTime?: Prisma.SortOrderInput | Prisma.SortOrder
   restorationNote?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
+  createdBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -295,7 +295,7 @@ export type OutageWhereUniqueInput = Prisma.AtLeast<{
   estimatedRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   actualRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   restorationNote?: Prisma.StringNullableFilter<"Outage"> | string | null
-  createdBy?: Prisma.StringFilter<"Outage"> | string
+  createdBy?: Prisma.StringNullableFilter<"Outage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
@@ -316,7 +316,7 @@ export type OutageOrderByWithAggregationInput = {
   estimatedRestorationTime?: Prisma.SortOrderInput | Prisma.SortOrder
   actualRestorationTime?: Prisma.SortOrderInput | Prisma.SortOrder
   restorationNote?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
+  createdBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -339,7 +339,7 @@ export type OutageScalarWhereWithAggregatesInput = {
   estimatedRestorationTime?: Prisma.DateTimeNullableWithAggregatesFilter<"Outage"> | Date | string | null
   actualRestorationTime?: Prisma.DateTimeNullableWithAggregatesFilter<"Outage"> | Date | string | null
   restorationNote?: Prisma.StringNullableWithAggregatesFilter<"Outage"> | string | null
-  createdBy?: Prisma.StringWithAggregatesFilter<"Outage"> | string
+  createdBy?: Prisma.StringNullableWithAggregatesFilter<"Outage"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Outage"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Outage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Outage"> | Date | string | null
@@ -354,7 +354,7 @@ export type OutageCreateInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -375,7 +375,7 @@ export type OutageUncheckedCreateInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -392,7 +392,7 @@ export type OutageUpdateInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -413,7 +413,7 @@ export type OutageUncheckedUpdateInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -432,7 +432,7 @@ export type OutageCreateManyInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -447,7 +447,7 @@ export type OutageUpdateManyMutationInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -464,7 +464,7 @@ export type OutageUncheckedUpdateManyInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -672,7 +672,7 @@ export type OutageCreateWithoutFeederInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -691,7 +691,7 @@ export type OutageUncheckedCreateWithoutFeederInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -739,7 +739,7 @@ export type OutageScalarWhereInput = {
   estimatedRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   actualRestorationTime?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
   restorationNote?: Prisma.StringNullableFilter<"Outage"> | string | null
-  createdBy?: Prisma.StringFilter<"Outage"> | string
+  createdBy?: Prisma.StringNullableFilter<"Outage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Outage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Outage"> | Date | string | null
@@ -754,7 +754,7 @@ export type OutageCreateWithoutAreaInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -773,7 +773,7 @@ export type OutageUncheckedCreateWithoutAreaInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -816,7 +816,7 @@ export type OutageCreateWithoutOutageReportInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -836,7 +836,7 @@ export type OutageUncheckedCreateWithoutOutageReportInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -868,7 +868,7 @@ export type OutageUpdateWithoutOutageReportInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -888,7 +888,7 @@ export type OutageUncheckedUpdateWithoutOutageReportInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -904,7 +904,7 @@ export type OutageCreateWithoutAssignmentsInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -924,7 +924,7 @@ export type OutageUncheckedCreateWithoutAssignmentsInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -956,7 +956,7 @@ export type OutageUpdateWithoutAssignmentsInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -976,7 +976,7 @@ export type OutageUncheckedUpdateWithoutAssignmentsInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -993,7 +993,7 @@ export type OutageCreateManyFeederInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1008,7 +1008,7 @@ export type OutageUpdateWithoutFeederInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1027,7 +1027,7 @@ export type OutageUncheckedUpdateWithoutFeederInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1045,7 +1045,7 @@ export type OutageUncheckedUpdateManyWithoutFeederInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1061,7 +1061,7 @@ export type OutageCreateManyAreaInput = {
   estimatedRestorationTime?: Date | string | null
   actualRestorationTime?: Date | string | null
   restorationNote?: string | null
-  createdBy: string
+  createdBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1076,7 +1076,7 @@ export type OutageUpdateWithoutAreaInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1095,7 +1095,7 @@ export type OutageUncheckedUpdateWithoutAreaInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1113,7 +1113,7 @@ export type OutageUncheckedUpdateManyWithoutAreaInput = {
   estimatedRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualRestorationTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   restorationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1272,7 +1272,7 @@ export type $OutagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     estimatedRestorationTime: Date | null
     actualRestorationTime: Date | null
     restorationNote: string | null
-    createdBy: string
+    createdBy: string | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null

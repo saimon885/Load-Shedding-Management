@@ -1,20 +1,23 @@
 model User {
-    id           String             @id @default(uuid())
-    name         String?
-    email        String             @unique
-    password     String
-    role         UserRole           @default(CUSTOMER)
-    profile      Profile?
-    auditLog     AuditLog[]
-    assignments  TechnicianAssign[]
-    outageReport OutageReport[]
-    notification Notification[]
-    areaId       String?            @unique
-    area         Area?              @relation(fields: [areaId], references: [id])
-    status       userStatus         @default(ACTIVE)
-    createdAt    DateTime           @default(now())
-    updatedAt    DateTime           @updatedAt
-    deletedAt    DateTime?
+    id              String             @id @default(uuid())
+    name            String?
+    email           String             @unique
+    password        String
+    role            UserRole           @default(CUSTOMER)
+    profile         Profile?
+    auditLog        AuditLog[]
+    assignments     TechnicianAssign[]
+    outageReport    OutageReport[]
+    notification    Notification[]
+    payment         Payment[]
+   
+    areaId          String?            @unique
+    area            Area?              @relation(fields: [areaId], references: [id])
+    status          userStatus         @default(ACTIVE)
+    createdAt       DateTime           @default(now())
+    updatedAt       DateTime           @updatedAt
+    deletedAt       DateTime?
+    serviceRequests ServiceRequest[]
 
     @@map("users")
 }

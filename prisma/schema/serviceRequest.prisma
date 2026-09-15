@@ -1,0 +1,19 @@
+model ServiceRequest {
+    id     String @id @default(uuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+    areaId String
+    area   Area   @relation(fields: [areaId], references: [id])
+
+    type          ServiceType
+    description   String
+    amount        Float
+    status        ServiceStatus @default(PENDING)
+    paymentStatus PaymentStatus @default(UNPAID)
+
+    payments  Payment[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@map("service_requests")
+}
