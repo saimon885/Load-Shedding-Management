@@ -17,6 +17,11 @@ enum zoneStatus {
     INACTIVE
 }
 
+enum authProviderName {
+    GOOGLE
+    CREDENTIALS
+}
+
 enum substationStatus {
     ACTIVE
     INACTIVE

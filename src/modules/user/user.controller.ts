@@ -4,6 +4,7 @@ import { catchAsync } from "../../utility/catchAsync";
 import { AppError } from "../../utility/AppError";
 import { userService } from "./user.service";
 import { sendResponse } from "../../utility/sendResponse";
+
 const getMyProfile = catchAsync(async (req: Request, res: Response) => {
 	const user = req.user;
 	const userId = user?.userId;
@@ -12,6 +13,15 @@ const getMyProfile = catchAsync(async (req: Request, res: Response) => {
 		success: true,
 		statusCode: httpstatus.OK,
 		message: "user profile retrive successfull!",
+		data: result,
+	});
+});
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
+	const result = await userService.getAllUser();
+	sendResponse(res, {
+		success: true,
+		statusCode: httpstatus.OK,
+		message: "all user successfull!",
 		data: result,
 	});
 });
@@ -44,4 +54,5 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 export const userController = {
 	getMyProfile,
 	updateMyProfile,
+	getAllUser
 };

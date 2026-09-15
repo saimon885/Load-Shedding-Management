@@ -5,15 +5,20 @@ import { assignmentController } from "./assignment.controller";
 
 const router = Router();
 router.post(
-	"/create",
-	auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
-	assignmentController.createAssignment,
+  "/create",
+  auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
+  assignmentController.createAssignment,
+);
+router.get(
+  "/all-technician",
+  auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
+  assignmentController.getAllTechnician,
 );
 
 router.patch(
-	"/status/:id",
-	auth(UserRole.ADMIN, UserRole.TECHNICIAN),
-	assignmentController.updateAssignmentStatus,
+  "/status/:id",
+  auth(UserRole.ADMIN, UserRole.TECHNICIAN),
+  assignmentController.updateAssignmentStatus,
 );
 
 export const AssignmentRoutes = router;

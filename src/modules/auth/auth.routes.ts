@@ -5,29 +5,30 @@ import { authController } from "./auth.controller";
 
 const router = Router();
 router.post(
-	"/register",
-	validatonRequest(authValidation.zodRegisterSchema),
-	authController.RegisterUser,
+  "/register",
+  validatonRequest(authValidation.zodRegisterSchema),
+  authController.RegisterUser,
 );
 router.post(
-	"/login",
-	validatonRequest(authValidation.zodLoginSchema),
-	authController.LoginUser,
+  "/login",
+  validatonRequest(authValidation.zodLoginSchema),
+  authController.LoginUser,
 );
 router.post(
-	"/verify-email",
-	validatonRequest(authValidation.zodtVerifySchema),
-	authController.verifyEmail,
+  "/verify-email",
+  validatonRequest(authValidation.zodtVerifySchema),
+  authController.verifyEmail,
+);
+router.post("/google", authController.googleLogin);
+router.post(
+  "/forgot-password",
+  validatonRequest(authValidation.zodForgotSchema),
+  authController.ForgotPassword,
 );
 router.post(
-	"/forgot-password",
-	validatonRequest(authValidation.zodForgotSchema),
-	authController.ForgotPassword,
-);
-router.post(
-	"/reset-password",
-	validatonRequest(authValidation.zodresetPasswordSchema),
-	authController.ResetPassword,
+  "/reset-password",
+  validatonRequest(authValidation.zodresetPasswordSchema),
+  authController.ResetPassword,
 );
 router.post("/refresh-token", authController.refreshToken);
 

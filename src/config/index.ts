@@ -10,6 +10,7 @@ export default {
 	databaseUrl: process.env.DATABASE_URL,
 	app_url: process.env.APP_URL,
 	server_url: process.env.SERVER_URL,
+	google_client_id:process.env.GOOGLE_CLIENT_ID!,
 
 	bcrypt_salt_rounds: Number(process.env.BCRYPT_SALT_ROUNDS)!,
 	jwt_access_secret: process.env.JWT_ACCESS_SECRET!,

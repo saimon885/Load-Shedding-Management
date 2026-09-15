@@ -8,430 +8,546 @@ import { jwtUtils } from "../../utility/jwt";
 import ejs from "ejs";
 import path from "path";
 import type {
-	LoginPayload,
-	RegisterPayload,
-	resetPassPayload,
-	verifyEmailPayload,
+  IgoogleLoginToken,
+  LoginPayload,
+  RegisterPayload,
+  resetPassPayload,
+  verifyEmailPayload,
 } from "./auth.interface";
 import { type JwtPayload, SignOptions } from "jsonwebtoken";
 import { AppError } from "../../utility/AppError";
 import httpStatus from "http-status";
+import { TokenPayload } from "google-auth-library";
+import { googleClient } from "../../lib/googleAuth";
+import {
+  authProviderName,
+  UserRole,
+  userStatus,
+} from "../../generated/prisma/enums";
 
 const RegisterUser = async (payload: RegisterPayload) => {
-	const userExists = await prisma.user.findUnique({
-		where: { email: payload.email },
-	});
-	if (userExists) {
-		throw new AppError(httpStatus.CONFLICT, "User already exists");
-	}
-	const hashPassword = await bcrypt.hash(
-		payload.password,
-		config.bcrypt_salt_rounds,
-	);
-	const OTP = crypto.randomInt(100000, 1000000).toString();
-	const OTPKEY = `customer-registration-otp:${payload.email}`;
-	await redisClient.set(OTPKEY, OTP, {
-		expiration: { type: "EX", value: 5 * 60 },
-	});
-	const customarRegistrationKey = `customer-registration:${payload.email}`;
-	const customarPayload = {
-		name: payload.name,
-		email: payload.email,
-		password: hashPassword,
-		phone: payload.phone || "",
-		address: payload.address || "",
-		profileImage: payload.profileImage || "",
-	};
-	await redisClient.set(
-		customarRegistrationKey,
-		JSON.stringify(customarPayload),
-		{ expiration: { type: "EX", value: 5 * 60 } },
-	);
-	const tampletPath = path.join(
-		process.cwd(),
-		"/src/templates/register.tamplete.ejs",
-	);
-	const html = await ejs.renderFile(tampletPath, {
-		name: payload.name,
-		OTP,
-		expiryMinutes: 5,
-		year: new Date().getFullYear(),
-	});
-	await transporter.sendMail({
-		from: config.email_sender,
-		to: payload.email,
-		subject: "Verify your email - Load Shedding Management",
-		html,
-	});
-	return { message: "OTP sent to your email for verification" };
+  const userExists = await prisma.user.findUnique({
+    where: { email: payload.email },
+  });
+  if (userExists) {
+    throw new AppError(httpStatus.CONFLICT, "User already exists");
+  }
+  const hashPassword = await bcrypt.hash(
+    payload.password,
+    config.bcrypt_salt_rounds,
+  );
+  const OTP = crypto.randomInt(100000, 1000000).toString();
+  const OTPKEY = `customer-registration-otp:${payload.email}`;
+  await redisClient.set(OTPKEY, OTP, {
+    expiration: { type: "EX", value: 5 * 60 },
+  });
+  const customarRegistrationKey = `customer-registration:${payload.email}`;
+  const customarPayload = {
+    name: payload.name,
+    email: payload.email,
+    password: hashPassword,
+    phone: payload.phone || "",
+    address: payload.address || "",
+    profileImage: payload.profileImage || "",
+  };
+  await redisClient.set(
+    customarRegistrationKey,
+    JSON.stringify(customarPayload),
+    { expiration: { type: "EX", value: 5 * 60 } },
+  );
+  const tampletPath = path.join(
+    process.cwd(),
+    "/src/templates/register.tamplete.ejs",
+  );
+  const html = await ejs.renderFile(tampletPath, {
+    name: payload.name,
+    OTP,
+    expiryMinutes: 5,
+    year: new Date().getFullYear(),
+  });
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: payload.email,
+    subject: "Verify your email - Load Shedding Management",
+    html,
+  });
+  return { message: "OTP sent to your email for verification" };
 };
 
 const loginUser = async (payload: LoginPayload) => {
-	const { email, password } = payload;
-	const user = await prisma.user.findUnique({
-		where: { email },
-	});
-	if (!user) {
-		throw new AppError(httpStatus.NOT_FOUND, "User not found!");
-	}
-	if (user.status === "BLOCKED") {
-		throw new AppError(
-			httpStatus.FORBIDDEN,
-			"Your account is blocked. Please contact support.",
-		);
-	}
-	const isMatch = await bcrypt.compare(password, user.password);
-	if (!isMatch) {
-		throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials");
-	}
-	// const OTP = crypto.randomInt(100000, 1000000).toString();
-	// const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
-	// await redisClient.set(LOGIN_OTP_KEY, OTP, {
-	//   expiration: { type: "EX", value: 5 * 60 },
-	// });
-	// const tampletPath = path.join(
-	//   process.cwd(),
-	//   "/src/templates/login.tamplete.ejs",
-	// );
-	// const html = await ejs.renderFile(tampletPath, {
-	//   name: userExist.name,
-	//   OTP,
-	//   expiryMinutes: 5,
-	//   year: new Date().getFullYear(),
-	// });
-	// await transporter.sendMail({
-	//   from: config.email_sender,
-	//   to: email,
-	//   subject: "Login verification - Load Shedding Management",
-	//   html,
-	// });
-	// return { message: "Login OTP sent to your email" };
+  const { email, password } = payload;
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+  }
+  if (user.status === "BLOCKED") {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "Your account is blocked. Please contact support.",
+    );
+  }
+  const isMatch = await bcrypt.compare(password, user?.password as string);
+  if (!isMatch) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials");
+  }
+  // const OTP = crypto.randomInt(100000, 1000000).toString();
+  // const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
+  // await redisClient.set(LOGIN_OTP_KEY, OTP, {
+  //   expiration: { type: "EX", value: 5 * 60 },
+  // });
+  // const tampletPath = path.join(
+  //   process.cwd(),
+  //   "/src/templates/login.tamplete.ejs",
+  // );
+  // const html = await ejs.renderFile(tampletPath, {
+  //   name: userExist.name,
+  //   OTP,
+  //   expiryMinutes: 5,
+  //   year: new Date().getFullYear(),
+  // });
+  // await transporter.sendMail({
+  //   from: config.email_sender,
+  //   to: email,
+  //   subject: "Login verification - Load Shedding Management",
+  //   html,
+  // });
+  // return { message: "Login OTP sent to your email" };
 
-	const jwtPayload = {
-		userId: user.id,
-		name: user.name,
-		email: user.email,
-		role: user.role,
-	};
-	const successTemplatePath = path.join(
-		process.cwd(),
-		"/src/templates/verification.success.tamplete.ejs",
-	);
+  const jwtPayload = {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+  const successTemplatePath = path.join(
+    process.cwd(),
+    "/src/templates/verification.success.tamplete.ejs",
+  );
 
-	const successHtml = await ejs.renderFile(successTemplatePath, {
-		name: user.name,
-		email: user.email,
-		year: new Date().getFullYear(),
-	});
+  const successHtml = await ejs.renderFile(successTemplatePath, {
+    name: user.name,
+    email: user.email,
+    year: new Date().getFullYear(),
+  });
 
-	await transporter.sendMail({
-		from: config.email_sender,
-		to: user.email,
-		subject: "Welcome to Load Shedding Management",
-		html: successHtml,
-	});
-	const accessToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_access_secret,
-		config.jwt_access_expire_in || "15m",
-	);
-	const refreshToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_refresh_secret,
-		config.jwt_refresh_expire_in || "7d",
-	);
-	const { password: userPassword, ...userWithoutPassword } = user;
-	return { accessToken, refreshToken, user: userWithoutPassword };
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: user.email,
+    subject: "Welcome to Load Shedding Management",
+    html: successHtml,
+  });
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expire_in || "15m",
+  );
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expire_in || "7d",
+  );
+  const { password: userPassword, ...userWithoutPassword } = user;
+  return { accessToken, refreshToken, user: userWithoutPassword };
 };
 
 const verifyEmail = async (payload: verifyEmailPayload) => {
-	const { email, otp, type } = payload;
-	if (type === "LOGIN") {
-		const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
-		const storedOTP = await redisClient.get(LOGIN_OTP_KEY);
-		if (!storedOTP) {
-			throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
-		}
-		if (storedOTP !== otp) {
-			throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
-		}
-		await redisClient.del(LOGIN_OTP_KEY);
-		const user = await prisma.user.findUnique({
-			where: { email },
-			omit: { password: true },
-		});
-		if (!user) {
-			throw new AppError(httpStatus.NOT_FOUND, "User not found");
-		}
-		if (user.status === "BLOCKED") {
-			throw new AppError(httpStatus.FORBIDDEN, "Account is blocked.");
-		}
-		const jwtPayload = {
-			userId: user.id,
-			name: user.name,
-			email: user.email,
-			role: user.role,
-		};
-		const successTemplatePath = path.join(
-			process.cwd(),
-			"/src/templates/verification.success.tamplete.ejs",
-		);
+  const { email, otp, type } = payload;
+  if (type === "LOGIN") {
+    const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
+    const storedOTP = await redisClient.get(LOGIN_OTP_KEY);
+    if (!storedOTP) {
+      throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
+    }
+    if (storedOTP !== otp) {
+      throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
+    }
+    await redisClient.del(LOGIN_OTP_KEY);
+    const user = await prisma.user.findUnique({
+      where: { email },
+      omit: { password: true },
+    });
+    if (!user) {
+      throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    }
+    if (user.status === "BLOCKED") {
+      throw new AppError(httpStatus.FORBIDDEN, "Account is blocked.");
+    }
+    const jwtPayload = {
+      userId: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+    const successTemplatePath = path.join(
+      process.cwd(),
+      "/src/templates/verification.success.tamplete.ejs",
+    );
 
-		const successHtml = await ejs.renderFile(successTemplatePath, {
-			name: user.name,
-			email: user.email,
-			year: new Date().getFullYear(),
-		});
+    const successHtml = await ejs.renderFile(successTemplatePath, {
+      name: user.name,
+      email: user.email,
+      year: new Date().getFullYear(),
+    });
 
-		await transporter.sendMail({
-			from: config.email_sender,
-			to: user.email,
-			subject: "Welcome to Load Shedding Management",
-			html: successHtml,
-		});
-		const accessToken = jwtUtils.createToken(
-			jwtPayload,
-			config.jwt_access_secret,
-			config.jwt_access_expire_in || "15m",
-		);
-		const refreshToken = jwtUtils.createToken(
-			jwtPayload,
-			config.jwt_refresh_secret,
-			config.jwt_refresh_expire_in || "7d",
-		);
-		return { accessToken, refreshToken, user };
-	}
+    await transporter.sendMail({
+      from: config.email_sender,
+      to: user.email,
+      subject: "Welcome to Load Shedding Management",
+      html: successHtml,
+    });
+    const accessToken = jwtUtils.createToken(
+      jwtPayload,
+      config.jwt_access_secret,
+      config.jwt_access_expire_in || "15m",
+    );
+    const refreshToken = jwtUtils.createToken(
+      jwtPayload,
+      config.jwt_refresh_secret,
+      config.jwt_refresh_expire_in || "7d",
+    );
+    return { accessToken, refreshToken, user };
+  }
 
-	const OTPKEY = `customer-registration-otp:${email}`;
-	const storedOTP = await redisClient.get(OTPKEY);
-	if (!storedOTP) {
-		throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
-	}
-	if (storedOTP !== otp) {
-		throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
-	}
-	const customarRegistrationKey = `customer-registration:${email}`;
-	const customarPayload = await redisClient.get(customarRegistrationKey);
-	if (!customarPayload) {
-		throw new AppError(
-			httpStatus.BAD_REQUEST,
-			"Registration data not found or expired",
-		);
-	}
-	const parsedPayload = JSON.parse(customarPayload);
-	const existingUser = await prisma.user.findUnique({ where: { email } });
-	if (existingUser) {
-		throw new AppError(httpStatus.CONFLICT, "User already exists");
-	}
-	const result = await prisma.user.create({
-		data: {
-			name: parsedPayload.name,
-			email: parsedPayload.email,
-			password: parsedPayload.password,
-			role: "CUSTOMER",
-			profile: {
-				create: {
-					phone: parsedPayload.phone || "",
-					address: parsedPayload.address || "",
-					profileImage: parsedPayload.profileImage || "",
-				},
-			},
-		},
-		omit: { password: true },
-	});
-	const successTemplatePath = path.join(
-		process.cwd(),
-		"/src/templates/verification.success.tamplete.ejs",
-	);
+  const OTPKEY = `customer-registration-otp:${email}`;
+  const storedOTP = await redisClient.get(OTPKEY);
+  if (!storedOTP) {
+    throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
+  }
+  if (storedOTP !== otp) {
+    throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
+  }
+  const customarRegistrationKey = `customer-registration:${email}`;
+  const customarPayload = await redisClient.get(customarRegistrationKey);
+  if (!customarPayload) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Registration data not found or expired",
+    );
+  }
+  const parsedPayload = JSON.parse(customarPayload);
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (existingUser) {
+    throw new AppError(httpStatus.CONFLICT, "User already exists");
+  }
+  const result = await prisma.user.create({
+    data: {
+      name: parsedPayload.name,
+      email: parsedPayload.email,
+      password: parsedPayload.password,
+      role: "CUSTOMER",
+      profile: {
+        create: {
+          phone: parsedPayload.phone || "",
+          address: parsedPayload.address || "",
+          profileImage: parsedPayload.profileImage || "",
+        },
+      },
+    },
+    omit: { password: true },
+  });
+  const successTemplatePath = path.join(
+    process.cwd(),
+    "/src/templates/verification.success.tamplete.ejs",
+  );
 
-	const successHtml = await ejs.renderFile(successTemplatePath, {
-		name: result.name,
-		email: result.email,
-		year: new Date().getFullYear(),
-	});
+  const successHtml = await ejs.renderFile(successTemplatePath, {
+    name: result.name,
+    email: result.email,
+    year: new Date().getFullYear(),
+  });
 
-	await transporter.sendMail({
-		from: config.email_sender,
-		to: result.email,
-		subject: "Welcome to Load Shedding Management",
-		html: successHtml,
-	});
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: result.email,
+    subject: "Welcome to Load Shedding Management",
+    html: successHtml,
+  });
 
-	await redisClient.del(OTPKEY);
-	await redisClient.del(customarRegistrationKey);
-	const jwtPayload = {
-		userId: result.id,
-		name: result.name,
-		email: result.email,
-		role: result.role,
-	};
-	const accessToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_access_secret,
-		config.jwt_access_expire_in || "15m",
-	);
-	const refreshToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_refresh_secret,
-		config.jwt_refresh_expire_in || "7d",
-	);
-	return { accessToken, refreshToken, user: result };
+  await redisClient.del(OTPKEY);
+  await redisClient.del(customarRegistrationKey);
+  const jwtPayload = {
+    userId: result.id,
+    name: result.name,
+    email: result.email,
+    role: result.role,
+  };
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expire_in || "15m",
+  );
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expire_in || "7d",
+  );
+  return { accessToken, refreshToken, user: result };
+};
+
+const googleLogin = async (payload: IgoogleLoginToken) => {
+  let googleIdTokenPayload: TokenPayload | null | undefined = null;
+  try {
+    const token = await googleClient.verifyIdToken({
+      idToken: payload.idToken,
+      audience: config.google_client_id,
+    });
+
+    googleIdTokenPayload = token.getPayload();
+  } catch (error) {
+    throw new Error("invalid or expire google id token .");
+  }
+
+  if (!googleIdTokenPayload) {
+    throw new Error("invalid or exprie google id token");
+  }
+  if (!googleIdTokenPayload.email) {
+    throw new Error("email not found");
+  }
+  if (!googleIdTokenPayload.name) {
+    throw new Error("name not found");
+  }
+  const ifUserExistWithGoogle = await prisma.user.findUnique({
+    where: {
+      email: googleIdTokenPayload?.email,
+      googleId: googleIdTokenPayload?.sub,
+    },
+  });
+
+  let user = ifUserExistWithGoogle;
+  if (!ifUserExistWithGoogle) {
+    const ifuserExistCredentials = await prisma.user.findUnique({
+      where: {
+        email: googleIdTokenPayload.email,
+        authProvider: authProviderName.CREDENTIALS,
+      },
+    });
+
+    if (ifuserExistCredentials) {
+      if (ifuserExistCredentials.status === userStatus.BLOCKED) {
+        throw new Error("User is blocked");
+      }
+      if (ifuserExistCredentials.status === userStatus.DELETED) {
+        throw new Error("User Is Deleted");
+      }
+
+      user = await prisma.user.update({
+        where: {
+          id: ifuserExistCredentials.id,
+        },
+        data: {
+          googleId: googleIdTokenPayload.sub,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          name: googleIdTokenPayload.name,
+          email: googleIdTokenPayload.email,
+          role: UserRole.CUSTOMER,
+          googleId: googleIdTokenPayload.sub,
+          authProvider: authProviderName.GOOGLE,
+          emailVerified: true,
+          patient: {
+            create: {
+              email: googleIdTokenPayload.email,
+              name: googleIdTokenPayload.name,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  if (!user) {
+    throw new Error("User Not Found");
+  }
+
+  if (user.status === userStatus.BLOCKED) {
+    throw new Error("User Is Blocked");
+  }
+
+  const jwtPayload = {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    Number(config.jwt_access_expire_in as SignOptions),
+  );
+
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    Number(config.jwt_refresh_expire_in as SignOptions),
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 const forgotPassword = async (payload: { email: string }) => {
-	const { email } = payload;
-	const isUserExist = await prisma.user.findUnique({
-		where: {
-			email,
-		},
-	});
-	if (!isUserExist) {
-		throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
-	}
-	if (isUserExist.status === "BLOCKED") {
-		throw new AppError(httpStatus.FORBIDDEN, "User is blocked");
-	}
-	if (isUserExist.status === "DELETED") {
-		throw new AppError(httpStatus.FORBIDDEN, "User is deleted");
-	}
-	const OTP = crypto.randomInt(100000, 1000000).toString();
-	const key = `forgot-password-otp:${isUserExist.email}`;
-	await redisClient.set(key, OTP, {
-		expiration: {
-			type: "EX",
-			value: 5 * 60,
-		},
-	});
-	const tampletPath = path.join(
-		process.cwd(),
-		"/src/templates/forgot.password.ejs",
-	);
-	const html = await ejs.renderFile(tampletPath, {
-		name: isUserExist.name,
-		OTP,
-		expiryMinutes: 5,
-		year: new Date().getFullYear(),
-	});
+  const { email } = payload;
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!isUserExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
+  }
+  if (isUserExist.status === "BLOCKED") {
+    throw new AppError(httpStatus.FORBIDDEN, "User is blocked");
+  }
+  if (isUserExist.status === "DELETED") {
+    throw new AppError(httpStatus.FORBIDDEN, "User is deleted");
+  }
+  const OTP = crypto.randomInt(100000, 1000000).toString();
+  const key = `forgot-password-otp:${isUserExist.email}`;
+  await redisClient.set(key, OTP, {
+    expiration: {
+      type: "EX",
+      value: 5 * 60,
+    },
+  });
+  const tampletPath = path.join(
+    process.cwd(),
+    "/src/templates/forgot.password.ejs",
+  );
+  const html = await ejs.renderFile(tampletPath, {
+    name: isUserExist.name,
+    OTP,
+    expiryMinutes: 5,
+    year: new Date().getFullYear(),
+  });
 
-	await transporter.sendMail({
-		from: config.email_sender,
-		to: isUserExist.email,
-		html,
-		subject: "Password Reset Request",
-	});
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: isUserExist.email,
+    html,
+    subject: "Password Reset Request",
+  });
 };
 
 const resetPassword = async (payload: resetPassPayload) => {
-	const { email, newPassword, otp } = payload;
-	const isUserExist = await prisma.user.findUnique({
-		where: {
-			email,
-		},
-	});
-	if (!isUserExist) {
-		throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
-	}
+  const { email, newPassword, otp } = payload;
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!isUserExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
+  }
 
-	if (isUserExist.status === "BLOCKED") {
-		throw new AppError(httpStatus.FORBIDDEN, "User is blocked");
-	}
-	if (isUserExist.status === "DELETED") {
-		throw new AppError(httpStatus.FORBIDDEN, "User is deleted");
-	}
+  if (isUserExist.status === "BLOCKED") {
+    throw new AppError(httpStatus.FORBIDDEN, "User is blocked");
+  }
+  if (isUserExist.status === "DELETED") {
+    throw new AppError(httpStatus.FORBIDDEN, "User is deleted");
+  }
 
-	const key = `forgot-password-otp:${isUserExist.email}`;
-	const redisOtp = await redisClient.get(key);
-	if (!redisOtp) {
-		throw new AppError(httpStatus.BAD_REQUEST, "OTP not found");
-	}
-	if (redisOtp !== otp) {
-		throw new AppError(httpStatus.BAD_REQUEST, "OTP does not matched!");
-	}
-	const hashedPassword = await bcrypt.hash(
-		newPassword,
-		config.bcrypt_salt_rounds,
-	);
-	await prisma.user.update({
-		where: {
-			email: isUserExist.email,
-		},
-		data: {
-			password: hashedPassword,
-		},
-	});
-	await redisClient.del([key]);
-	const templatePath = path.join(
-		process.cwd(),
-		"/src/templates/password.reset.success.ejs",
-	);
-	const html = await ejs.renderFile(templatePath, {
-		name: isUserExist.name,
-		year: new Date().getFullYear(),
-	});
+  const key = `forgot-password-otp:${isUserExist.email}`;
+  const redisOtp = await redisClient.get(key);
+  if (!redisOtp) {
+    throw new AppError(httpStatus.BAD_REQUEST, "OTP not found");
+  }
+  if (redisOtp !== otp) {
+    throw new AppError(httpStatus.BAD_REQUEST, "OTP does not matched!");
+  }
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    config.bcrypt_salt_rounds,
+  );
+  await prisma.user.update({
+    where: {
+      email: isUserExist.email,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+  await redisClient.del([key]);
+  const templatePath = path.join(
+    process.cwd(),
+    "/src/templates/password.reset.success.ejs",
+  );
+  const html = await ejs.renderFile(templatePath, {
+    name: isUserExist.name,
+    year: new Date().getFullYear(),
+  });
 
-	await transporter.sendMail({
-		from: config.email_sender,
-		to: isUserExist.email,
-		html,
-		subject: "Password Reset Successful - Load Shedding Management",
-	});
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: isUserExist.email,
+    html,
+    subject: "Password Reset Successful - Load Shedding Management",
+  });
 };
 
 const refreshToken = async (token: string) => {
-	const verifiedRefreshToken = jwtUtils.verifyToken(
-		token,
-		config.jwt_refresh_secret,
-	);
+  const verifiedRefreshToken = jwtUtils.verifyToken(
+    token,
+    config.jwt_refresh_secret,
+  );
 
-	if (!verifiedRefreshToken.success || !verifiedRefreshToken.data) {
-		throw new AppError(
-			httpStatus.UNAUTHORIZED,
-			config.node_env === "development"
-				? verifiedRefreshToken.error
-				: "Invalid refresh token",
-		);
-	}
+  if (!verifiedRefreshToken.success || !verifiedRefreshToken.data) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      config.node_env === "development"
+        ? verifiedRefreshToken.error
+        : "Invalid refresh token",
+    );
+  }
 
-	const data = verifiedRefreshToken.data as JwtPayload;
+  const data = verifiedRefreshToken.data as JwtPayload;
 
-	const user = await prisma.user.findUnique({
-		where: { id: data.userId },
-	});
+  const user = await prisma.user.findUnique({
+    where: { id: data.userId },
+  });
 
-	if (!user) {
-		throw new AppError(httpStatus.NOT_FOUND, "Usernot found");
-	}
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "Usernot found");
+  }
 
-	const jwtPayload = {
-		userId: user.id,
-		name: user.name,
-		email: user.email,
-		role: user.role,
-	};
+  const jwtPayload = {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
 
-	const accessToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_access_secret,
-		config.jwt_access_expire_in,
-	);
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expire_in,
+  );
 
-	const refreshToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_refresh_secret,
-		config.jwt_refresh_expire_in,
-	);
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expire_in,
+  );
 
-	return {
-		accessToken,
-		refreshToken,
-	};
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const authService = {
-	RegisterUser,
-	loginUser,
-	verifyEmail,
-	forgotPassword,
-	resetPassword,
-	refreshToken,
+  RegisterUser,
+  loginUser,
+  verifyEmail,
+  forgotPassword,
+  resetPassword,
+  refreshToken,
+  googleLogin,
 };

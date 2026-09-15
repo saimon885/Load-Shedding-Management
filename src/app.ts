@@ -17,6 +17,7 @@ import { ScheduleRoutes } from "./modules/schedules/schedules.routes";
 import { ServiceRoutes } from "./modules/Services/servieces.routes";
 import { getBkashIdToken } from "./lib/bkash";
 import { paymentRoutes } from "./modules/payments/payments.routes";
+import { stateRoutes } from "./modules/states/states.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -24,7 +25,7 @@ app.use(express.json());
 app.use(cookieparser());
 
 app.get("/", (req: Request, res: Response) => {
-	res.send("Welcome to load-shedding management system!🔃🪫");
+  res.send("Welcome to load-shedding management system!🔃🪫");
 });
 
 app.use("/api/v1/auth", authRoutes);
@@ -40,26 +41,27 @@ app.use("/api/v1/notifications", NotificationRoutes);
 app.use("/api/v1/schedules", ScheduleRoutes);
 app.use("/api/v1/service", ServiceRoutes);
 app.use("/api/v1/payments", paymentRoutes);
-app.get("/test", async (req, res, next) => {
-	try {
-		const bkash = await getBkashIdToken();
-		console.log("bKash Token Result:", bkash);
+app.use("/api/v1/states", stateRoutes);
+// app.get("/test", async (req, res, next) => {
+// 	try {
+// 		const bkash = await getBkashIdToken();
+// 		console.log("bKash Token Result:", bkash);
 
-		res.status(200).json({
-			success: true,
-			message: "bKash ID token fetched successfully!",
-			data: bkash,
-		});
-	} catch (error) {
-		console.error("bKash Token Error:", error);
+// 		res.status(200).json({
+// 			success: true,
+// 			message: "bKash ID token fetched successfully!",
+// 			data: bkash,
+// 		});
+// 	} catch (error) {
+// 		console.error("bKash Token Error:", error);
 
-		res.status(500).json({
-			success: false,
-			message: "Failed to fetch bKash ID token",
-			error: error instanceof Error ? error.message : error,
-		});
-	}
-});
+// 		res.status(500).json({
+// 			success: false,
+// 			message: "Failed to fetch bKash ID token",
+// 			error: error instanceof Error ? error.message : error,
+// 		});
+// 	}
+// });
 
 app.use(globalErrorHandler);
 app.use(notFound);
