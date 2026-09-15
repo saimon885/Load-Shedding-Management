@@ -10,12 +10,12 @@ model Payment {
     gateway  PaymentGateway @default(BKASH)
     status   PaymentStatus  @default(PENDING)
 
-    paymentID             String? @unique
-    trxID                 String? @unique
+    paymentID             String?  @unique
+    trxID                 String?  @unique
     merchantInvoiceNumber String
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    paidAt                String?
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
 
     @@map("payments")
 }

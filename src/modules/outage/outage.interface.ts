@@ -1,27 +1,27 @@
 import type { OutageStatus, OutageType } from "../../generated/prisma/enums";
 
 export interface OutageCreatePayload {
-  type: OutageType;
-  reason: string;
-  feederId: string;
-  areaId: string;
-  startTime: Date;
-  estimatedRestorationTime: Date;
+	type: OutageType;
+	reason: string;
+	feederId: string;
+	areaId: string;
+	startTime: Date;
+	estimatedRestorationTime: Date;
 }
 
 export interface outageQuery {
-  status?: OutageStatus;
-  type?: OutageType;
-  reason?: string;
-  startTime?: string;
-  estimatedRestorationTime?: string;
-  actualRestorationTime?: string;
-  limit?: string;
-  page?: string;
+	status?: OutageStatus;
+	type?: OutageType;
+	reason?: string;
+	startTime?: string;
+	estimatedRestorationTime?: string;
+	actualRestorationTime?: string;
+	limit?: string;
+	page?: string;
 }
 
 export interface EmergencyPayload {
-  feederId: string;
-  durationInMinutes: number;
-  reason?: string;
+	feederId: string;
+	durationInMinutes: number;
+	reason?: string;
 }

@@ -8,21 +8,21 @@ import { sheduleController } from "./schedules.controller";
 const router = Router();
 
 router.post(
-  "/create",
-  auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
-  validatonRequest(createScheduleZodSchema),
-  sheduleController.createSchedule,
+	"/create",
+	auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
+	validatonRequest(createScheduleZodSchema),
+	sheduleController.createSchedule,
 );
 
 router.get(
-  "/get",
-  auth(
-    UserRole.ADMIN,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-    UserRole.CUSTOMER,
-  ),
-  sheduleController.getSchedule,
+	"/get",
+	auth(
+		UserRole.ADMIN,
+		UserRole.POWER_OPERATOR,
+		UserRole.TECHNICIAN,
+		UserRole.CUSTOMER,
+	),
+	sheduleController.getSchedule,
 );
 
 export const ScheduleRoutes = router;

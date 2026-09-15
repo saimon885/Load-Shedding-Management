@@ -14,6 +14,9 @@ import { outageReportRoutes } from "./modules/outageReport/outageReport.routes";
 import { AssignmentRoutes } from "./modules/technician_Assignment/assignment.routes";
 import { NotificationRoutes } from "./modules/notification/notification.routes";
 import { ScheduleRoutes } from "./modules/schedules/schedules.routes";
+import { ServiceRoutes } from "./modules/Services/servieces.routes";
+import { getBkashIdToken } from "./lib/bkash";
+import { paymentRoutes } from "./modules/payments/payments.routes";
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
@@ -35,6 +38,28 @@ app.use("/api/v1/outage-reports", outageReportRoutes);
 app.use("/api/v1/assignments", AssignmentRoutes);
 app.use("/api/v1/notifications", NotificationRoutes);
 app.use("/api/v1/schedules", ScheduleRoutes);
+app.use("/api/v1/service", ServiceRoutes);
+app.use("/api/v1/payments", paymentRoutes);
+app.get("/test", async (req, res, next) => {
+	try {
+		const bkash = await getBkashIdToken();
+		console.log("bKash Token Result:", bkash);
+
+		res.status(200).json({
+			success: true,
+			message: "bKash ID token fetched successfully!",
+			data: bkash,
+		});
+	} catch (error) {
+		console.error("bKash Token Error:", error);
+
+		res.status(500).json({
+			success: false,
+			message: "Failed to fetch bKash ID token",
+			error: error instanceof Error ? error.message : error,
+		});
+	}
+});
 
 app.use(globalErrorHandler);
 app.use(notFound);

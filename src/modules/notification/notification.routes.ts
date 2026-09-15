@@ -6,37 +6,37 @@ import { UserRole } from "../../generated/prisma/enums";
 const router = Router();
 
 router.get(
-  "/",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.ZONE_MANAGER,
-    UserRole.TECHNICIAN,
-  ),
-  notificationController.getMyNotificationsService,
+	"/",
+	auth(
+		UserRole.ADMIN,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.ZONE_MANAGER,
+		UserRole.TECHNICIAN,
+	),
+	notificationController.getMyNotificationsService,
 );
 router.patch(
-  "/:id/read",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.ZONE_MANAGER,
-    UserRole.TECHNICIAN,
-  ),
-  notificationController.markAsReadService,
+	"/:id/read",
+	auth(
+		UserRole.ADMIN,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.ZONE_MANAGER,
+		UserRole.TECHNICIAN,
+	),
+	notificationController.markAsReadService,
 );
 router.patch(
-  "/read-all",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.ZONE_MANAGER,
-    UserRole.TECHNICIAN,
-  ),
-  notificationController.markAllAsReadService,
+	"/read-all",
+	auth(
+		UserRole.ADMIN,
+		UserRole.CUSTOMER,
+		UserRole.POWER_OPERATOR,
+		UserRole.ZONE_MANAGER,
+		UserRole.TECHNICIAN,
+	),
+	notificationController.markAllAsReadService,
 );
 
 export const NotificationRoutes = router;
