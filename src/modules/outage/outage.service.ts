@@ -1,6 +1,8 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { OutageStatus, OutageType } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type { OutageCreatePayload, outageQuery } from "./outage.interface";
 
 const createOutage = async (payload: OutageCreatePayload, userId: string) => {
@@ -16,7 +18,10 @@ const createOutage = async (payload: OutageCreatePayload, userId: string) => {
   const outageStartTime = new Date(startTime);
 
   if (type === "SCHEDULED" && outageStartTime <= new Date()) {
-    throw new Error("Scheduled outage start time must be in the future!");
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Scheduled outage start time must be in the future!",
+    );
   }
 
   if (areaId) {
@@ -24,7 +29,10 @@ const createOutage = async (payload: OutageCreatePayload, userId: string) => {
       where: { id: areaId, feederId: feederId },
     });
     if (!isAreaValid) {
-      throw new Error("This Area does not belong to the selected Feeder!");
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "This Area does not belong to the selected Feeder!",
+      );
     }
   }
   const status: OutageStatus =
@@ -125,7 +133,7 @@ const getSingleOutage = async (outageId: string) => {
     },
   });
   if (!result) {
-    throw new Error("outage not Found. please valid outageId!");
+    throw new AppError(httpStatus.NOT_FOUND, "outage not Found. please valid outageId!");
   }
   return result;
 };
@@ -142,17 +150,26 @@ const updateOutageStatus = async (
   });
 
   if (!outage) {
-    throw new Error("Outage not found. Please provide a valid outageId!");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Outage not found. Please provide a valid outageId!",
+    );
   }
 
   const currentStatus = outage.status;
   const newStatus = payload.status;
   if (currentStatus === OutageStatus.RESTORED) {
-    throw new Error("Cannot change status. Outage is already RESTORED!");
+    throw new AppError(
+      httpStatus.CONFLICT,
+      "Cannot change status. Outage is already RESTORED!",
+    );
   }
 
   if (currentStatus === OutageStatus.CANCELLED) {
-    throw new Error("Cannot change status. Outage has been CANCELLED!");
+    throw new AppError(
+      httpStatus.CONFLICT,
+      "Cannot change status. Outage has been CANCELLED!",
+    );
   }
   let actualRestorationTime = outage.actualRestorationTime;
 
@@ -182,7 +199,7 @@ const deleteOutage = async (outageId: string) => {
     },
   });
   if (!outage) {
-    throw new Error("outage not Found. please valid outageId!");
+    throw new AppError(httpStatus.NOT_FOUND, "outage not Found. please valid outageId!");
   }
   const result = await prisma.outage.delete({
     where: {

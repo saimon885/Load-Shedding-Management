@@ -4,7 +4,9 @@ import {
   ReportStatus,
   UserRole,
 } from "../../generated/prisma/enums";
+import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 
 const createAssignment = async (payload: {
   outageId: string;
@@ -17,14 +19,15 @@ const createAssignment = async (payload: {
   });
 
   if (!outage) {
-    throw new Error("Outage not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Outage not found!");
   }
 
   if (
     outage.status === OutageStatus.RESTORED ||
     outage.status === OutageStatus.CANCELLED
   ) {
-    throw new Error(
+    throw new AppError(
+      httpStatus.CONFLICT,
       "Cannot assign a technician to a resolved or cancelled outage!",
     );
   }
@@ -34,7 +37,10 @@ const createAssignment = async (payload: {
   });
 
   if (!technician) {
-    throw new Error("this is not a technician. please valid technician id");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "this is not a technician. please valid technician id",
+    );
   }
 
   const existingActiveAssign = await prisma.technicianAssign.findFirst({
@@ -52,7 +58,8 @@ const createAssignment = async (payload: {
   });
 
   if (existingActiveAssign) {
-    throw new Error(
+    throw new AppError(
+      httpStatus.CONFLICT,
       "This technician is already actively assigned to this outage!",
     );
   }
@@ -88,13 +95,16 @@ const updateAssignmentStatus = async (
   });
 
   if (!assignment) {
-    throw new Error("Assignment not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Assignment not found!");
   }
   if (
     currentUserRole === "TECHNICIAN" &&
     assignment.technicianId !== currentUserId
   ) {
-    throw new Error("You are not authorized to update this assignment!");
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to update this assignment!",
+    );
   }
 
   const result = await prisma.$transaction(async (tx) => {

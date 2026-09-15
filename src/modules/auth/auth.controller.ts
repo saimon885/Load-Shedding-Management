@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
+import httpstatus from "http-status";
 import { catchAsync } from "../../utility/catchAsync";
+import { AppError } from "../../utility/AppError";
 import { authService } from "./auth.service";
 import { sendResponse } from "../../utility/sendResponse";
-import httpstatus from "http-status";
 const RegisterUser = catchAsync(async (req: Request, res: Response) => {
 	const body = req.body;
 	await authService.RegisterUser(body);
@@ -76,7 +77,7 @@ const ResetPassword = catchAsync(async (req: Request, res: Response) => {
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	if (!req.cookies.refreshToken) {
-		throw new Error("Refresh token is missing");
+		throw new AppError(httpstatus.UNAUTHORIZED, "Refresh token is missing");
 	}
 	const result = await authService.refreshToken(req.cookies.refreshToken);
 	const { accessToken, refreshToken: newRefreshToken } = result;

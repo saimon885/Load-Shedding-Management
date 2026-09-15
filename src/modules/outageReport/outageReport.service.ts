@@ -1,6 +1,8 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { ReportStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type {
   outageReportSS,
   queryOutageReport,
@@ -17,7 +19,7 @@ const createReport = async (
     },
   });
   if (!customarCheck) {
-    throw new Error("Customar not Found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Customar not Found!");
   }
   const AreaCheck = await prisma.area.findUnique({
     where: {
@@ -25,7 +27,7 @@ const createReport = async (
     },
   });
   if (!AreaCheck) {
-    throw new Error("Area not Found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Area not Found!");
   }
   const result = await prisma.outageReport.create({
     data: {
@@ -104,7 +106,7 @@ const updateReportStatus = async (
   });
 
   if (!report) {
-    throw new Error("Report not Found");
+    throw new AppError(httpStatus.NOT_FOUND, "Report not Found");
   }
 
   if (payload.outageId) {
@@ -115,7 +117,7 @@ const updateReportStatus = async (
     });
 
     if (!outage) {
-      throw new Error("Outage not Found");
+      throw new AppError(httpStatus.NOT_FOUND, "Outage not Found");
     }
   }
 

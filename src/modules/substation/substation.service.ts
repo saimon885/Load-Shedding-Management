@@ -1,5 +1,7 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type {
   createSubstations,
   substationQuery,
@@ -12,7 +14,7 @@ const createSubstation = async (payload: createSubstations) => {
     },
   });
   if (!existingZone) {
-    throw new Error("zone not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "zone not found!");
   }
   const substationResult = await prisma.substation.create({
     data: {
@@ -97,7 +99,7 @@ const zoneWiseSubstation = async (zoneId: string) => {
     },
   });
   if (!result) {
-    throw new Error("Result not Found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Result not Found!");
   }
   return result;
 };

@@ -1,7 +1,9 @@
 import type { UploadApiResponse } from "cloudinary";
+import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
 import type { UpdateProfiePayload } from "./user.interface";
 import { cloudinary } from "../../lib/cloudinary";
+import { AppError } from "../../utility/AppError";
 
 const getMyprofile = async (userId: string) => {
 	const user = await prisma.user.findUnique({
@@ -16,7 +18,7 @@ const getMyprofile = async (userId: string) => {
 		},
 	});
 	if (!user) {
-		throw new Error("user not found!");
+		throw new AppError(httpStatus.NOT_FOUND, "user not found!");
 	}
 	return user;
 };
@@ -36,7 +38,7 @@ const updateMyProfile = async (
 		},
 	});
 	if (!userExist) {
-		throw new Error("user not found!");
+		throw new AppError(httpStatus.NOT_FOUND, "user not found!");
 	}
 
 	const cloudinaryResult = await new Promise<UploadApiResponse>(
@@ -44,11 +46,17 @@ const updateMyProfile = async (
 			cloudinary.uploader
 				.upload_stream({ resource_type: "auto" }, async (error, result) => {
 					if (error) {
-						throw new Error("Failed to upload image to Cloudinary");
+						throw new AppError(
+							httpStatus.INTERNAL_SERVER_ERROR,
+							"Failed to upload image to Cloudinary",
+						);
 					}
 					if (!result) {
 						return reject(
-							new Error("No result returned from Cloudinary upload"),
+							new AppError(
+								httpStatus.INTERNAL_SERVER_ERROR,
+								"No result returned from Cloudinary upload",
+							),
 						);
 					}
 					resolve(result);

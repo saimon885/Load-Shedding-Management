@@ -18,7 +18,8 @@
     "rules": {
       "preset": "recommended",
       "suspicious": {
-        "noExplicitAny": "warn"
+        "noExplicitAny": "warn",
+        "noAssignInExpressions": "info"
       },
       "complexity": {
         "noCommaOperator": "info"

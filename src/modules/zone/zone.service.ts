@@ -1,6 +1,8 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { ZoneWhereInput } from "../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type {
   createZonePayload,
   IZonequeryInterface,
@@ -16,7 +18,7 @@ const createZone = async (payload: createZonePayload, userId: string) => {
   });
 
   if (existingZone) {
-    throw new Error("Zone code already exists");
+    throw new AppError(httpStatus.CONFLICT, "Zone code already exists");
   }
   const result = await prisma.zone.create({
     data: {
@@ -128,7 +130,7 @@ const updateZone = async (payload: updateZonePayload) => {
     },
   });
   if (!zone) {
-    throw new Error("Zone not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Zone not found!");
   }
   const updateZone = await prisma.zone.update({
     where: {
@@ -166,7 +168,7 @@ const getSingleZone = async (Zoneid: string) => {
     },
   });
   if (!result) {
-    throw new Error("zone not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "zone not found!");
   }
   return result;
 };

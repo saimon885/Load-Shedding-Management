@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
+import httpstatus from "http-status";
 import { catchAsync } from "../../utility/catchAsync";
+import { AppError } from "../../utility/AppError";
 import { userService } from "./user.service";
 import { sendResponse } from "../../utility/sendResponse";
-import httpstatus from "http-status";
 const getMyProfile = catchAsync(async (req: Request, res: Response) => {
 	const user = req.user;
 	const userId = user?.userId;
@@ -18,7 +19,10 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 	const user = req.user;
 	const userId = user?.userId;
 	if (!req.file) {
-		throw new Error("No file uploaded or file buffer is empty");
+		throw new AppError(
+			httpstatus.BAD_REQUEST,
+			"No file uploaded or file buffer is empty",
+		);
 	}
 	let parsedBody = {};
 	if (req.body.body) {

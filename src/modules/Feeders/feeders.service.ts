@@ -1,5 +1,7 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type { CreateFeeders, FeedersQuery } from "./feeders.interface";
 
 const createFeeders = async (payload: CreateFeeders) => {
@@ -9,7 +11,7 @@ const createFeeders = async (payload: CreateFeeders) => {
     },
   });
   if (!Substation) {
-    throw new Error("substation not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "substation not found!");
   }
   const FeedersResultResult = await prisma.feeder.create({
     data: {

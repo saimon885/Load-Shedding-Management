@@ -1,7 +1,9 @@
 import config from "../config";
+import httpStatus from "http-status";
 import { UserRole } from "../generated/prisma/enums";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
+import { AppError } from "./AppError";
 
 export const seedAdmin = async () => {
 	try {
@@ -20,7 +22,8 @@ export const seedAdmin = async () => {
 		const password = config.admin_password;
 		const hashPassword = await bcrypt.hash(password, config.bcrypt_salt_rounds);
 		if (!name || !email || !password) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.INTERNAL_SERVER_ERROR,
 				" admin credentials are not provided in the environment variables",
 			);
 		}
@@ -54,7 +57,8 @@ export const seedOperator = async () => {
 		const password = config.admin_password;
 		const hashPassword = await bcrypt.hash(password, config.bcrypt_salt_rounds);
 		if (!name || !email || !password) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.INTERNAL_SERVER_ERROR,
 				" PowerOperator credentials are not provided in the environment variables",
 			);
 		}
@@ -88,7 +92,8 @@ export const seedTechnician = async () => {
 		const password = config.technician_password;
 		const hashPassword = await bcrypt.hash(password, config.bcrypt_salt_rounds);
 		if (!name || !email || !password) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.INTERNAL_SERVER_ERROR,
 				" Technician credentials are not provided in the environment variables",
 			);
 		}
@@ -122,7 +127,8 @@ export const seedZoneManager = async () => {
 		const password = config.zoneManager_password;
 		const hashPassword = await bcrypt.hash(password, config.bcrypt_salt_rounds);
 		if (!name || !email || !password) {
-			throw new Error(
+			throw new AppError(
+				httpStatus.INTERNAL_SERVER_ERROR,
 				" ZoneManager credentials are not provided in the environment variables",
 			);
 		}

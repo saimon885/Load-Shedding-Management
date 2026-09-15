@@ -1,5 +1,7 @@
 import { Prisma } from "../../generated/prisma/client";
+import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utility/AppError";
 import type { areaQuery, CreateArea } from "./area.interface";
 
 const createArea = async (payload: CreateArea) => {
@@ -9,7 +11,7 @@ const createArea = async (payload: CreateArea) => {
     },
   });
   if (!feedrs) {
-    throw new Error("Feeders not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "Feeders not found!");
   }
   const areaResult = await prisma.area.create({
     data: {
