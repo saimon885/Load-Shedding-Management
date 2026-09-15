@@ -29,7 +29,7 @@ const updateAssignmentStatus = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "assginment created Successfully.",
+      message: "assginment updated Successfully.",
       data: result,
     });
   },

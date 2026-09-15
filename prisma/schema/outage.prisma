@@ -11,6 +11,7 @@ model Outage {
     startTime                DateTime
     estimatedRestorationTime DateTime?
     actualRestorationTime    DateTime?
+    restorationNote          String?
     createdBy                String
     assignments              TechnicianAssign[]
     createdAt                DateTime           @default(now())

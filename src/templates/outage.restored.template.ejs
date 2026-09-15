@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Restored Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid #2ecc71; /* Success Green Accent Color */
+        }
+        .header {
+            background-color: #e8f8f5;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            color: #27ae60;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+            line-height: 1.6;
+        }
+        .greeting {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: #fafafa;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .info-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .info-table td:first-child {
+            font-weight: 600;
+            color: #666666;
+            width: 40%;
+        }
+        .info-table td:last-child {
+            color: #2c3e50;
+        }
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+        .note-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-top: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>✅ Power Restored</h1>
+        </div>
+
+        <!-- Main Body Content -->
+        <div class="content">
+            <div class="greeting">Dear Customer,</div>
+            <p>We glad to inform you that the power supply has been successfully restored in your area (<strong><%= areaName %></strong>).</p>
+
+            <!-- Restoration Details Table -->
+            <table class="info-table">
+                <tr>
+                    <td>Affected Area</td>
+                    <td><%= areaName %></td>
+                </tr>
+                <tr>
+                    <td>Restoration Time</td>
+                    <td style="color: #27ae60; font-weight: bold;"><%= restorationTime %></td>
+                </tr>
+            </table>
+
+            <!-- Conditional Note Section -->
+            <% if (restorationNote) { %>
+                <div class="note-box">
+                    <strong>Update Note:</strong> <%= restorationNote %>
+                </div>
+            <% } %>
+
+            <p>Thank you for your immense patience and cooperation during the service outage. If you are still experiencing any localized issues, please contact our support desk.</p>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>This is an automated notification from the Power Grid Management System.</p>
+            <p>&copy; <%= year %> All Rights Reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>

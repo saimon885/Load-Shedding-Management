@@ -5,9 +5,10 @@ export interface OutageCreatePayload {
   reason: string;
   feederId: string;
   areaId: string;
-  startTime: string;
-  estimatedRestorationTime: string;
+  startTime: Date;
+  estimatedRestorationTime: Date;
 }
+
 export interface outageQuery {
   status?: OutageStatus;
   type?: OutageType;

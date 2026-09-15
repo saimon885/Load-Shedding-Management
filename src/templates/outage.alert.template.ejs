@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Outage Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid #e67e22; /* Warning Accent Color */
+        }
+        .header {
+            background-color: #fdf2e9;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            color: #d35400;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+            line-height: 1.6;
+        }
+        .greeting {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: #fafafa;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .info-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .info-table td:first-child {
+            font-weight: 600;
+            color: #666666;
+            width: 40%;
+        }
+        .info-table td:last-child {
+            color: #2c3e50;
+        }
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-top: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>⚠️ Power Outage Update</h1>
+        </div>
+
+        <!-- Main Body Content -->
+        <div class="content">
+            <div class="greeting">Dear Customer,</div>
+            <p>Please be informed that a power outage has been recorded affecting your area (<strong><%= areaName %></strong>). Our maintenance team has been notified and is taking necessary actions to resolve the issue as quickly as possible.</p>
+
+            <!-- Outage Details Table -->
+            <table class="info-table">
+                <tr>
+                    <td>Affected Area</td>
+                    <td><%= areaName %></td>
+                </tr>
+                <tr>
+                    <td>Outage Reason</td>
+                    <td><%= reason %></td>
+                </tr>
+                <tr>
+                    <td>Start Time</td>
+                    <td><%= startTime %></td>
+                </tr>
+                <% if (estimatedRestorationTime) { %>
+                <tr>
+                    <td>Est. Restoration</td>
+                    <td style="color: #d35400; font-weight: bold;"><%= estimatedRestorationTime %></td>
+                </tr>
+                <% } %>
+            </table>
+
+            <p>We sincerely apologize for any inconvenience this may cause and appreciate your patience as we work to restore full service.</p>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>This is an automated notification from the Power Grid Management System.</p>
+            <p>&copy; <%= year %> All Rights Reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>

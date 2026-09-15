@@ -1,5 +1,6 @@
 import {
   AssignmentStatus,
+  NotificationType,
   OutageStatus,
   ReportStatus,
   UserRole,
@@ -7,6 +8,12 @@ import {
 import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utility/AppError";
+import {
+  createBulkNotifications,
+  createNotification,
+} from "../notification/notificaton.helper";
+import { sendOutageAlertEmail } from "../../utility/sendEmailOutage";
+import { sendRestoredAlertEmail } from "../../utility/sendRestoredAlertEmail";
 
 const createAssignment = async (payload: {
   outageId: string;
@@ -81,8 +88,15 @@ const createAssignment = async (payload: {
     },
   });
 
+  await createNotification(
+    result.technicianId,
+    `You have been assigned to fix an outage (ID: ${result.outageId}).`,
+    "ASSIGNMENT_ALERT",
+  );
+
   return result;
 };
+
 const updateAssignmentStatus = async (
   assignmentId: string,
   newStatus: AssignmentStatus,
@@ -97,6 +111,7 @@ const updateAssignmentStatus = async (
   if (!assignment) {
     throw new AppError(httpStatus.NOT_FOUND, "Assignment not found!");
   }
+
   if (
     currentUserRole === "TECHNICIAN" &&
     assignment.technicianId !== currentUserId
@@ -109,6 +124,7 @@ const updateAssignmentStatus = async (
 
   const result = await prisma.$transaction(async (tx) => {
     const now = new Date();
+
     const updatedAssignment = await tx.technicianAssign.update({
       where: { id: assignmentId },
       data: {
@@ -116,16 +132,23 @@ const updateAssignmentStatus = async (
         ...(newStatus === AssignmentStatus.COMPLETED && { resolvedAt: now }),
       },
     });
+    if (newStatus === AssignmentStatus.IN_PROGRESS) {
+      await tx.outage.update({
+        where: { id: assignment.outageId },
+        data: {
+          restorationStartedAt: now,
+        },
+      });
+    }
 
     if (newStatus === AssignmentStatus.COMPLETED) {
-      await tx.outage.update({
+      const restoredOutage = await tx.outage.update({
         where: { id: assignment.outageId },
         data: {
           status: OutageStatus.RESTORED,
           actualRestorationTime: now,
         },
       });
-
       await tx.outageReport.updateMany({
         where: {
           outageId: assignment.outageId,
@@ -134,6 +157,46 @@ const updateAssignmentStatus = async (
           status: ReportStatus.RESOLVED,
         },
       });
+      if (restoredOutage?.areaId) {
+        const areaCustomers = await tx.user.findMany({
+          where: {
+            areaId: restoredOutage.areaId,
+            // role: UserRole.CUSTOMER,
+          },
+          select: { id: true, email: true },
+        });
+
+        const customerIds = areaCustomers.map((user) => user.id);
+
+        const customerEmails = areaCustomers
+          .map((user) => user.email)
+          .filter((email): email is string => Boolean(email));
+
+        if (customerIds.length > 0) {
+          await createBulkNotifications(
+            customerIds,
+            "Power has been successfully restored in your area.",
+            NotificationType.RESTORED_ALERT,
+          );
+        }
+
+        if (customerEmails.length > 0) {
+          const area = await tx.area.findUnique({
+            where: { id: restoredOutage.areaId },
+            select: { name: true },
+          });
+          await sendRestoredAlertEmail({
+            emails: customerEmails,
+            areaName: area?.name || "Your Area",
+            restorationTime: restoredOutage.actualRestorationTime
+              ? restoredOutage.actualRestorationTime.toString()
+              : new Date().toString(),
+            restorationNote:
+              restoredOutage.restorationNote ||
+              "Power has been successfully restored in your area.",
+          });
+        }
+      }
     }
 
     return updatedAssignment;
@@ -141,7 +204,6 @@ const updateAssignmentStatus = async (
 
   return result;
 };
-
 export const assignmentService = {
   createAssignment,
   updateAssignmentStatus,

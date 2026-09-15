@@ -16,37 +16,39 @@ enum zoneStatus {
     ACTIVE
     INACTIVE
 }
+
 enum substationStatus {
     ACTIVE
     INACTIVE
 }
+
 enum AreaStatus {
     ACTIVE
     INACTIVE
 }
+
 enum FeederStatus {
     ACTIVE
     INACTIVE
 }
 
-
 enum OutageType {
-  SCHEDULED
-  UNEXPECTED
+    SCHEDULED
+    UNEXPECTED
 }
 
 enum OutageStatus {
-  SCHEDULED
-  ONGOING
-  RESTORED
-  CANCELLED
+    SCHEDULED
+    ONGOING
+    RESTORED
+    CANCELLED
 }
 
 enum AssignmentStatus {
-  PENDING
-  ACCEPTED
-  IN_PROGRESS
-  COMPLETED
+    PENDING
+    ACCEPTED
+    IN_PROGRESS
+    COMPLETED
 }
 
 enum ReportStatus {
@@ -55,4 +57,11 @@ enum ReportStatus {
     VERIFIED
     RESOLVED
     REJECTED
+}
+
+enum NotificationType {
+    OUTAGE_ALERT
+    ASSIGNMENT_ALERT
+    RESTORED_ALERT
+    SYSTEM_ALERT
 }

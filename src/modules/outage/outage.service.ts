@@ -1,9 +1,17 @@
 import { Prisma } from "../../generated/prisma/client";
 import httpStatus from "http-status";
-import { OutageStatus, OutageType } from "../../generated/prisma/enums";
+import {
+  NotificationType,
+  OutageStatus,
+  OutageType,
+  UserRole,
+} from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utility/AppError";
 import type { OutageCreatePayload, outageQuery } from "./outage.interface";
+import { createBulkNotifications } from "../notification/notificaton.helper";
+import path from "path";
+import { sendOutageAlertEmail } from "../../utility/sendEmailOutage";
 
 const createOutage = async (payload: OutageCreatePayload, userId: string) => {
   const {
@@ -58,6 +66,46 @@ const createOutage = async (payload: OutageCreatePayload, userId: string) => {
       area: true,
     },
   });
+  if (result?.areaId) {
+    const areaCustomers = await prisma.user.findMany({
+      where: {
+        areaId: result.areaId,
+      },
+      select: { id: true, email: true },
+    });
+
+    const customerIds = areaCustomers.map((user) => user.id);
+    const customerEmails = areaCustomers
+      .map((user) => user.email)
+      .filter(Boolean);
+    console.log("Found Customer IDs for Notification:", customerIds);
+    const message =
+      result.type === "SCHEDULED"
+        ? `Power outage is scheduled in your area from ${result.startTime}.`
+        : `Unexpected power outage detected in your area due to: ${result.reason}.`;
+
+    await createBulkNotifications(
+      customerIds,
+      message,
+      NotificationType.OUTAGE_ALERT,
+    );
+
+    if (customerEmails.length > 0) {
+      const area = await prisma.area.findUnique({
+        where: { id: result.areaId },
+        select: { name: true },
+      });
+
+      await sendOutageAlertEmail({
+        emails: customerEmails,
+        areaName: area?.name || "Your Area",
+        type: result.type,
+        reason: result.reason,
+        startTime: result.startTime.toString(),
+        estimatedRestorationTime: result.estimatedRestorationTime?.toString(),
+      });
+    }
+  }
 
   return result;
 };
@@ -133,7 +181,10 @@ const getSingleOutage = async (outageId: string) => {
     },
   });
   if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, "outage not Found. please valid outageId!");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "outage not Found. please valid outageId!",
+    );
   }
   return result;
 };
@@ -199,7 +250,10 @@ const deleteOutage = async (outageId: string) => {
     },
   });
   if (!outage) {
-    throw new AppError(httpStatus.NOT_FOUND, "outage not Found. please valid outageId!");
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "outage not Found. please valid outageId!",
+    );
   }
   const result = await prisma.outage.delete({
     where: {
