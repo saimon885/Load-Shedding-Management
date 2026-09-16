@@ -8,3 +8,5 @@ src/generated/prisma
 .agents
 .claude
 .windsurf
+.vercel
+dist

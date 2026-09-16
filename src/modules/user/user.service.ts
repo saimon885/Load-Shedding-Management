@@ -76,6 +76,7 @@ const updateMyProfile = async (
         .end(buffer);
     },
   );
+
   const updateUser = await prisma.user.update({
     where: {
       id: userId,
@@ -84,11 +85,19 @@ const updateMyProfile = async (
       name: payload.name,
       areaId: payload.areaId,
       profile: {
-        update: {
-          address: payload.address,
-          phone: payload.phone,
-          profileImage: cloudinaryResult.secure_url,
-          imagePublishedID: cloudinaryResult.public_id,
+        upsert: {
+          create: {
+            address: payload.address,
+            phone: payload.phone,
+            profileImage: cloudinaryResult.secure_url,
+            imagePublishedID: cloudinaryResult.public_id,
+          },
+          update: {
+            address: payload.address,
+            phone: payload.phone,
+            profileImage: cloudinaryResult.secure_url,
+            imagePublishedID: cloudinaryResult.public_id,
+          },
         },
       },
     },

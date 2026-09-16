@@ -291,22 +291,28 @@ const googleLogin = async (payload: IgoogleLoginToken) => {
   try {
     const token = await googleClient.verifyIdToken({
       idToken: payload.idToken,
-      audience: config.google_client_id,
+      // audience: config.google_client_id,
     });
 
     googleIdTokenPayload = token.getPayload();
   } catch (error) {
-    throw new Error("invalid or expire google id token .");
+    throw new AppError(
+      httpStatus.EXPECTATION_FAILED,
+      "invalid or expire google id token .",
+    );
   }
 
   if (!googleIdTokenPayload) {
-    throw new Error("invalid or exprie google id token");
+    throw new AppError(
+      httpStatus.EXPECTATION_FAILED,
+      "invalid or exprie google id token",
+    );
   }
   if (!googleIdTokenPayload.email) {
-    throw new Error("email not found");
+    throw new AppError(httpStatus.NOT_FOUND, "email not found");
   }
   if (!googleIdTokenPayload.name) {
-    throw new Error("name not found");
+    throw new AppError(httpStatus.NOT_FOUND, "name not found");
   }
   const ifUserExistWithGoogle = await prisma.user.findUnique({
     where: {
@@ -326,10 +332,10 @@ const googleLogin = async (payload: IgoogleLoginToken) => {
 
     if (ifuserExistCredentials) {
       if (ifuserExistCredentials.status === userStatus.BLOCKED) {
-        throw new Error("User is blocked");
+        throw new AppError(httpStatus.CONFLICT, "User is blocked");
       }
       if (ifuserExistCredentials.status === userStatus.DELETED) {
-        throw new Error("User Is Deleted");
+        throw new AppError(httpStatus.CONFLICT, "User Is Deleted");
       }
 
       user = await prisma.user.update({
@@ -361,11 +367,11 @@ const googleLogin = async (payload: IgoogleLoginToken) => {
   }
 
   if (!user) {
-    throw new Error("User Not Found");
+    throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
   }
 
   if (user.status === userStatus.BLOCKED) {
-    throw new Error("User Is Blocked");
+    throw new AppError(httpStatus.CONFLICT, "User Is Blocked");
   }
 
   const jwtPayload = {
@@ -378,13 +384,13 @@ const googleLogin = async (payload: IgoogleLoginToken) => {
   const accessToken = jwtUtils.createToken(
     jwtPayload,
     config.jwt_access_secret,
-    Number(config.jwt_access_expire_in as SignOptions),
+    config.jwt_access_expire_in,
   );
 
   const refreshToken = jwtUtils.createToken(
     jwtPayload,
     config.jwt_refresh_secret,
-    Number(config.jwt_refresh_expire_in as SignOptions),
+    config.jwt_refresh_expire_in,
   );
 
   return {
