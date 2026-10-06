@@ -14,7 +14,7 @@ model User {
     notification  Notification[]
     payment       Payment[]
 
-    areaId          String?          @unique
+    areaId          String?          
     area            Area?            @relation(fields: [areaId], references: [id])
     status          userStatus       @default(ACTIVE)
     createdAt       DateTime         @default(now())

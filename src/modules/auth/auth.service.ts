@@ -37,6 +37,7 @@ const RegisterUser = async (payload: RegisterPayload) => {
     config.bcrypt_salt_rounds,
   );
   const OTP = crypto.randomInt(100000, 1000000).toString();
+  console.log(OTP);
   const OTPKEY = `customer-registration-otp:${payload.email}`;
   await redisClient.set(OTPKEY, OTP, {
     expiration: { type: "EX", value: 5 * 60 },
@@ -153,62 +154,62 @@ const loginUser = async (payload: LoginPayload) => {
 };
 
 const verifyEmail = async (payload: verifyEmailPayload) => {
-  const { email, otp, type } = payload;
-  if (type === "LOGIN") {
-    const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
-    const storedOTP = await redisClient.get(LOGIN_OTP_KEY);
-    if (!storedOTP) {
-      throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
-    }
-    if (storedOTP !== otp) {
-      throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
-    }
-    await redisClient.del(LOGIN_OTP_KEY);
-    const user = await prisma.user.findUnique({
-      where: { email },
-      omit: { password: true },
-    });
-    if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "User not found");
-    }
-    if (user.status === "BLOCKED") {
-      throw new AppError(httpStatus.FORBIDDEN, "Account is blocked.");
-    }
-    const jwtPayload = {
-      userId: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    };
-    const successTemplatePath = path.join(
-      process.cwd(),
-      "/src/templates/verification.success.tamplete.ejs",
-    );
+  const { email, otp } = payload;
+  // if (type === "LOGIN") {
+  //   const LOGIN_OTP_KEY = `customer-login-otp:${email}`;
+  //   const storedOTP = await redisClient.get(LOGIN_OTP_KEY);
+  //   if (!storedOTP) {
+  //     throw new AppError(httpStatus.BAD_REQUEST, "OTP not found or expired");
+  //   }
+  //   if (storedOTP !== otp) {
+  //     throw new AppError(httpStatus.BAD_REQUEST, "OTP does not match!");
+  //   }
+  //   await redisClient.del(LOGIN_OTP_KEY);
+  //   const user = await prisma.user.findUnique({
+  //     where: { email },
+  //     omit: { password: true },
+  //   });
+  //   if (!user) {
+  //     throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  //   }
+  //   if (user.status === "BLOCKED") {
+  //     throw new AppError(httpStatus.FORBIDDEN, "Account is blocked.");
+  //   }
+  //   const jwtPayload = {
+  //     userId: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     role: user.role,
+  //   };
+  //   const successTemplatePath = path.join(
+  //     process.cwd(),
+  //     "/src/templates/verification.success.tamplete.ejs",
+  //   );
 
-    const successHtml = await ejs.renderFile(successTemplatePath, {
-      name: user.name,
-      email: user.email,
-      year: new Date().getFullYear(),
-    });
+  //   const successHtml = await ejs.renderFile(successTemplatePath, {
+  //     name: user.name,
+  //     email: user.email,
+  //     year: new Date().getFullYear(),
+  //   });
 
-    await transporter.sendMail({
-      from: config.email_sender,
-      to: user.email,
-      subject: "Welcome to Load Shedding Management",
-      html: successHtml,
-    });
-    const accessToken = jwtUtils.createToken(
-      jwtPayload,
-      config.jwt_access_secret,
-      config.jwt_access_expire_in || "15m",
-    );
-    const refreshToken = jwtUtils.createToken(
-      jwtPayload,
-      config.jwt_refresh_secret,
-      config.jwt_refresh_expire_in || "7d",
-    );
-    return { accessToken, refreshToken, user };
-  }
+  //   await transporter.sendMail({
+  //     from: config.email_sender,
+  //     to: user.email,
+  //     subject: "Welcome to Load Shedding Management",
+  //     html: successHtml,
+  //   });
+  //   const accessToken = jwtUtils.createToken(
+  //     jwtPayload,
+  //     config.jwt_access_secret,
+  //     config.jwt_access_expire_in || "15m",
+  //   );
+  //   const refreshToken = jwtUtils.createToken(
+  //     jwtPayload,
+  //     config.jwt_refresh_secret,
+  //     config.jwt_refresh_expire_in || "7d",
+  //   );
+  //   return { accessToken, refreshToken, user };
+  // }
 
   const OTPKEY = `customer-registration-otp:${email}`;
   const storedOTP = await redisClient.get(OTPKEY);
@@ -276,7 +277,7 @@ const verifyEmail = async (payload: verifyEmailPayload) => {
   const accessToken = jwtUtils.createToken(
     jwtPayload,
     config.jwt_access_secret,
-    config.jwt_access_expire_in || "15m",
+    config.jwt_access_expire_in || "1d",
   );
   const refreshToken = jwtUtils.createToken(
     jwtPayload,
@@ -288,90 +289,76 @@ const verifyEmail = async (payload: verifyEmailPayload) => {
 
 const googleLogin = async (payload: IgoogleLoginToken) => {
   let googleIdTokenPayload: TokenPayload | null | undefined = null;
+
   try {
     const token = await googleClient.verifyIdToken({
       idToken: payload.idToken,
-      // audience: config.google_client_id,
     });
-
     googleIdTokenPayload = token.getPayload();
   } catch (error) {
     throw new AppError(
       httpStatus.EXPECTATION_FAILED,
-      "invalid or expire google id token .",
+      "Invalid or expired Google ID token.",
     );
   }
 
-  if (!googleIdTokenPayload) {
+  if (
+    !googleIdTokenPayload ||
+    !googleIdTokenPayload.email ||
+    !googleIdTokenPayload.name
+  ) {
     throw new AppError(
       httpStatus.EXPECTATION_FAILED,
-      "invalid or exprie google id token",
+      "Invalid token payload or missing user details",
     );
   }
-  if (!googleIdTokenPayload.email) {
-    throw new AppError(httpStatus.NOT_FOUND, "email not found");
-  }
-  if (!googleIdTokenPayload.name) {
-    throw new AppError(httpStatus.NOT_FOUND, "name not found");
-  }
-  const ifUserExistWithGoogle = await prisma.user.findUnique({
-    where: {
-      email: googleIdTokenPayload?.email,
-      googleId: googleIdTokenPayload?.sub,
-    },
+
+  const { email, name, sub: googleId } = googleIdTokenPayload;
+
+  let user = await prisma.user.findUnique({
+    where: { googleId },
   });
 
-  let user = ifUserExistWithGoogle;
-  if (!ifUserExistWithGoogle) {
-    const ifuserExistCredentials = await prisma.user.findUnique({
-      where: {
-        email: googleIdTokenPayload.email,
-        authProvider: authProviderName.CREDENTIALS,
-      },
+  if (!user) {
+    const existingUserByEmail = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (ifuserExistCredentials) {
-      if (ifuserExistCredentials.status === userStatus.BLOCKED) {
+    if (existingUserByEmail) {
+      if (existingUserByEmail.status === userStatus.BLOCKED) {
         throw new AppError(httpStatus.CONFLICT, "User is blocked");
       }
-      if (ifuserExistCredentials.status === userStatus.DELETED) {
-        throw new AppError(httpStatus.CONFLICT, "User Is Deleted");
+      if (existingUserByEmail.status === userStatus.DELETED) {
+        throw new AppError(httpStatus.CONFLICT, "User is deleted");
       }
-
       user = await prisma.user.update({
-        where: {
-          id: ifuserExistCredentials.id,
-        },
+        where: { id: existingUserByEmail.id },
         data: {
-          googleId: googleIdTokenPayload.sub,
+          googleId,
+          emailVerified: true,
+          profile: {
+            create: {
+              profileImage: googleIdTokenPayload.picture,
+            },
+          },
         },
       });
     } else {
       user = await prisma.user.create({
         data: {
-          name: googleIdTokenPayload.name,
-          email: googleIdTokenPayload.email,
+          name,
+          email,
           role: UserRole.CUSTOMER,
-          googleId: googleIdTokenPayload.sub,
+          googleId,
           authProvider: authProviderName.GOOGLE,
           emailVerified: true,
-          patient: {
-            create: {
-              email: googleIdTokenPayload.email,
-              name: googleIdTokenPayload.name,
-            },
-          },
         },
       });
     }
   }
 
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
-  }
-
   if (user.status === userStatus.BLOCKED) {
-    throw new AppError(httpStatus.CONFLICT, "User Is Blocked");
+    throw new AppError(httpStatus.CONFLICT, "User is blocked");
   }
 
   const jwtPayload = {
@@ -416,6 +403,7 @@ const forgotPassword = async (payload: { email: string }) => {
     throw new AppError(httpStatus.FORBIDDEN, "User is deleted");
   }
   const OTP = crypto.randomInt(100000, 1000000).toString();
+  console.log("for", OTP);
   const key = `forgot-password-otp:${isUserExist.email}`;
   await redisClient.set(key, OTP, {
     expiration: {

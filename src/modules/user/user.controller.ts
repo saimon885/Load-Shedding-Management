@@ -28,21 +28,19 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
 const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const userId = user?.userId;
-  if (!req.file) {
-    throw new AppError(
-      httpstatus.BAD_REQUEST,
-      "No file uploaded or file buffer is empty",
-    );
-  }
+
   let parsedBody = {};
+
   if (req.body.data) {
     parsedBody = JSON.parse(req.body.data);
   }
+
   const result = await userService.updateMyProfile(
-    req.file.buffer,
+    req.file?.buffer,
     parsedBody,
     userId as string,
   );
+
   sendResponse(res, {
     success: true,
     statusCode: httpstatus.OK,

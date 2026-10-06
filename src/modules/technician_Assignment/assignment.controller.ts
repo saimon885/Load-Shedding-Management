@@ -22,6 +22,20 @@ const getAllTechnician = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getTechnicianAssignment = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.userId;
+    const result = await assignmentService.getTechnicianAssignment(
+      userId as string,
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "technician assignment retrive Successfully.",
+      data: result,
+    });
+  },
+);
 
 const updateAssignmentStatus = catchAsync(
   async (req: Request, res: Response) => {
@@ -48,5 +62,6 @@ const updateAssignmentStatus = catchAsync(
 export const assignmentController = {
   createAssignment,
   getAllTechnician,
+  getTechnicianAssignment,
   updateAssignmentStatus,
 };

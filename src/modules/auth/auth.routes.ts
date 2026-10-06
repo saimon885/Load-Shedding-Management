@@ -14,6 +14,7 @@ router.post(
   validatonRequest(authValidation.zodLoginSchema),
   authController.LoginUser,
 );
+router.post("/logout", authController.logOutUser);
 router.post(
   "/verify-email",
   validatonRequest(authValidation.zodtVerifySchema),

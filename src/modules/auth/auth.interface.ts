@@ -14,7 +14,7 @@ export interface LoginPayload {
 export interface verifyEmailPayload {
   email: string;
   otp: string;
-  type: string;
+  // type: string;
 }
 export interface IgoogleLoginToken {
   idToken: string;

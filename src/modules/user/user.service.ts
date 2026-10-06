@@ -35,7 +35,7 @@ const getAllUser = async () => {
 };
 
 const updateMyProfile = async (
-  buffer: Buffer,
+  buffer: Buffer | undefined,
   payload: any,
   userId: string,
 ) => {
@@ -45,37 +45,54 @@ const updateMyProfile = async (
     },
     include: {
       profile: {
-        select: { profileImage: true, imagePublishedID: true },
+        select: {
+          profileImage: true,
+          imagePublishedID: true,
+        },
       },
     },
   });
+
   if (!userExist) {
     throw new AppError(httpStatus.NOT_FOUND, "user not found!");
   }
 
-  const cloudinaryResult = await new Promise<UploadApiResponse>(
-    (resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ resource_type: "auto" }, async (error, result) => {
-          if (error) {
-            throw new AppError(
-              httpStatus.INTERNAL_SERVER_ERROR,
-              "Failed to upload image to Cloudinary",
-            );
-          }
-          if (!result) {
-            return reject(
-              new AppError(
-                httpStatus.INTERNAL_SERVER_ERROR,
-                "No result returned from Cloudinary upload",
-              ),
-            );
-          }
-          resolve(result);
-        })
-        .end(buffer);
-    },
-  );
+  let cloudinaryResult: UploadApiResponse | null = null;
+
+  if (buffer) {
+    cloudinaryResult = await new Promise<UploadApiResponse>(
+      (resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              resource_type: "auto",
+            },
+            (error, result) => {
+              if (error) {
+                return reject(
+                  new AppError(
+                    httpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to upload image to Cloudinary",
+                  ),
+                );
+              }
+
+              if (!result) {
+                return reject(
+                  new AppError(
+                    httpStatus.INTERNAL_SERVER_ERROR,
+                    "No result returned from Cloudinary upload",
+                  ),
+                );
+              }
+
+              resolve(result);
+            },
+          )
+          .end(buffer);
+      },
+    );
+  }
 
   const updateUser = await prisma.user.update({
     where: {
@@ -84,39 +101,47 @@ const updateMyProfile = async (
     data: {
       name: payload.name,
       areaId: payload.areaId,
+
       profile: {
         upsert: {
           create: {
             address: payload.address,
             phone: payload.phone,
-            profileImage: cloudinaryResult.secure_url,
-            imagePublishedID: cloudinaryResult.public_id,
+            ...(cloudinaryResult && {
+              profileImage: cloudinaryResult.secure_url,
+              imagePublishedID: cloudinaryResult.public_id,
+            }),
           },
+
           update: {
             address: payload.address,
             phone: payload.phone,
-            profileImage: cloudinaryResult.secure_url,
-            imagePublishedID: cloudinaryResult.public_id,
+            ...(cloudinaryResult && {
+              profileImage: cloudinaryResult.secure_url,
+              imagePublishedID: cloudinaryResult.public_id,
+            }),
           },
         },
       },
     },
+
     include: {
       profile: true,
     },
+
     omit: {
       password: true,
     },
   });
-  if (userExist?.profile?.profileImage || cloudinaryResult.public_id) {
-    await cloudinary.uploader.destroy(
-      userExist?.profile?.imagePublishedID || cloudinaryResult.public_id,
-      { resource_type: "image" },
-    );
+
+  if (cloudinaryResult && userExist.profile?.imagePublishedID) {
+    await cloudinary.uploader.destroy(userExist.profile.imagePublishedID, {
+      resource_type: "image",
+    });
   }
+
   return updateUser;
 };
-
 export const userService = {
   getMyprofile,
   updateMyProfile,

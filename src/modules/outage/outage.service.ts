@@ -85,10 +85,7 @@ const createOutage = async (payload: OutageCreatePayload, userId: string) => {
       .filter(Boolean);
     console.log(customerEmails, customerIds);
     console.log("Found Customer IDs for Notification:", customerIds);
-    const message =
-      result.type === "SCHEDULED"
-        ? `Power outage is scheduled in your area from ${result.startTime}.`
-        : `Unexpected power outage detected in your area due to: ${result.reason}.`;
+    const message = result?.reason;
 
     await createBulkNotifications(
       customerIds,
@@ -158,8 +155,22 @@ const getOutage = async (query: outageQuery) => {
       take: limit,
       orderBy: { createdAt: "desc" },
       include: {
-        feeder: true,
-        area: true,
+        feeder: {
+          select: {
+            name: true,
+            substation: {
+              select: {
+                name: true,
+                location: true,
+              },
+            },
+          },
+        },
+        area: {
+          select: {
+            name: true,
+          },
+        },
       },
     }),
     prisma.outage.count({
@@ -349,11 +360,37 @@ const createEmergencyOutageService = async (
 };
 
 const getSingleOutage = async (outageId: string) => {
-  const result = await prisma.outage.findUnique({
+  const result = await prisma.outage.findFirst({
     where: {
       id: outageId,
     },
+    include: {
+      assignments: {
+        select: {
+          technician: {
+            select: { name: true, email: true },
+          },
+        },
+      },
+      feeder: {
+        select: {
+          name: true,
+          substation: {
+            select: {
+              name: true,
+              location: true,
+            },
+          },
+        },
+      },
+      area: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
+
   if (!result) {
     throw new AppError(
       httpStatus.NOT_FOUND,

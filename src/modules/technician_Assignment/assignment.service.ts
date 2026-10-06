@@ -101,14 +101,77 @@ const getAllTechnician = async () => {
   const result = await prisma.user.findMany({
     where: {
       role: "TECHNICIAN",
+      // emailVerified: true,
     },
-    omit: {
-      password: true,
+    select: {
+      id: true,
+      name: true,
+      email: true,
     },
   });
-  if (!result) {
+
+  if (!result || result.length === 0) {
     throw new AppError(httpStatus.NOT_FOUND, "technician not found");
   }
+  return result;
+};
+const getTechnicianAssignment = async (userId: string) => {
+  const result = await prisma.technicianAssign.findMany({
+    where: {
+      technicianId: userId,
+    },
+    select: {
+      id: true,
+      status: true,
+      assignedAt: true,
+      resolvedAt: true,
+
+      outage: {
+        select: {
+          id: true,
+          type: true,
+          status: true,
+          reason: true,
+          startTime: true,
+
+          estimatedRestorationTime: true,
+          actualRestorationTime: true,
+          restorationNote: true,
+          area: {
+            select: {
+              name: true,
+            },
+          },
+
+          feeder: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+              capacity: true,
+
+              substation: {
+                select: {
+                  id: true,
+                  name: true,
+                  code: true,
+                  location: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (result.length === 0) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "No assignments found for this technician",
+    );
+  }
+
   return result;
 };
 
@@ -222,5 +285,6 @@ const updateAssignmentStatus = async (
 export const assignmentService = {
   createAssignment,
   getAllTechnician,
+  getTechnicianAssignment,
   updateAssignmentStatus,
 };

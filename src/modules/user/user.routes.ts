@@ -7,27 +7,11 @@ import { userValidation } from "./user.validaion";
 import { upload } from "../../lib/multer";
 
 const router = Router();
-router.get(
-  "/me",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-    UserRole.ZONE_MANAGER,
-  ),
-  userController.getMyProfile,
-);
+router.get("/me", auth(), userController.getMyProfile);
 router.get("/all-users", auth(UserRole.ADMIN), userController.getAllUser);
 router.patch(
   "/update/me",
-  auth(
-    UserRole.ADMIN,
-    UserRole.CUSTOMER,
-    UserRole.POWER_OPERATOR,
-    UserRole.TECHNICIAN,
-    UserRole.ZONE_MANAGER,
-  ),
+  auth(),
   upload.single("profileImage"),
   //   validatonRequest(userValidation.zodUserUpdateSchema),
   userController.updateMyProfile,

@@ -99,13 +99,22 @@ const getMyPayment = async (userId: string) => {
   const result = await prisma.payment.findMany({
     where: {
       userId: userId,
+      paidAt: {
+        not: null,
+      },
+      trxID: {
+        not: null,
+      },
     },
   });
-  if (!result) {
+
+  if (!result || result.length === 0) {
     throw new AppError(httpstatus.NOT_FOUND, "payment history not found!");
   }
+
   return result;
 };
+
 const getAllPayment = async () => {
   const result = await prisma.payment.findMany();
   if (!result) {
@@ -179,7 +188,7 @@ const paymentCallback = async (query: Record<string, any>) => {
         });
 
         return {
-          redirectUrl: `${config.app_url}/dashboard/my-appointments?status=success`,
+          redirectUrl: `${config.app_url}/dashboard/customer/my-payments/payment?status=success`,
         };
       }
       if (status === "failure") {
@@ -194,7 +203,7 @@ const paymentCallback = async (query: Record<string, any>) => {
 
         return {
           bkashExecutePaymentResult,
-          redirectUrl: `${config.app_url}/dashboard/my-appointments?status=failed`,
+          redirectUrl: `${config.app_url}/dashboard/customer/my-payments/payment?status=failed`,
         };
       }
 
@@ -210,13 +219,13 @@ const paymentCallback = async (query: Record<string, any>) => {
 
         return {
           bkashExecutePaymentResult,
-          redirectUrl: `${config.app_url}/dashboard/my-appointments?status=cancel`,
+          redirectUrl: `${config.app_url}/dashboard/customer/my-payments/payment?status=cancel`,
         };
       }
 
       return {
         bkashExecutePaymentResult,
-        redirectUrl: `${config.app_url}/dashboard/my-appointments?error=payment-failed`,
+        redirectUrl: `${config.app_url}/dashboard/customer/my-payments/payment?error=payment-failed`,
       };
     },
     {

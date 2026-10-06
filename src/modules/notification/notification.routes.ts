@@ -5,38 +5,8 @@ import { UserRole } from "../../generated/prisma/enums";
 
 const router = Router();
 
-router.get(
-	"/",
-	auth(
-		UserRole.ADMIN,
-		UserRole.CUSTOMER,
-		UserRole.POWER_OPERATOR,
-		UserRole.ZONE_MANAGER,
-		UserRole.TECHNICIAN,
-	),
-	notificationController.getMyNotificationsService,
-);
-router.patch(
-	"/:id/read",
-	auth(
-		UserRole.ADMIN,
-		UserRole.CUSTOMER,
-		UserRole.POWER_OPERATOR,
-		UserRole.ZONE_MANAGER,
-		UserRole.TECHNICIAN,
-	),
-	notificationController.markAsReadService,
-);
-router.patch(
-	"/read-all",
-	auth(
-		UserRole.ADMIN,
-		UserRole.CUSTOMER,
-		UserRole.POWER_OPERATOR,
-		UserRole.ZONE_MANAGER,
-		UserRole.TECHNICIAN,
-	),
-	notificationController.markAllAsReadService,
-);
+router.get("/", auth(), notificationController.getMyNotificationsService);
+router.patch("/:id/read", auth(), notificationController.markAsReadService);
+router.patch("/read-all", auth(), notificationController.markAllAsReadService);
 
 export const NotificationRoutes = router;

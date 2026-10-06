@@ -9,10 +9,16 @@ router.post(
   auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
   assignmentController.createAssignment,
 );
+
 router.get(
   "/all-technician",
   auth(UserRole.ADMIN, UserRole.POWER_OPERATOR),
   assignmentController.getAllTechnician,
+);
+router.get(
+  "/technician-assignment",
+  auth(UserRole.TECHNICIAN),
+  assignmentController.getTechnicianAssignment,
 );
 
 router.patch(

@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import cookieparser from "cookie-parser";
-
+import cors from "cors";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/globalErrorHandller";
 import { notFound } from "./middleware/not-found";
@@ -18,7 +18,19 @@ import { ServiceRoutes } from "./modules/Services/servieces.routes";
 import { getBkashIdToken } from "./lib/bkash";
 import { paymentRoutes } from "./modules/payments/payments.routes";
 import { stateRoutes } from "./modules/states/states.routes";
+import config from "./config";
 export const app = express();
+app.use(cors({ origin: config.app_url, credentials: true }));
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
 app.use(express.json());

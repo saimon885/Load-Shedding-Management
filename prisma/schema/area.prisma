@@ -12,7 +12,7 @@ model Area {
   outage         Outage[]
   outageReport   OutageReport[]
   outageSchedule OutageSchedule[]
-  user           User?
+  user           User[]
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   deletedAt      DateTime?
